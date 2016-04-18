@@ -1,0 +1,77 @@
+/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+import 'babel/polyfill';
+import _ from 'lodash';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import fs from 'fs';
+import webpack from 'webpack';
+import path from 'path';
+import express from 'express';
+import config from '../webpack.config';
+import bodyParser from 'body-parser';
+
+import cookieParser from 'cookie-parser';
+import http from 'http';
+import session from 'express-session';
+import connectFun from 'connect-mongo';
+
+import {webProxy} from "./server/core/io/proxy/web/webproxy";
+import apiInit from "./server/api/apiinit";
+
+var MongoStore = connectFun(session);
+var mongostore = new MongoStore({
+	db: 'userSession'
+});
+const server = global.server = express();
+
+var compiler = webpack(config);
+server.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: config.output.publicPath}));
+server.use(webpackHotMiddleware(compiler));
+
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({extended: false}));
+//--------------cookpaser----------------------
+server.secret = "123";
+server.use(cookieParser(server.secret));
+server.set('port', (process.env.PORT || 5000));
+server.use(express.static(path.join(__dirname, 'client/static')));
+//------------include session---------------
+server.use(session({
+	cookie: {maxAge: 60000 * 24 * 15, secure: false},
+	resave: true,
+	saveUninitialized: true,
+	secret: server.secret,
+	store: mongostore
+}));
+//-------------socket.io--------------------
+apiInit();
+var io = require("socket.io")(http.createServer(server));
+import socketProxy from "./server/core/io/proxy/socket/socketproxy";
+socketProxy.init(io, server.secret, mongostore);
+
+//-------------- test session time out? ------------------------
+import {sessionRouter} from "./server/api/userSessionTest";
+server.use('*', sessionRouter);
+
+//------------------------web 转发器------------------------------------
+
+server.use('/api/*', webProxy);
+
+server.use((req, res) => {
+    console.log("redirect",req.url);
+	res.sendFile(__dirname + '/client/index.html')
+});
+//
+// Register API middleware
+// -----------------------------------------------------------------------------
+//web 逻辑
+//server.use('/api/data', serverWebLogic);
+// Launch the server
+// -----------------------------------------------------------------------------
+server.listen(server.get('port'), () => {
+	/* eslint-disable no-console */
+	console.log('The server is running at http://localhost:' + server.get('port'));
+	if (process.send) {
+		process.send('online');
+	}
+});

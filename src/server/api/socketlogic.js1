@@ -1,0 +1,40 @@
+/**
+ * Created by Tile on 2015/9/8.
+ * socket 服务器 通信逻辑
+ */
+import ClientSocketToServerTypes from '../constants/ClientSocketToServerTypes';
+import serverSocket from "../core/SocketServer"
+
+function SocketLogic() {
+    console.log("create SocketLogic");
+}
+/**
+ * 初始化 服务器
+ * @param io          socketIO
+ * @param secret      cookie session secret
+ * @param mongoStore  save session list
+ */
+SocketLogic.prototype.init = function (io, secret, mongoStore) {
+    console.log("create socket");
+    serverSocket.init(io, secret, mongoStore);
+    console.log("init socket success");
+};
+
+var socketLogic = new SocketLogic();
+/**
+ * 来自客户端的 ClientSocketToServerTypes
+ */
+serverSocket.register((action)=> {
+    switch (action.actionType) {
+        case ClientSocketToServerTypes.DCE_CHANGE_FD_UPDATE:
+            // Call internal method based upon dispatched action
+
+            break;
+        default:
+            return true;
+    }
+    // If action was acted upon, emit change event
+    return true;
+});
+
+export default socketLogic;
