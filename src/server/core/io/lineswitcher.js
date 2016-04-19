@@ -27,7 +27,6 @@ function routerHandler (data, res) {
             console.error("无action type 请检查消息是否正确");
             return;
         }
-
         needStopNext = itemSwitcher(data.type,data, res).needStopNext;
         if (needStopNext == true) {
             break;

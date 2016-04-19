@@ -3,11 +3,13 @@
  */
 import {isSocket,isWeb} from "../../../common/Types";
 import {postFetchCall} from "./proxy/HttpProxy";
-import {sendSocketMSG} from "./proxy/SocketProxy";
+import socketProxy from "./proxy/SocketProxy";
 import {addAlert} from "../../actions/alert";
 function sendMSG(actionType, sendData = {}) {
     sendData.type = actionType;
+    console.log("send msg",sendData.type);
     if (isWeb(actionType)) {
+        console.log("send msg1",sendData.type);
         return (dispatch, getState)=> {
             postFetchCall("api/msg", sendData, data => {
                 dispatch(data)
@@ -16,7 +18,8 @@ function sendMSG(actionType, sendData = {}) {
             });
         }
     } else if (isSocket(actionType)) {
-        sendSocketMSG(actionType, sendData);
+        console.log(">>>>>",socketProxy.sendMSG);
+        socketProxy.sendMSG(sendData);
         //发送成功
         return {}
     }

@@ -20,7 +20,8 @@ function testSessionRet(state, action) {
 function userLoginRet(state, action) {
     console.log(action);
     //window.location.href = "/hall";
-    socketProxy.init();
+    Base.socketClient.init();
+    Base.sendMSG(MSG_TYPES.CTS_S_CHANGE_FD_UPDATE,{ma:123});
     console.log("testState userLoginRet:",state.userSession,action);
     return {userSession:state.userSession.merge(Immutable.fromJS(action.data))};
 }

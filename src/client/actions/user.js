@@ -1,22 +1,21 @@
 /**
  * Created by Tile on 2015/9/30.
  */
-import {WEBTYPES} from '../../common/Types';
+import {MSG_TYPES} from '../../common/Types';
 import sendMSG from  '../core/io/Sender';
 /**
  *
  * @returns {Function}
  */
 export function userLogout() {
-	return sendMSG(WEBTYPES.CTS_W_LOGOUT)
+	return sendMSG(MSG_TYPES.CTS_W_LOGOUT)
 }
 
 /**
  * @returns {Function}
  */
 export function userLogin(loginName) {
-	console.log("logout");
-   return sendMSG(WEBTYPES.CTS_W_LOGIN,{name: loginName});
+   return sendMSG(MSG_TYPES.CTS_W_LOGIN,{name: loginName});
 }
 
 /**

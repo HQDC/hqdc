@@ -1,7 +1,7 @@
 /**
  * Created by Tile on 2015/12/1.
  */
-import AlertTypes from '../../constants/AlertTypes';
+import ALERT_TYPES from '../../constants/AlertTypes';
 import Immutable from 'immutable';
 import {MSG_TYPES} from 'common/Types';
 
@@ -10,7 +10,7 @@ function addAlertHandler (state, alert) {
 }
 
 function delAlertHandler (state, alert) {
-
+	console.log("del alert");
 	return {onShowAlerts:state.onShowAlerts.remove(state.onShowAlerts.indexOf(alert))};
 }
 
@@ -23,9 +23,9 @@ function delAlertHandler (state, alert) {
  */
 function defaultCall(state = {onShowAlerts:Immutable.List()}, action) {
 	switch (action.type) {
-		case MSG_TYPES.ADD_ALERT:
+		case ALERT_TYPES.ADD_ALERT:
 			return addAlertHandler(state, action.alert);
-		case MSG_TYPES.DEL_ALERT:
+		case ALERT_TYPES.DEL_ALERT:
             return delAlertHandler(state, action.alert);
         case MSG_TYPES.ERROR_ALERT:
             return addAlertHandler(state, {msg:action.msg,style:"danger"});

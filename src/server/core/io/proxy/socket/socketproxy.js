@@ -14,7 +14,7 @@ var socketProxy = new SocketProxy();
 /**
  * 初始化 服务器 socket
  */
-SocketProxy.prototype.init = function (io, secret, mongoStore) {
+SocketProxy.prototype.init = function (io, secret) {
     //http 共享session
     this._io = io;
     console.log("socketInit");

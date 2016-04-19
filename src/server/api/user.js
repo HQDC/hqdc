@@ -114,13 +114,13 @@ function getclassbyurl (url) {
 function MsgHandler(type, data, res) {
     console.log("userHandler:",type,data);
     switch (type) {
-        case WEBTYPES.CTS_W_LOGIN:
+        case MSG_TYPES.CTS_W_LOGIN:
             return login(data, res);
-        case WEBTYPES.CTS_W_LOGOUT:
+        case MSG_TYPES.CTS_W_LOGOUT:
             return logout(data, res);
-        case WEBTYPES.CTS_W_SESSION:
+        case MSG_TYPES.CTS_W_SESSION:
             return testSession(data, res);
-        case WEBTYPES.CTS_W_CREATE_ROOM:
+        case MSG_TYPES.CTS_W_CREATE_ROOM:
             return createRoom(data, res);
         default:
             return {needStopNext:false};

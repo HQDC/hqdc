@@ -39,15 +39,14 @@ SocketProxy.prototype.init = function () {
 };
 /**
  * 向服务器发送数据
- * @param msgHead ClientSocketToServerTypes.js
- * @param msgBody {...data}
+ * @param sendData {...data}
  */
-SocketProxy.prototype.sendMSG = function (msgHead, msgBody) {
-    this.socket.emit("message", {actionType: msgHead, data: msgBody});
+SocketProxy.prototype.sendMSG = function ( sendData) {
+    console.log("call socket sendmsg");
+    this.socket.emit("message",  sendData);
 };
 SocketProxy.prototype.disconnect = function () {
     this.socket.disconnect();
 };
 var socketProxy = new SocketProxy();
 export default socketProxy;
-exports.sendSocketMSG = SocketProxy.sendMSG;
