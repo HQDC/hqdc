@@ -3,7 +3,7 @@
  */
 import AlertTypes from '../../constants/AlertTypes';
 import Immutable from 'immutable';
-import STCTypes from '../../../common/STCTypes';
+import {MSG_TYPES} from 'common/Types';
 
 function addAlertHandler (state, alert) {
 	return {onShowAlerts:state.onShowAlerts.push(alert)};
@@ -23,11 +23,11 @@ function delAlertHandler (state, alert) {
  */
 function defaultCall(state = {onShowAlerts:Immutable.List()}, action) {
 	switch (action.type) {
-		case AlertTypes.ADD_ALERT:
+		case MSG_TYPES.ADD_ALERT:
 			return addAlertHandler(state, action.alert);
-		case AlertTypes.DEL_ALERT:
+		case MSG_TYPES.DEL_ALERT:
             return delAlertHandler(state, action.alert);
-        case STCTypes.ERROR_ALERT:
+        case MSG_TYPES.ERROR_ALERT:
             return addAlertHandler(state, {msg:action.msg,style:"danger"});
 		default:
 			return state;

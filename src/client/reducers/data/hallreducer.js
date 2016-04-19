@@ -1,12 +1,8 @@
 /**
  * Created by Tile on 2015/9/30.
  */
-import UserActionTypes from '../constants/UserActionTypes';
-import ServerSocketToClientTypes from '../constants/ServerSocketToClientTypes';
-import "isomorphic-fetch";
-import _ from 'lodash';
-import httpClient from '../core/HttpClient'
-import socketClient from '../core/SocketClient';
+import {MSG_TYPES} from 'common/Types';
+
 
 /**
  *
@@ -32,7 +28,7 @@ function userLogin(state, action) {
  */
 var defaultCall = function (state = {}, action) {
 	switch (action.type) {
-		case UserActionTypes.USER_LOGIN:
+		case MSG_TYPES.USER_LOGIN:
 			return userLogin(state, action);
 		default:
 			return state;

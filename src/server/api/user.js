@@ -2,8 +2,7 @@
  * Created by Tile on 2015/12/20.
  */
 
-import {WEBTYPES} from "../../common/CTSTypes";
-import STC_TYPES from "../../common/STCTypes";
+import {MSG_TYPES} from "../../common/Types";
 import {sendMSG} from "../core/io/Sender";
 
 function getClientIp (req) {
@@ -27,12 +26,12 @@ function login (data, res) {
         if (reg.test(comname)) {
             var ip = getClientIp(res._req);
             console.log("ip:",ip);
-            sendMSG(res,STC_TYPES.STC_W_LOGIN,{data:{"user":comname,"ip":ip}});
+            sendMSG(res,MSG_TYPES.STC_W_LOGIN,{data:{"user":comname,"ip":ip}});
         } else {
-            sendMSG(res,STC_TYPES.ERROR_ALERT,{msg: "2-4 汉字"});
+            sendMSG(res,MSG_TYPES.ERROR_ALERT,{msg: "2-4 汉字"});
         }
     } else {
-        sendMSG(res,STC_TYPES.ERROR_ALERT,{msg: "名字不能为空"});
+        sendMSG(res,MSG_TYPES.ERROR_ALERT,{msg: "名字不能为空"});
         //sendMSG(res,TYPES.ERROR_ALERT,{msg: "2-4 汉字"});
     }
    return {needStopNext:true};

@@ -13,7 +13,8 @@ var config = {
 	},
 	resolve: {
 		alias: {
-			"Base": path.join(__dirname, 'src/client/core/Base.js')
+			"Base": path.join(__dirname, 'src/client/core/Base'),
+			"common": path.join(__dirname, 'src/common')
 		}
 	},
 	plugins: [

@@ -1,7 +1,7 @@
 /**
  * Created by Tile on 2015/9/30.
  */
-import {WEBTYPES} from '../../common/CTSTypes';
+import {WEBTYPES} from '../../common/Types';
 import sendMSG from  '../core/io/Sender';
 /**
  *

@@ -1,8 +1,7 @@
 /**
  * Created by Tile on 2015/9/30.
  */
-import STCTypes from '../../../common/STCTypes';
-import _ from 'lodash';
+import {MSG_TYPES} from 'common/Types';
 import Immutable from 'immutable';
 import Base from 'Base';
 /**
@@ -61,9 +60,8 @@ function STCHallUpDateRet(state, action) {
  */
 var defaultCall = function (state = {userSession:Immutable.Map()}, action) {
     switch (action.type) {
-        case STCTypes.STC_W_LOGIN:
+        case MSG_TYPES.STC_W_LOGIN:
             return userLoginRet(state, action);
-
         default:
             return state;
     }

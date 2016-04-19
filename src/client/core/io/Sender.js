@@ -1,7 +1,7 @@
 /**
  * Created by Tile on 2015/12/19.
  */
-import {isSocket,isWeb} from "../../../common/CTSTypes";
+import {isSocket,isWeb} from "../../../common/Types";
 import {postFetchCall} from "./proxy/HttpProxy";
 import {sendSocketMSG} from "./proxy/SocketProxy";
 import {addAlert} from "../../actions/alert";
