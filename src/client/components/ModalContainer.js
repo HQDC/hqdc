@@ -16,6 +16,7 @@ class ModalContainer extends Component {
 
 function mapStateToProps(state) {
 	return {
+
 		modals: state.modals.modals?state.modals.modals:[]
 	}
 }

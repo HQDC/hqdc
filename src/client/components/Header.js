@@ -21,8 +21,8 @@ class Header extends Component {
     }
     createRoom( selectedKey) {
         event.preventDefault();
-        console.log("click log out",selectedKey);
-        /*this.props.userLogout();*/
+        console.log("click create room",selectedKey);
+        this.props.userLogout();
     }
     // Unbind change listener
     componentWillUnmount() {
