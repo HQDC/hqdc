@@ -1,6 +1,6 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, { PropTypes, Component } from 'react';
-import RoomItem from '../components/RoomItem';
+import RoomItem from './RoomItem';
 import { createRoom } from '../actions/user';
 import { connect } from 'react-redux';
 import { ButtonInput,OverlayTrigger,ProgressBar,Label,Well,Popover,Grid,Row, Button, Input, Panel, Col} from 'react-bootstrap';

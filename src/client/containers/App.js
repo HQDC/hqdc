@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from './Header';
+import Footer from './Footer';
 import ModalContainer from '../components/ModalContainer';
-import AlertContainer from '../components/AlertContainer';
+import AlertContainer from './AlertContainer';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';
 class App extends Component {
