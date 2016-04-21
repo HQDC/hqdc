@@ -1,9 +1,24 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-import React, { PropTypes, Component } from 'react';
-import { userLogin } from '../actions/user';
-import { connect } from 'react-redux';
-import { ButtonInput,Tooltip,Col ,Button,Row,Panel,Input,Label} from 'react-bootstrap';
-import { pushState,setState } from 'redux-router';
+import React, {
+    PropTypes, Component
+}
+from 'react';
+import {
+    userLogin
+}
+from '../actions/user';
+import {
+    connect
+}
+from 'react-redux';
+import {
+    ButtonInput, Tooltip, Col, Button, Row, Panel, Input, Label
+}
+from 'react-bootstrap';
+import {
+    pushState, setState
+}
+from 'redux-router';
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -15,12 +30,14 @@ class LoginPage extends Component {
         var userName = this.refs.username.getValue();
         //this.props.addAlert("info",("hello"+this.props.alertLg));
         this.props.userLogin(userName);
-        /*this.props.history.pushState(null, "/hall")*/
+        this.props.history.pushState(null, "/hall")
     };
 
     render() {
 
-        let {session} = this.props;
+        let {
+            session
+        } = this.props;
         console.log("render loginPage", session);
         return (
             <Panel>
