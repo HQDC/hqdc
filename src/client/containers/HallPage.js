@@ -5,50 +5,51 @@ import { createRoom } from '../actions/user';
 import { connect } from 'react-redux';
 import { ButtonInput,OverlayTrigger,ProgressBar,Label,Well,Popover,Grid,Row, Button, Input, Panel, Col} from 'react-bootstrap';
 class HallPage extends Component {
-	render() {
-		var ingitems = this.props.ing.map((item)=> {
-			return (
-				<RoomItem key={item.groupID}>{item}</RoomItem>
-			);
-		});
+    render() {
+        var ingitems = this.props.ing.map((item)=> {
+            return (
+                <RoomItem key={item.groupID}>{item}</RoomItem>
+            );
+        });
 
-		var doneitems = this.props.done.map((item)=> {
-			return (
-				<RoomItem key={item.groupID}>{item}</RoomItem>
-			);
-		});
-		return (
-			<Row className="show-grid">
-				<Col xs={6} md={6}>
-					<Panel header="Ing" bsStyle="success">
-						{ingitems}
-					</Panel>
-				</Col>
-				<Col xs={6} md={6}>
-					<Panel header="Complete" bsStyle="warning">
-						{doneitems}
-					</Panel>
-				</Col>
-			</Row>
-		);
-	}
+        var doneitems = this.props.done.map((item)=> {
+            return (
+                <RoomItem key={item.groupID}>{item}</RoomItem>
+            );
+        });
+        return (
+            <Row className="show-grid">
+                <Col xs={6} md={6}>
+                    <Panel header="Ing" bsStyle="success">
+                        {ingitems}
+                    </Panel>
+                </Col>
+                <Col xs={6} md={6}>
+                    <Panel header="Complete" bsStyle="warning">
+                        {doneitems}
+                    </Panel>
+                </Col>
+            </Row>
+        );
+    }
 }
 
 function mapStateToProps(state) {
-	return {
-		ret: 0,
-		...state.userReducer
-	}
+    return {
+        ret: 0,
+        done: state.user.userSession,
+        ing: state.user.userSession
+    }
 }
 
 HallPage.propTypes = {
-	ret: PropTypes.number.isRequired,
-	done: PropTypes.array.isRequired,
-	ing: PropTypes.array.isRequired
+    ret: PropTypes.number.isRequired,
+    done: PropTypes.array.isRequired,
+    ing: PropTypes.array.isRequired
 };
 
 export default connect(
-	mapStateToProps
+    mapStateToProps
 )(HallPage);
 
 /*constructor() {
