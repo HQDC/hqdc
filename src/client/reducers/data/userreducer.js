@@ -21,9 +21,8 @@ function userLoginRet(state, action) {
     console.log(action);
     //window.location.href = "/hall";
     Base.socketClient.init();
-    Base.sendMSG(MSG_TYPES.CTS_S_CHANGE_FD_UPDATE,{ma:123});
     console.log("testState userLoginRet:",state.userSession,action);
-    return {userSession:state.userSession.merge(Immutable.fromJS(action.data))};
+    return {ret:action.data.ret,userSession:state.userSession.merge(Immutable.fromJS(action.data))};
 }
 
 /**
@@ -59,7 +58,7 @@ function STCHallUpDateRet(state, action) {
  * @param action
  * @returns {{}}
  */
-var defaultCall = function (state = {userSession:Immutable.Map()}, action) {
+var defaultCall = function (state = {ret:-1,userSession:Immutable.Map()}, action) {
     switch (action.type) {
         case MSG_TYPES.STC_W_LOGIN:
             return userLoginRet(state, action);

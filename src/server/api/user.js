@@ -26,7 +26,7 @@ function login (data, res) {
         if (reg.test(comname)) {
             var ip = getClientIp(res._req);
             console.log("ip:",ip);
-            sendMSG(res,MSG_TYPES.STC_W_LOGIN,{data:{"user":comname,"ip":ip}});
+            sendMSG(res,MSG_TYPES.STC_W_LOGIN,{data:{"user":comname,"ip":ip,"ret":0}});
         } else {
             sendMSG(res,MSG_TYPES.ERROR_ALERT,{msg: "2-4 汉字"});
         }
