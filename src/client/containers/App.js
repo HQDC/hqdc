@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import ModalContainer from '../components/ModalContainer';
+import ModalContainer from './ModalContainer';
 import AlertContainer from './AlertContainer';
 import { connect } from 'react-redux';
 import { pushState } from 'redux-router';

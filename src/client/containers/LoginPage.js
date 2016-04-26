@@ -51,7 +51,7 @@ function mapStateToProps(state) {
     return {
         userLogin: userLogin,
         session: state.user.userSession,
-        ret:state.user.ret
+        ret:state.user.userSession.get("ret")
     }
 }
 
