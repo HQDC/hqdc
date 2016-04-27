@@ -6,6 +6,7 @@ import { ButtonInput,OverlayTrigger,Tooltip,ProgressBar,Label,Well,Popover,Grid,
 class CreateRoomTest extends Component {
     constructor() {
         super();
+        console.log("CreateRoomTest constructor");
         this.state = {};
     };
 

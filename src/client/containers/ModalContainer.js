@@ -6,9 +6,18 @@ import {delModal} from '../actions/modal';
 import { connect } from 'react-redux';
 class ModalContainer extends Component {
     render() {
+        let modals = this.props.modals.toArray();
+        console.log("ModalContainer render",modals);
+        let curtModal = "";
+        if(modals.size > 0){
+            curtModal =
+            <Alert key={i+1} >
+                hello123321
+            </Alert>
+        }
         return (
             <div className="modalContainer">
-                {this.props.modals}
+                <curtModal />
             </div>
         );
     }
