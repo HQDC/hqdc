@@ -1,14 +1,26 @@
-import React, { PropTypes, Component } from 'react';
+import React, {
+    PropTypes, Component
+}
+from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import ModalContainer from './ModalContainer';
 import AlertContainer from './AlertContainer';
-import { connect } from 'react-redux';
-import { pushState } from 'redux-router';
+import {
+    connect
+}
+from 'react-redux';
+import {
+    pushState
+}
+from 'redux-router';
 class App extends Component {
 
     render() {
-        const { children} = this.props;
+        console.log("AlertContainer", AlertContainer);
+        const {
+            children
+        } = this.props;
         return (
             <div>
                 <Header />
@@ -31,9 +43,9 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-    pushState
-})(App)
-/*
- <Header />
- {this.props.children}
- */
+        pushState
+    })(App)
+    /*
+     <Header />
+     {this.props.children}
+     */

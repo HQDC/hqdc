@@ -1,23 +1,29 @@
 /**
  * Created by Tile on 2015/12/1.
  */
-import React, { PropTypes, Component } from 'react';
-import {delModal} from '../actions/modal';
-import { connect } from 'react-redux';
+import React, {
+    PropTypes, Component
+}
+from 'react';
+import {
+    delModal
+}
+from '../actions/modal';
+import {
+    connect
+}
+from 'react-redux';
+import {
+    Alert
+}
+from 'react-bootstrap';
 class ModalContainer extends Component {
     render() {
-        let modals = this.props.modals.toArray();
-        console.log("ModalContainer render",modals);
-        let curtModal = "";
-        if(modals.size > 0){
-            curtModal =
-            <Alert key={i+1} >
-                hello123321
-            </Alert>
-        }
+        let showModal = this.props.curtmodal;
+        console.log("ModalContainer render", showModal);
         return (
             <div className="modalContainer">
-                <curtModal />
+                {showModal}
             </div>
         );
     }
@@ -25,12 +31,12 @@ class ModalContainer extends Component {
 
 function mapStateToProps(state) {
     return {
-        modals: state.modals.onShowModals
+        curtmodal: state.modals.onShowModal
     }
 }
 
 ModalContainer.propTypes = {
-    modals: PropTypes.array.isRequired
+    curtmodal: PropTypes.node.isRequired
 };
 
 export default connect(mapStateToProps, {

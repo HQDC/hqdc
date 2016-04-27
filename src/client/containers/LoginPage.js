@@ -1,8 +1,20 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-import React, {PropTypes, Component}from 'react';
-import {userLogin}from '../actions/user';
-import {connect}from 'react-redux';
-import {ButtonInput, Tooltip, Col, Button, Row, Panel, Input, Label}from 'react-bootstrap';
+import React, {
+    PropTypes, Component
+}
+from 'react';
+import {
+    userLogin
+}
+from '../actions/user';
+import {
+    connect
+}
+from 'react-redux';
+import {
+    ButtonInput, Tooltip, Col, Button, Row, Panel, Input, Label
+}
+from 'react-bootstrap';
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -17,21 +29,21 @@ class LoginPage extends Component {
         this.props.userLogin(userName);
     };
 
-    retStateHandler(ret){
+    retStateHandler(ret) {
         /*console.log("retStateHandler:",session);
         console.log("history:",this.props.history);
         console.log("router:",reduxReactRouter);
         pushState(null, "/hall");
         this.props.history.pushState(null, "/hall")*/
-        console.log("retStateHandler:",ret);
-        if(ret == 0){
+        console.log("retStateHandler:", ret);
+        if (ret == 0) {
             this.props.history.pushState(null, "/hall")
         }
     }
 
     render() {
         let {
-            session,ret
+            session, ret
         } = this.props;
         this.retStateHandler(ret);
         return (
@@ -51,13 +63,13 @@ function mapStateToProps(state) {
     return {
         userLogin: userLogin,
         session: state.user.userSession,
-        ret:state.user.userSession.get("ret")
+        ret: state.user.userSession.get("ret")
     }
 }
 
 LoginPage.propTypes = {
     userLogin: PropTypes.func.isRequired,
-    ret:PropTypes.number.isRequired
+    ret: PropTypes.number.isRequired
 };
 
 export default connect(

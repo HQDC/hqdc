@@ -1,12 +1,24 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-import React, { PropTypes, Component } from 'react';
-import {createRoom} from '../actions/user';
-import { connect } from 'react-redux';
-import { ButtonInput,OverlayTrigger,Tooltip,ProgressBar,Label,Well,Popover,Grid,Row, Button,Input, Panel, Col,Modal} from 'react-bootstrap';
-class CreateRoomTest extends Component {
+import React, {
+    PropTypes, Component
+}
+from 'react';
+import {
+    createRoom
+}
+from '../actions/user';
+import {
+    connect
+}
+from 'react-redux';
+import {
+    ButtonInput, OverlayTrigger, Tooltip, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col, Modal
+}
+from 'react-bootstrap';
+class CreateRoomTestModal extends Component {
     constructor() {
         super();
-        console.log("CreateRoomTest constructor");
+        console.log("CreateRoomTestModal constructor");
         this.state = {};
     };
 
@@ -24,13 +36,12 @@ class CreateRoomTest extends Component {
         userCreateRoom(createRoomData);
     };
 
-    handleChange() {
-    };
+    handleChange() {};
 
     render() {
-        console.log("CreateRoomTest render");
+        console.log("CreateRoomTestModal render");
         return (
-            <Modal show={this.props.isOpen} backdrop={false} onHide={()=>this.props.closeHandler()}>
+            <Modal show={true} backdrop={false} onHide={()=>this.props.closeHandler()}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
@@ -61,19 +72,20 @@ class CreateRoomTest extends Component {
         );
     }
 }
+
 function mapStateToProps(state) {
     return {
         isOpen: state.hall.isOpen
     }
 }
 
-CreateRoomTest.propTypes = {
+CreateRoomTestModal.propTypes = {
     isOpen: PropTypes.bool.isRequired
 
 };
 
 export default connect(
-    mapStateToProps,{
+    mapStateToProps, {
         createRoom
     }
-)(CreateRoomTest);
+)(CreateRoomTestModal);
