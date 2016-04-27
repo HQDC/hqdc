@@ -9,7 +9,6 @@ import path from 'path';
 import express from 'express';
 import config from '../webpack.config';
 import bodyParser from 'body-parser';
-
 import cookieParser from 'cookie-parser';
 import http from 'http';
 import session from 'express-session';

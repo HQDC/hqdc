@@ -28,7 +28,10 @@ function mapStateToProps(state) {
 }
 
 ModalContainer.propTypes = {
-    curtmodal: PropTypes.node.isRequired
+    curtmodal:React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        PropTypes.func
+    ])
 };
 
 export default connect(mapStateToProps, {
