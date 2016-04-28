@@ -2,7 +2,8 @@
  * Created by Tile on 2015/9/11.
  */
 var user_hash;
-function UserList(){
+
+function UserList() {
     user_hash = [];
 }
 /**
@@ -10,9 +11,9 @@ function UserList(){
  * @param userID
  * @returns {*}
  */
-UserList.prototype.getUserByID = function(userID){
-    if(this.hasUser(userID)){
-        console.log("can't find user ID="+userID);
+UserList.prototype.getUserByID = function(userID) {
+    if (this.hasUser(userID)) {
+        console.log("can't find user ID=" + userID);
         return null;
     }
     return user_hash[userID];
@@ -22,8 +23,8 @@ UserList.prototype.getUserByID = function(userID){
  * @param userData
  * @returns {boolean}
  */
-UserList.prototype.addUser = function(userData){
-    if(this.hasUser(userData.uid)){
+UserList.prototype.addUser = function(userData) {
+    if (this.hasUser(userData.uid)) {
         return false;
     }
     user_hash[userData.uid] = userData;
@@ -34,7 +35,7 @@ UserList.prototype.addUser = function(userData){
  * @param userData
  * @returns {boolean}
  */
-UserList.prototype.updateUser = function(userData){
+UserList.prototype.updateUser = function(userData) {
     user_hash[userID] = userData;
     return true;
 };
@@ -48,7 +49,7 @@ UserList.prototype.updateUser = function(userData){
  * @returns {boolean}
  * @constructor
  */
-UserList.prototype.CreateUser = function(userID,userName,ip,socketID){
+UserList.prototype.CreateUser = function(userID, userName, ip, socketID) {
     var user = {};
     user.uid = userID;
     user.name = userName;
@@ -61,17 +62,17 @@ UserList.prototype.CreateUser = function(userID,userName,ip,socketID){
  * 删除用户
  * @param deldata 可以是Uid  也可以是  userdata
  */
-UserList.prototype.delUser = function(deldata){
-    if(deldata == null){
+UserList.prototype.delUser = function(deldata) {
+    if (deldata == null) {
         return false;
     }
-    if(typeof(deldata) == "number"){
+    if (typeof(deldata) == "number") {
         delete user_hash[deldata];
         return true;
     }
-    if(typeof(deldata) == "object"){
-        if(deldata.uid != null){
-            if(this.hasUser(deldata.uid)){
+    if (typeof(deldata) == "object") {
+        if (deldata.uid != null) {
+            if (this.hasUser(deldata.uid)) {
                 delete user_hash[deldata.uid];
                 return true;
             }
@@ -84,8 +85,8 @@ UserList.prototype.delUser = function(deldata){
  * @param userID
  * @returns {boolean}
  */
-UserList.prototype.hasUser = function(userID){
+UserList.prototype.hasUser = function(userID) {
     return user_hash[userID] != null;
 };
-
-module.exports = new UserList();
+var userManager = new UserList()
+export default userManager;
