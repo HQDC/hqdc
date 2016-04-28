@@ -4,12 +4,20 @@
 
 import {MSG_TYPES} from "../../common/Types";
 import {sendMSG} from "../core/io/Sender";
+import crypto from 'crypto';
 
 function getClientIp (req) {
     var retip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
     //var reg2 = /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/g;
     retip = (retip.substring((retip.lastIndexOf(":") + 1), retip.length));
     return retip;
+}
+
+
+function getUid(name){
+    var hmac = crypto.createHmac('sha1', 'hqdc');
+    hmac.update(name);
+    return hmac.digest('hex');
 }
 
 /**
@@ -21,11 +29,19 @@ function login (data, res) {
         comname = decodeURI(data.name);
     }
     console.log("login",comname);
+    var today = new Date();
+    var time = today.getTime() + 60*1000;
+    var time2 = new Date(time);
+    var timeObj = time2.toGMTString();
     if (comname != null) {
         var reg = /^[\u4e00-\u9fa5]{2,4}$/;
         if (reg.test(comname)) {
             var ip = getClientIp(res._req);
             console.log("ip:",ip);
+            var SID = getUid(comname);
+            console.log("SID:",SID);
+            res.setHeader('Set-Cookie',"SID="+SID,'Expires='+timeObj);
+           // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
             sendMSG(res,MSG_TYPES.STC_W_LOGIN,{data:{"user":comname,"ip":ip,"ret":0}});
         } else {
             sendMSG(res,MSG_TYPES.ERROR_ALERT,{msg: "2-4 汉字"});
