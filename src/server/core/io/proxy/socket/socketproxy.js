@@ -22,7 +22,7 @@ SocketProxy.prototype.init = function (io, secret) {
         this._connect = true;
         setLineType(socket,TYPES.SOCKET);
         var handshakeData = socket.handshake;
-        console.log("socket connect ========> ");
+        console.log("socket connect ========> ",handshakeData.headers);
         var signedCookies = require('express/node_modules/cookie').parse(handshakeData.headers.cookie);
         handshakeData.cookies = cookieParser.signedCookies(signedCookies,secret);
         console.log("cookie:",handshakeData.cookies);
