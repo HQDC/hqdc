@@ -15,7 +15,7 @@ class SocketProxy {
 /**
  * 初始化 客户端 socket
  */
-SocketProxy.prototype.init = function() {
+SocketProxy.prototype.init = function(UID) {
     localStorage.debug = '*';
     if (!this.connect) {
         console.log("client test connect to server");
@@ -28,8 +28,14 @@ SocketProxy.prototype.init = function() {
             }
         };
         this.socket = proxyConnect("http://localhost:5000", opts);*/
-
-        this.socket = proxyConnect("http://localhost:5000");
+        var opts = {
+            extraHeaders: {
+                'UID': UID
+            }
+        };
+        console.log("init Socket UID", UID);
+        this.socket = proxyConnect("http://localhost:5000", opts);
+        //this.socket = proxyConnect("http://localhost:5000");
         this.socket.on("connect", () => {
             this._connect = true;
             console.log("client connected server");

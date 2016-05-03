@@ -12,9 +12,11 @@ var config = {
 		filename: 'bundle.js'
 	},
 	resolve: {
+		root: path.join(__dirname, '/src/'),
+		extensions: ["", ".js", ".jsx", '.es6'],
 		alias: {
-			"Base": path.join(__dirname, 'src/client/core/Base'),
-			"common": path.join(__dirname, 'src/common')
+			"Base": 'client/core/Base.js',
+			"dcconfig": 'dcconfig.js'
 		}
 	},
 	plugins: [
@@ -43,7 +45,11 @@ var reduxNodeModules = path.join(__dirname, '..', '..', 'node_modules');
 var fs = require('fs');
 if (fs.existsSync(reduxSrc) && fs.existsSync(reduxNodeModules)) {
 	// Resolve Redux to source
-	module.exports.resolve = {alias: {'redux': reduxSrc}};
+	module.exports.resolve = {
+		alias: {
+			'redux': reduxSrc
+		}
+	};
 	// Compile Redux from source
 	module.exports.module.loaders.push({
 		test: /\.js$/,

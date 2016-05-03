@@ -9,10 +9,7 @@ import path from 'path';
 import express from 'express';
 import config from '../webpack.config';
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
 import http from 'http';
-
-
 import log4js from 'log4js';
 //log the hqdc logger messages to a file, and the console ones as well.
 log4js.configure({

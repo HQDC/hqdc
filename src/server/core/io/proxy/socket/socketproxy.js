@@ -9,7 +9,7 @@ import {
     routerHandler, setLineType, TYPES
 }
 from '../../lineswitcher';
-import cookieParser from 'cookie-parser';
+/*import cookieParser from 'cookie-parser';*/
 
 function SocketProxy() {
     this._connect = false;
@@ -27,9 +27,6 @@ SocketProxy.prototype.init = function(io, secret) {
         setLineType(socket, TYPES.SOCKET);
         var handshakeData = socket.handshake;
         console.log("socket connect ========> ", handshakeData.headers);
-        var signedCookies = require('express/node_modules/cookie').parse(handshakeData.headers.cookie);
-        handshakeData.cookies = cookieParser.signedCookies(signedCookies, secret);
-        console.log("cookie:", handshakeData.cookies);
         socket.on('message', (data) => {
             routerHandler(data, socket);
             /*this.dispatch({
