@@ -5,11 +5,20 @@
 /**
  * 向一个 客户端发送消息  io.sockets.connected[socket.id].emit('message', handshakeData.session.user); 重要
  */
+<<<<<<< HEAD
 import {routerHandler, setLineType, TYPES} from '../../lineswitcher';
 import cookieParser from 'cookie-parser';
 import {parse} from 'cookie';
 import {unsign} from 'cookie-signature';
 import {isString} from '../../../../../common/utils/TypeUtils';
+=======
+import {
+    routerHandler, setLineType, TYPES
+}
+from '../../lineswitcher';
+/*import cookieParser from 'cookie-parser';*/
+
+>>>>>>> e7f6d0eee83e482443d63c06aa08d2b15af31630
 function SocketProxy() {
     this._connect = false;
 }
@@ -25,11 +34,15 @@ SocketProxy.prototype.init = function(io, secret) {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);
         var handshakeData = socket.handshake;
+<<<<<<< HEAD
         console.log("socket connect ========> ",handshakeData.headers.cookie);
         if(isString(handshakeData.headers.cookie)){
             var curCookie = parse(handshakeData.headers.cookie);
             console.log("curCookie",curCookie);
         }
+=======
+        console.log("socket connect ========> ", handshakeData.headers);
+>>>>>>> e7f6d0eee83e482443d63c06aa08d2b15af31630
         socket.on('message', (data) => {
             routerHandler(data, socket);
             /*this.dispatch({

@@ -11,8 +11,14 @@ import {
 }
 from "../core/io/Sender";
 import crypto from 'crypto';
+<<<<<<< HEAD
 import cookie from 'cookie';
 import signature from 'cookie-signature';
+=======
+/*import cookie from 'cookie';*/
+import signature from 'cookie-signature';
+/*import dcconfig from '../../dcconfig';*/
+>>>>>>> e7f6d0eee83e482443d63c06aa08d2b15af31630
 
 function getClientIp(req) {
     var retip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
@@ -23,7 +29,7 @@ function getClientIp(req) {
 
 
 
-function setCookie(res, name, val, secret, options) {
+/*function setCookie(res, name, val, secret, options) {
     console.log("setcookie ");
     var signed = 's:' + signature.sign(val, secret);
     var data = cookie.serialize(name, signed, options);
@@ -31,7 +37,7 @@ function setCookie(res, name, val, secret, options) {
     var header = Array.isArray(prev) ? prev.concat(data) : Array.isArray(data) ? [prev].concat(data) : [prev, data];
     res.setHeader('set-cookie', header)
     console.log("setcookie end");
-}
+}*/
 
 /**
  * 登录
@@ -51,17 +57,14 @@ function login(data, res) {
         if (reg.test(comname)) {
             var ip = getClientIp(res._req);
             console.log("ip:", ip);
-            setCookie(res, 'UID', comname, 'hqdc', {
-                    maxAge: 60000 * 24 * 15,
-                    secure: false,
-                    path: '/'
-                })
-                // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
+            var signed = 's:' + signature.sign(comname, 'hqdc');
+            // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: {
                     "user": comname,
                     "ip": ip,
-                    "ret": 0
+                    "ret": 0,
+                    'UID': signed
                 }
             });
         } else {
