@@ -11,8 +11,8 @@ import {
 }
 from "../core/io/Sender";
 import crypto from 'crypto';
-import cookie from 'cookie-parser/node_modules/cookie';
-import signature from 'cookie-parser/node_modules/cookie-signature';
+import cookie from 'cookie';
+import signature from 'cookie-signature';
 
 function getClientIp(req) {
     var retip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;

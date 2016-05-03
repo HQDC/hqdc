@@ -5,12 +5,11 @@
 /**
  * 向一个 客户端发送消息  io.sockets.connected[socket.id].emit('message', handshakeData.session.user); 重要
  */
-import {
-    routerHandler, setLineType, TYPES
-}
-from '../../lineswitcher';
+import {routerHandler, setLineType, TYPES} from '../../lineswitcher';
 import cookieParser from 'cookie-parser';
-
+import {parse} from 'cookie';
+import {unsign} from 'cookie-signature';
+import {isString} from '../../../../../common/utils/TypeUtils';
 function SocketProxy() {
     this._connect = false;
 }
@@ -26,10 +25,11 @@ SocketProxy.prototype.init = function(io, secret) {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);
         var handshakeData = socket.handshake;
-        console.log("socket connect ========> ", handshakeData.headers);
-        var signedCookies = require('express/node_modules/cookie').parse(handshakeData.headers.cookie);
-        handshakeData.cookies = cookieParser.signedCookies(signedCookies, secret);
-        console.log("cookie:", handshakeData.cookies);
+        console.log("socket connect ========> ",handshakeData.headers.cookie);
+        if(isString(handshakeData.headers.cookie)){
+            var curCookie = parse(handshakeData.headers.cookie);
+            console.log("curCookie",curCookie);
+        }
         socket.on('message', (data) => {
             routerHandler(data, socket);
             /*this.dispatch({
