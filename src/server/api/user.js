@@ -5,20 +5,20 @@
 import {
     MSG_TYPES
 }
-from "../../common/Types";
+    from "../../common/Types";
 import {
     sendMSG
 }
-from "../core/io/Sender";
+    from "../core/io/Sender";
 import crypto from 'crypto';
-<<<<<<< HEAD
+
 import cookie from 'cookie';
 import signature from 'cookie-signature';
-=======
+
 /*import cookie from 'cookie';*/
-import signature from 'cookie-signature';
+
 /*import dcconfig from '../../dcconfig';*/
->>>>>>> e7f6d0eee83e482443d63c06aa08d2b15af31630
+
 
 function getClientIp(req) {
     var retip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
@@ -28,16 +28,15 @@ function getClientIp(req) {
 }
 
 
-
 /*function setCookie(res, name, val, secret, options) {
-    console.log("setcookie ");
-    var signed = 's:' + signature.sign(val, secret);
-    var data = cookie.serialize(name, signed, options);
-    var prev = res.getHeader('set-cookie') || [];
-    var header = Array.isArray(prev) ? prev.concat(data) : Array.isArray(data) ? [prev].concat(data) : [prev, data];
-    res.setHeader('set-cookie', header)
-    console.log("setcookie end");
-}*/
+ console.log("setcookie ");
+ var signed = 's:' + signature.sign(val, secret);
+ var data = cookie.serialize(name, signed, options);
+ var prev = res.getHeader('set-cookie') || [];
+ var header = Array.isArray(prev) ? prev.concat(data) : Array.isArray(data) ? [prev].concat(data) : [prev, data];
+ res.setHeader('set-cookie', header)
+ console.log("setcookie end");
+ }*/
 
 /**
  * 登录
