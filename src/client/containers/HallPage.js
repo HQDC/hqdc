@@ -1,18 +1,30 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-import React, { PropTypes, Component } from 'react';
+import React, {
+    PropTypes, Component
+}
+from 'react';
 import RoomItem from './RoomItem';
-import { createRoom } from '../actions/user';
-import { connect } from 'react-redux';
-import { ButtonInput,OverlayTrigger,ProgressBar,Label,Well,Popover,Grid,Row, Button, Input, Panel, Col} from 'react-bootstrap';
+import {
+    createRoom
+}
+from '../actions/user';
+import {
+    connect
+}
+from 'react-redux';
+import {
+    ButtonInput, OverlayTrigger, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col
+}
+from 'react-bootstrap';
 class HallPage extends Component {
     render() {
-        var ingitems = this.props.ing.map((item)=> {
+        var ingitems = this.props.ing.map((item) => {
             return (
                 <RoomItem key={item.groupID}>{item}</RoomItem>
             );
         });
 
-        var doneitems = this.props.done.map((item)=> {
+        var doneitems = this.props.done.map((item) => {
             return (
                 <RoomItem key={item.groupID}>{item}</RoomItem>
             );
@@ -35,10 +47,12 @@ class HallPage extends Component {
 }
 
 function mapStateToProps(state) {
+
+    var inglist = state.hall
     return {
         ret: 0,
-        done: state.user.userSession,
-        ing: state.user.userSession
+        done: done,
+        ing: ing
     }
 }
 

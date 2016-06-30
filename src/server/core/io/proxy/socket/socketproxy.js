@@ -6,11 +6,23 @@
  * 向一个 客户端发送消息  io.sockets.connected[socket.id].emit('message', handshakeData.session.user); 重要
  */
 
-import {routerHandler, setLineType, TYPES} from '../../lineswitcher';
+import {
+    routerHandler, setLineType, TYPES
+}
+from '../../lineswitcher';
 import cookieParser from 'cookie-parser';
-import {parse} from 'cookie';
-import {unsign} from 'cookie-signature';
-import {isString} from '../../../../../common/utils/TypeUtils';
+import {
+    parse
+}
+from 'cookie';
+import {
+    unsign
+}
+from 'cookie-signature';
+import {
+    isString
+}
+from '../../../../../common/utils/TypeUtils';
 
 /*import cookieParser from 'cookie-parser';*/
 
@@ -31,10 +43,10 @@ SocketProxy.prototype.init = function(io, secret) {
         setLineType(socket, TYPES.SOCKET);
         var handshakeData = socket.handshake;
 
-        console.log("socket connect ========> ",handshakeData.headers.cookie);
-        if(isString(handshakeData.headers.cookie)){
+        console.log("socket connect ========> ", handshakeData.headers.cookie);
+        if (isString(handshakeData.headers.cookie)) {
             var curCookie = parse(handshakeData.headers.cookie);
-            console.log("curCookie",curCookie);
+            console.log("curCookie", curCookie);
         }
 
         socket.on('message', (data) => {
