@@ -10,12 +10,12 @@ import Immutable from 'immutable';
 function hallUpdate(state, action) {
 	var done = state.list.filter(function(item) {
 		return item.state = 2
-	})
+	});
 	var ing = state.list.filter(function(item) {
 		return item.state = 1
-	})
+	});
 	return {
-		done: done
+		done: done,
 		ing: ing
 	};
 }
@@ -26,8 +26,8 @@ function hallUpdate(state, action) {
  * @returns {{}}
  */
 var defaultCall = function(state = {
-	done: Immutable.Map()
-	ing: Immutable.Map()
+	done : Immutable.Map(),
+	ing :  Immutable.Map()
 }, action) {
 	switch (action.type) {
 		case MSG_TYPES.STC_S_HALL_ROOM_UPDATE:
