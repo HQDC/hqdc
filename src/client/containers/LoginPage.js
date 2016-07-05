@@ -45,7 +45,7 @@ class LoginPage extends Component {
         let {
             session, ret
         } = this.props;
-        this.retStateHandler(ret);
+        //this.retStateHandler(ret);
         return (
             <Panel>
                 <form>

@@ -19,7 +19,6 @@ SocketProxy.prototype.init = function(UID) {
     localStorage.debug = '*';
     if (!this.connect) {
         console.log("client test connect to server");
-
         //自制cookie
         /*var opts = {
             extraHeaders: {

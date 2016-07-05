@@ -43,7 +43,7 @@ SocketProxy.prototype.init = function(io, secret) {
         setLineType(socket, TYPES.SOCKET);
         var handshakeData = socket.handshake;
 
-        console.log("socket connect ========> ", handshakeData.headers.cookie);
+        console.log("socket connect ========> ", handshakeData.headers);
         if (isString(handshakeData.headers.cookie)) {
             var curCookie = parse(handshakeData.headers.cookie);
             console.log("curCookie", curCookie);
