@@ -18,22 +18,6 @@ class SocketProxy {
 SocketProxy.prototype.init = function(UID) {
     localStorage.debug = '*';
     if (!this.connect) {
-        console.log("client test connect to server");
-        //自制cookie
-        /*var opts = {
-            extraHeaders: {
-                'X-Custom-Header-For-My-Project': 'my-secret-access-token',
-                'Cookie': 'user_session=NI2JlCKF90aE0sJZD9ZzujtdsUqNYSBYxzlTsvdSUe35ZzdtVRGqYFr0kdGxbfc5gUOkR9RGp20GVKza; path=/; expires=Tue, 07-Apr-2018 18:18:08 GMT; secure; HttpOnly'
-            }
-        };
-        this.socket = proxyConnect("http://localhost:5000", opts);*/
-        /*var opts = {
-            extraHeaders: {
-                'UID': UID
-            }
-        };
-        console.log("init Socket UID", UID);
-        this.socket = proxyConnect("http://localhost:5000", opts);*/
         this.socket = proxyConnect("http://localhost:5000");
         this.socket.on("connect", () => {
             this._connect = true;
