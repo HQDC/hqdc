@@ -23,7 +23,7 @@ import {
     isString
 }
 from '../../../../../common/utils/TypeUtils';
-
+import jwt from 'jsonwebtoken';
 /*import cookieParser from 'cookie-parser';*/
 
 
@@ -38,11 +38,16 @@ SocketProxy.prototype.init = function(io, secret) {
     //http 共享session
     this._io = io;
     console.log("socketInit");
+    io.use(socketioJwt.authorize({
+        secret: secret,
+        handshake: true
+    }));
     io.on('connection', (socket) => {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);
         var handshakeData = socket.handshake;
-
+        //todo : 解析 http://www.codeweblog.com/socket-io%E5%9F%BA%E4%BA%8Etoken%E7%9A%84%E8%AE%A4%E8%AF%81/
+        // 拿出 token 看看 init  secret 对么
         console.log("socket connect ========> ", handshakeData.headers);
         if (isString(handshakeData.headers.cookie)) {
             var curCookie = parse(handshakeData.headers.cookie);

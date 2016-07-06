@@ -5,16 +5,16 @@
 import {
     MSG_TYPES
 }
-    from "../../common/Types";
+from "../../common/Types";
 import {
     sendMSG
 }
-    from "../core/io/Sender";
+from "../core/io/Sender";
 import crypto from 'crypto';
 
 import cookie from 'cookie';
 import signature from 'cookie-signature';
-
+import jwt from 'jsonwebtoken';
 /*import cookie from 'cookie';*/
 
 /*import dcconfig from '../../dcconfig';*/
@@ -39,7 +39,7 @@ function getClientIp(req) {
  }*/
 
 /**
- * 登录
+ * login
  */
 function login(data, res) {
     var comname;
@@ -56,24 +56,26 @@ function login(data, res) {
         if (reg.test(comname)) {
             var ip = getClientIp(res._req);
             console.log("ip:", ip);
-            var signed = 's:' + signature.sign(comname, 'hqdc');
+
+            var SID = jwt.sign(comname, "hqfy");
             // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: {
                     "user": comname,
                     "ip": ip,
                     "ret": 0,
-                    'UID': signed
+                    "SID": SID
                 }
             });
+
         } else {
             sendMSG(res, MSG_TYPES.ERROR_ALERT, {
-                msg: "2-4 汉字"
+                msg: "2-4hz"
             });
         }
     } else {
         sendMSG(res, MSG_TYPES.ERROR_ALERT, {
-            msg: "名字不能为空"
+            msg: "null name"
         });
         //sendMSG(res,TYPES.ERROR_ALERT,{msg: "2-4 汉字"});
     }

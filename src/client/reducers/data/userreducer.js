@@ -23,7 +23,7 @@ function testSessionRet(state, action) {
 function userLoginRet(state, action) {
     console.log(action);
     //window.location.href = "/hall";
-    Base.socketClient.init(action.data.UID);
+    Base.socketClient.init(action.data.SID);
     console.log("testState userLoginRet:", state.userSession, action);
     return {
         userSession: state.userSession.merge(Immutable.fromJS(action.data))
