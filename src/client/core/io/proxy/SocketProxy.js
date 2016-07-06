@@ -27,14 +27,14 @@ SocketProxy.prototype.init = function(UID) {
             }
         };
         this.socket = proxyConnect("http://localhost:5000", opts);*/
-        var opts = {
+        /*var opts = {
             extraHeaders: {
                 'UID': UID
             }
         };
         console.log("init Socket UID", UID);
-        this.socket = proxyConnect("http://localhost:5000", opts);
-        //this.socket = proxyConnect("http://localhost:5000");
+        this.socket = proxyConnect("http://localhost:5000", opts);*/
+        this.socket = proxyConnect("http://localhost:5000");
         this.socket.on("connect", () => {
             this._connect = true;
             console.log("client connected server");
