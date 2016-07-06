@@ -23,7 +23,7 @@ import {
     isString
 }
 from '../../../../../common/utils/TypeUtils';
-import jwt from 'jsonwebtoken';
+import socketioJwt from 'socketio-jwt';
 /*import cookieParser from 'cookie-parser';*/
 
 
