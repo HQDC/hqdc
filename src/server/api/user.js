@@ -58,7 +58,9 @@ function login(data, res) {
             console.log("ip:", ip);
 
             var SID = jwt.sign(comname, "hqfy");
-            // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
+            var USID = jwt.verify(SID, "hqfy");
+            console.log("reset:", comname, USID)
+                // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: {
                     "user": comname,

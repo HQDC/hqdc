@@ -34,13 +34,21 @@ SocketProxy.prototype.init = function(token) {
         };
         console.log("init Socket UID", UID);
         this.socket = proxyConnect("http://localhost:5000", opts);*/
-        this.socket = proxyConnect("http://localhost:5000", {
-            query: 'token=' + token
-        });
+        this.socket = proxyConnect("http://localhost:5000");
+        //this.socket = proxyConnect("http://localhost:5000");
         this.socket.on("connect", () => {
-            this._connect = true;
-            console.log("client connected server");
+            console.log("connect send authenticate to server", token)
+            this.socket.emit('authenticate', {
+                token: token
+            }); // send the jwt
         });
+        this.socket.on('authenticated', function() {
+            console.log("authenticated success");
+            this._connect = true;
+        })
+        this.socket.on('unauthorized', (msg) => {
+            console.log("client unauthorized ->", msg.data.type);
+        })
         this.socket.on("disconnect", () => {
             this.connect = false;
             this.socket.removeAllListeners();

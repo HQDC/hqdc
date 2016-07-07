@@ -79,8 +79,7 @@ app.use((req, res) => {
 var realserver = http.Server(app);
 var io = require("socket.io")(realserver);
 import socketProxy from "./server/core/io/proxy/socket/socketproxy";
-socketProxy.init(io, app.secret);
-
+socketProxy.init(io, "hqfy");
 
 
 //------------------------web 转发器------------------------------------
