@@ -4,6 +4,10 @@
  */
 import proxyConnect from 'socket.io-client';
 import Base from 'Base';
+import {
+    MSG_TYPES
+}
+from 'common/Types';
 class SocketProxy {
 
     constructor() {
@@ -45,11 +49,25 @@ SocketProxy.prototype.init = function(token) {
         this.socket.on('authenticated', function() {
             console.log("authenticated success");
             this.connect = true;
+            Base.reduxStore.dispatch({
+                type: MSG_TYPES.SYS_S_AUTHENTICATED,
+                data: "authenticated"
+            });
         });
         this.socket.on('unauthorized', (msg) => {
             console.log("client unauthorized ->", msg.data.type);
+            this.connect = false;
+            Base.reduxStore.dispatch({
+                type: MSG_TYPES.SYS_S_UNAUTHORIZED,
+                data: "unauthorized"
+            });
         });
         this.socket.on("disconnect", () => {
+            this.connect = false;
+            Base.reduxStore.dispatch({
+                type: MSG_TYPES.SYS_S_DISCONNECT,
+                data: "disconnect"
+            });
             this.connect = false;
             this.socket.removeAllListeners();
         });
