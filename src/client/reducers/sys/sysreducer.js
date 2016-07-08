@@ -16,21 +16,21 @@ import Base from 'Base';
 function sysNetAuthenticatedHandler(state, action) {
     console.log("sysNetInfo", state.sysNetinfo, action);
     return {
-        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS(action.data))
+        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS({msg:"AuthenticatedSuccess"}))
     };
 }
 
 function sysNetUnauthorizedHandler(state, action) {
     console.log("sysNetInfo", state.sysNetinfo, action);
     return {
-        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS(action.data))
+        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS({msg:"Unauthorized"}))
     };
 }
 
 function sysNetDisconnectHandler(state, action) {
     console.log("sysNetInfo", state.sysNetinfo, action);
     return {
-        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS(action.data))
+        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS({msg:"Disconnect"}))
     };
 }
 
@@ -41,9 +41,7 @@ function sysNetDisconnectHandler(state, action) {
  * @returns {{}}
  */
 var defaultCall = function(state = {
-    sysNetinfo: Immutable.Map({
-
-    })
+    sysNetinfo: Immutable.Map()
 }, action) {
     switch (action.type) {
         case MSG_TYPES.SYS_S_AUTHENTICATED:
