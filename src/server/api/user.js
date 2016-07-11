@@ -63,10 +63,17 @@ function login(data, res) {
                 // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: {
-                    "user": comname,
-                    "ip": ip,
-                    "ret": 0,
-                    "SID": SID
+                    user: comname,
+                    ip: ip,
+                    ret: 0,
+                    SID: SID
+                },
+                cookie: {
+                    SID: SID
+                },
+                cookieopt: {
+                    maxAge: 900000,
+                    httpOnly: true
                 }
             });
 

@@ -1,11 +1,15 @@
 /**
  * Created by LOL on 2015/12/21.
  */
-import { Router } from 'express';
+import {
+	Router
+}
+from 'express';
 import store from 'store';
 const storageRouter = new Router();
 
-storageRouter.get('*', async (req, res, next) => {
+storageRouter.get('*', async(req, res, next) => {
+	console.log("show cookie", req.cookies)
 	let name = store.get("userName");
 	if (name == null) {
 		if (req.baseUrl == '/login') {

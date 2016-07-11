@@ -9,6 +9,7 @@ import path from 'path';
 import express from 'express';
 import config from '../webpack.config';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import http from 'http';
 import log4js from 'log4js';
 //log the hqdc logger messages to a file, and the console ones as well.
@@ -54,8 +55,7 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 
-/*app.secret = "123";
-app.use(cookieParser(app.secret));*/
+app.use(cookieParser("hqfy"));
 //--------------cookpaser----------------------
 app.set('port', (process.env.PORT || 5000));
 app.use(express.static(path.join(__dirname, 'client/static')));
