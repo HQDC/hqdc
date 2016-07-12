@@ -5,13 +5,12 @@ import {
 	Router
 }
 from 'express';
-import store from 'store';
 const storageRouter = new Router();
 
 storageRouter.get('*', async(req, res, next) => {
-	console.log("show cookie", req.cookies)
-	let name = store.get("userName");
-	if (name == null) {
+	console.log("show cookie", req.cookies.SID)
+	let SID = req.cookies.SID;
+	if (SID == null) {
 		if (req.baseUrl == '/login') {
 			next();
 			console.log("do next");
@@ -19,7 +18,7 @@ storageRouter.get('*', async(req, res, next) => {
 			res.redirect('/login');
 		}
 	} else {
-		console.log("storage is alive");
+		console.log("SID is alive");
 		next();
 	}
 });
