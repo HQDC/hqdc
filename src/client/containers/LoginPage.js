@@ -15,6 +15,10 @@ import {
     ButtonInput, Tooltip, Col, Button, Row, Panel, Input, Label
 }
 from 'react-bootstrap';
+import {
+    pushState
+}
+from 'redux-router';
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +41,7 @@ class LoginPage extends Component {
         this.props.history.pushState(null, "/hall")*/
         console.log("retStateHandler:", ret);
         if (ret == 0) {
-            this.props.history.pushState(null, "/hall")
+            //this.props.pushState(null, "/hall")
         }
     }
 
@@ -45,7 +49,7 @@ class LoginPage extends Component {
         let {
             session, ret
         } = this.props;
-        //this.retStateHandler(ret);
+        this.retStateHandler(ret);
         return (
             <Panel>
                 <form>
@@ -68,11 +72,13 @@ function mapStateToProps(state) {
 }
 
 LoginPage.propTypes = {
+    pushState: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
     ret: PropTypes.number.isRequired
 };
 
 export default connect(
     mapStateToProps, {
-        userLogin
+        userLogin,
+        pushState
     })(LoginPage);

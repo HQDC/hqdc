@@ -1,9 +1,24 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-import React, {PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
-import {Navbar,Nav,NavItem,NavDropdown,MenuItem,Col} from 'react-bootstrap';
-import {userLogout} from '../actions/user'
-import {showCreateRoom} from '../actions/hall'
+import React, {
+    PropTypes, Component
+}
+from 'react';
+import {
+    connect
+}
+from 'react-redux';
+import {
+    Navbar, Nav, NavItem, NavDropdown, MenuItem, Col
+}
+from 'react-bootstrap';
+import {
+    userLogout
+}
+from '../actions/user'
+import {
+    showCreateRoom
+}
+from '../actions/hall'
 import ViewUpdateTypes from '../constants/UpdateViewTypes';
 
 class Header extends Component {
@@ -18,24 +33,26 @@ class Header extends Component {
     }
     handleSelect(event, selectedKey) {
         event.preventDefault();
-        console.log("click log out",selectedKey);
+        console.log("click log out", selectedKey);
         this.props.userLogout();
     }
 
-    showCreateRoomHandler( selectedKey) {
-        event.preventDefault();
-        console.log("click create room",selectedKey);
-        this.props.showCreateRoom();
-    }
-    // Unbind change listener
+    showCreateRoomHandler(selectedKey) {
+            event.preventDefault();
+            console.log("click create room", selectedKey);
+            this.props.showCreateRoom();
+        }
+        // Unbind change listener
     componentWillUnmount() {
 
     };
     render() {
         var dpdown;
         var croom;
-        let {session} = this.props;
-        console.log("render Header",session);
+        let {
+            session
+        } = this.props;
+        console.log("render Header", session);
         if (session.has('user')) {
             croom = (<NavItem eventKey={2} onSelect={this.showCreateRoomHandler} >Creat Room</NavItem>);
             dpdown =
@@ -47,21 +64,20 @@ class Header extends Component {
             croom = "";
             dpdown = <NavItem eventKey={4} href="/login">未登录</NavItem>;
         }
-        return (
-            <Navbar inverse >
-                <Navbar.Header>
+        return ( < Navbar inverse >
+            <Navbar.Header>
                     <Navbar.Brand>
                         <a href="#">SinceTimes</a>
                     </Navbar.Brand>
                     <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    <Nav pullRight eventKey={1} >
-                        {croom}
-                        {dpdown}
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
+                </Navbar.Header> < Navbar.Collapse >
+            < Nav pullRight eventKey = {
+                1
+            } > {
+                croom
+            } {
+                dpdown
+            } < /Nav> < /Navbar.Collapse > < /Navbar>
         );
     }
 }
@@ -69,16 +85,16 @@ class Header extends Component {
 function mapStateToProps(state) {
     return {
         ret: 0,
-        session:state.user.userSession,
+        session: state.user.userSession,
         userLogout: userLogout,
-        showCreateRoom:showCreateRoom
+        showCreateRoom: showCreateRoom
     }
 }
 
 Header.propTypes = {
     ret: PropTypes.number.isRequired,
     userLogout: PropTypes.func.isRequired,
-    showCreateRoom:PropTypes.func.isRequired
+    showCreateRoom: PropTypes.func.isRequired
 };
 
 export default connect(
@@ -86,4 +102,3 @@ export default connect(
         userLogout,
         showCreateRoom
     })(Header);
-
