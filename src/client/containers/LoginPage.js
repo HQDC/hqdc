@@ -15,10 +15,8 @@ import {
     ButtonInput, Tooltip, Col, Button, Row, Panel, Input, Label
 }
 from 'react-bootstrap';
-import {
-    pushState
-}
-from 'redux-router';
+import cookieutil
+from '../../cookieutil/common/utils/cookieutil';
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -79,6 +77,5 @@ LoginPage.propTypes = {
 
 export default connect(
     mapStateToProps, {
-        userLogin,
-        pushState
+        userLogin
     })(LoginPage);
