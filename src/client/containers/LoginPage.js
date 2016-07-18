@@ -4,7 +4,7 @@ import React, {
 }
 from 'react';
 import {
-    userLogin
+    userLogin, userTestSession
 }
 from '../actions/user';
 import {
@@ -16,12 +16,13 @@ import {
 }
 from 'react-bootstrap';
 import cookieutil
-from '../../cookieutil/common/utils/cookieutil';
+from '../../common/utils/cookieutil';
 class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.loginHandler = this.loginHandler.bind(this);
         this.retStateHandler = this.retStateHandler.bind(this);
+        this.testSessionHandler = this.testSessionHandler.bind(this);
     }
 
     loginHandler() {
@@ -30,7 +31,14 @@ class LoginPage extends Component {
         //this.props.addAlert("info",("hello"+this.props.alertLg));
         this.props.userLogin(userName);
     };
-
+    testSessionHandler() {
+        var sid = cookieutil.getCookie("SID");
+        console.log(document.cookies)
+        console.log("Client Cookie", sid)
+        if (sid) {
+            this.props.userTestSession(sid);
+        };
+    }
     retStateHandler(ret) {
         /*console.log("retStateHandler:",session);
         console.log("history:",this.props.history);
@@ -47,6 +55,7 @@ class LoginPage extends Component {
         let {
             session, ret
         } = this.props;
+        this.testSessionHandler();
         this.retStateHandler(ret);
         return (
             <Panel>
@@ -64,18 +73,20 @@ class LoginPage extends Component {
 function mapStateToProps(state) {
     return {
         userLogin: userLogin,
+        userTestSession: userTestSession,
         session: state.user.userSession,
         ret: state.user.userSession.get("ret")
     }
 }
 
 LoginPage.propTypes = {
-    pushState: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
+    userTestSession: PropTypes.func.isRequired,
     ret: PropTypes.number.isRequired
 };
 
 export default connect(
     mapStateToProps, {
-        userLogin
+        userLogin,
+        userTestSession
     })(LoginPage);

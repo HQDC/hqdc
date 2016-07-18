@@ -1,8 +1,11 @@
 /**
  * Created by Tile on 2015/9/30.
  */
-import {MSG_TYPES} from '../../common/Types';
-import sendMSG from  '../core/io/Sender';
+import {
+	MSG_TYPES
+}
+from '../../common/Types';
+import sendMSG from '../core/io/Sender';
 /**
  *
  * @returns {Function}
@@ -15,25 +18,16 @@ export function userLogout() {
  * @returns {Function}
  */
 export function userLogin(loginName) {
-   return sendMSG(MSG_TYPES.CTS_W_LOGIN,{name: loginName});
+	return sendMSG(MSG_TYPES.CTS_W_LOGIN, {
+		name: loginName
+	});
 }
 
 /**
  * @returns {Function}
  */
 export function userTestSession() {
-	return (dispatch, getState) => {
-		httpClient.post('getsession', null, data=> {
-			console.log("test session return:", data);
-			if (data.ret == 1) {
-				dispatch({type: UserActionTypes.USER_TEST_SESSION, data});
-			} else {
-				dispatch({type: UserActionTypes.USER_TEST_SESSION, error: {eType: 1, msg: "session null"}});
-			}
-		}, err=> {
-			dispatch({type: UserActionTypes.USER_TEST_SESSION, ...{eType: 2, msg: "net error"}});
-		});
-	}
+	return sendMSG(MSG_TYPES.STC_W_SESSION);
 }
 /**
  *
@@ -42,7 +36,7 @@ export function userTestSession() {
  */
 export function createRoom(data) {
 	return (dispatch, getState) => {
-		httpClient.post('createroom', null, data=> {
+		httpClient.post('createroom', null, data => {
 			console.log("createRoom:", data.data.retdata);
 			if (data.ret == 1) {
 				dispatch({
@@ -52,10 +46,22 @@ export function createRoom(data) {
 					isFDListShow: true
 				});
 			} else {
-				dispatch({type: UserActionTypes.USER_TEST_SESSION, error: {eType: 1, msg: "create error"}});
+				dispatch({
+					type: UserActionTypes.USER_TEST_SESSION,
+					error: {
+						eType: 1,
+						msg: "create error"
+					}
+				});
 			}
-		}, err=> {
-			dispatch({type: UserActionTypes.USER_TEST_SESSION, ...{eType: 2, msg: "net error"}});
+		}, err => {
+			dispatch({
+				type: UserActionTypes.USER_TEST_SESSION,
+				... {
+					eType: 2,
+					msg: "net error"
+				}
+			});
 		});
 	}
 }

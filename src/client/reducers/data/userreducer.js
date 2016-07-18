@@ -25,6 +25,7 @@ function userLoginRet(state, action) {
     //window.location.href = "/hall";
     Base.socketClient.init(action.data.SID);
     console.log("testState userLoginRet:", state.userSession, action);
+    Base.player.islogin = true;
     return {
         userSession: state.userSession.merge(Immutable.fromJS(action.data))
     };

@@ -97,19 +97,27 @@ function login(data, res) {
  * session 检测
  */
 function testSession(data, res) {
-    console.log("server get test sesson");
-    if (req.session != null && req.session.user != null) {
-        console.log("getsession session is alive user:", req.session.user);
-        res.status(200).send({
-            ret: 1,
-            data: req.session
+    var SID = res._req.cookies.SID;
+    console.log("testSession SID:", SID);
+    if (SID) {
+        sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
+            data: {
+                user: comname,
+                ip: ip,
+                ret: 0,
+                SID: SID
+            },
+            cookie: {
+                SID: SID
+            },
+            cookieopt: {
+                maxAge: 900000,
+                httpOnly: true
+            }
         });
     } else {
-        res.status(200).send({
-            ret: -1,
-            data: {
-                msg: "no session alive"
-            }
+        sendMSG(res, MSG_TYPES.ERROR_ALERT, {
+            msg: "Session null"
         });
     }
     return {
