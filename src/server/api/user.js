@@ -62,7 +62,7 @@ function login(data, res) {
             // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: {
-                    user: comname,
+                    name: comname,
                     ip: ip,
                     ret: 0,
                     SID: SID
@@ -103,7 +103,7 @@ function testSession(data, res) {
     if (SID) {
         sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
             data: {
-                user: userName,
+                name: userName,
                 ip: ip,
                 ret: 0,
                 SID: SID

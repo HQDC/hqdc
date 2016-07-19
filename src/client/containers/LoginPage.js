@@ -4,7 +4,7 @@ import React, {
 }
 from 'react';
 import {
-    userLogin, userTestSession
+    userLogin
 }
 from '../actions/user';
 import {
@@ -20,7 +20,6 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.loginHandler = this.loginHandler.bind(this);
-        this.testSessionHandler = this.testSessionHandler.bind(this);
     }
 
     loginHandler() {
@@ -29,18 +28,12 @@ class LoginPage extends Component {
         //this.props.addAlert("info",("hello"+this.props.alertLg));
         this.props.userLogin(userName);
     };
-    testSessionHandler() {
-        var sid = store.get("SID");
-        if (sid) {
-            this.props.userTestSession(sid);
-        }
-    }
+
 
     render() {
         let {
             session, ret
         } = this.props;
-        this.testSessionHandler();
         return (
             <Panel>
                 <form>
@@ -57,7 +50,6 @@ class LoginPage extends Component {
 function mapStateToProps(state) {
     return {
         userLogin: userLogin,
-        userTestSession: userTestSession,
         session: state.user.userSession,
         ret: state.user.userSession.get("ret")
     }
@@ -65,12 +57,10 @@ function mapStateToProps(state) {
 
 LoginPage.propTypes = {
     userLogin: PropTypes.func.isRequired,
-    userTestSession: PropTypes.func.isRequired,
     ret: PropTypes.number.isRequired
 };
 
 export default connect(
     mapStateToProps, {
-        userLogin,
-        userTestSession
+        userLogin
     })(LoginPage);

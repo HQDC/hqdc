@@ -4,7 +4,7 @@ import React, {
 }
 from 'react';
 import {
-    userLogin, userTestSession
+     userTestSession
 }
 from '../actions/user';
 import {
@@ -19,20 +19,28 @@ class LoginJump extends Component {
     constructor(props) {
         super(props);
         this.testSessionHandler = this.testSessionHandler.bind(this);
+        this.viewSelecterHandler = this.viewSelecterHandler.bind(this);
     }
-    testSessionHandler(sid) {
-        console.log("LoginJump store.SID", sid);
-        if (sid.length > 0) {
-            return "hello";
-            //return HallPage
+
+    testSessionHandler(SID) {
+        if (SID.length > 0) {
+            this.props.userTestSession(SID);
         }
-        return LoginPage
     }
+    viewSelecterHandler(isLogin) {
+        if (isLogin) {
+            //return "hello";
+            return HallPage;
+        }
+        return LoginPage;
+    }
+
     render() {
         let {
-            sid
+            SID,isLogin
         } = this.props;
-        let ShowView = this.testSessionHandler(sid);
+        this.testSessionHandler(SID);
+        let ShowView = this.viewSelecterHandler(isLogin);
         return (
             <ShowView />
         );
@@ -41,15 +49,19 @@ class LoginJump extends Component {
 
 function mapStateToProps(state) {
     return {
-        sid: (store.get("SID")?store.get("SID"):"")
+        userTestSession: userTestSession,
+        SID: state.user.userSession.get("SID"),
+        isLogin:state.user.userSession.get("isLogin")
     }
 }
 
 LoginJump.propTypes = {
-    sid: PropTypes.string.isRequired
+    SID: PropTypes.string.isRequired,
+    userTestSession: PropTypes.func.isRequired,
+    isLogin:PropTypes.bool.isRequired
 };
 
 export default connect(
     mapStateToProps, {
-
+        userTestSession
     })(LoginJump);

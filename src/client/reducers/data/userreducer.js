@@ -25,11 +25,10 @@ function userLoginRet(state, action) {
     console.log(action);
     //window.location.href = "/hall";
     Base.socketClient.init(action.data.SID);
-    store.set('SID', action.data.SID)
+    store.set('SID', action.data.SID);
     console.log("testState userLoginRet:", state.userSession, action);
-    Base.player.islogin = true;
     return {
-        userSession: state.userSession.merge(Immutable.fromJS(action.data))
+        userSession: state.userSession.merge(Immutable.fromJS(action.data),{"isLogin":true})
     };
 }
 
@@ -69,7 +68,9 @@ function STCHallUpDateRet(state, action) {
  */
 var defaultCall = function(state = {
     userSession: Immutable.Map({
-        ret: -1
+        ret: -1,
+        isLogin:false,
+        SID:(store.get('SID')?store.get('SID'):"")
     })
 }, action) {
     switch (action.type) {

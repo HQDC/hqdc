@@ -20,7 +20,7 @@ import {
 }
 from '../actions/hall'
 import ViewUpdateTypes from '../constants/UpdateViewTypes';
-
+import ImmutablePropTypes from 'react-immutable-proptypes';
 class Header extends Component {
     // Listen for changes
     componentDidMount() {
@@ -50,13 +50,13 @@ class Header extends Component {
         var dpdown;
         var croom;
         let {
-            session
+            userSession
         } = this.props;
-        console.log("render Header", session);
-        if (session.has('user')) {
+        console.log("render Header", userSession);
+        if (userSession.get('isLogin') == true) {
             croom = (<NavItem eventKey={2} onSelect={this.showCreateRoomHandler} >Creat Room</NavItem>);
             dpdown =
-                <NavDropdown eventKey={3} onSelect={this.handleSelect} title={session.get("user") +":"+ session.get("ip")}
+                <NavDropdown eventKey={3} onSelect={this.handleSelect} title={userSession.get("name") +":"+ userSession.get("ip")}
                              id="collapsible-navbar-dropdown">
                     <MenuItem eventKey='3.1' >注销</MenuItem>
                 </NavDropdown>;
@@ -85,7 +85,7 @@ class Header extends Component {
 function mapStateToProps(state) {
     return {
         ret: 0,
-        session: state.user.userSession,
+        userSession: state.user.userSession,
         userLogout: userLogout,
         showCreateRoom: showCreateRoom
     }
@@ -94,7 +94,8 @@ function mapStateToProps(state) {
 Header.propTypes = {
     ret: PropTypes.number.isRequired,
     userLogout: PropTypes.func.isRequired,
-    showCreateRoom: PropTypes.func.isRequired
+    showCreateRoom: PropTypes.func.isRequired,
+    userSession:ImmutablePropTypes.map.isRequired
 };
 
 export default connect(

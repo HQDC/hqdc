@@ -3,12 +3,10 @@
  */
 import postMSG from './io/Sender';
 import socketClient from '../core/io/proxy/SocketProxy';
-import player from './Player';
 class Base {
 	constructor() {
 		this.socket = null;
 		this.reduxStore = null;
-		this.player = player;
 	}
 };
 
