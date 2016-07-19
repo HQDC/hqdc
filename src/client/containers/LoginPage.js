@@ -15,8 +15,7 @@ import {
     ButtonInput, Tooltip, Col, Button, Row, Panel, Input, Label
 }
 from 'react-bootstrap';
-import cookieutil
-from '../../common/utils/cookieutil';
+import store from 'store';
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +31,7 @@ class LoginPage extends Component {
         this.props.userLogin(userName);
     };
     testSessionHandler() {
-        var sid = cookieutil.getCookie("SID");
+        var sid = store.get("SID");
         console.log(document.cookies)
         console.log("Client Cookie", sid)
         if (sid) {

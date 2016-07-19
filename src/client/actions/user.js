@@ -26,8 +26,10 @@ export function userLogin(loginName) {
 /**
  * @returns {Function}
  */
-export function userTestSession() {
-	return sendMSG(MSG_TYPES.STC_W_SESSION);
+export function userTestSession(SID) {
+	return sendMSG(MSG_TYPES.CTS_W_SESSION, {
+		"SID": SID
+	});
 }
 /**
  *

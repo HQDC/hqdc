@@ -66,12 +66,12 @@ app.use(express.static(path.join(__dirname, 'client/static')));
 
 
 //-------------- test session time out? ------------------------
-import {
+/*import {
 	storageRouter
 }
 from "./server/api/userLocalStorageTest";
 app.use('*', storageRouter);
-
+*/
 app.use('/api/*', webProxy);
 apiInit();
 

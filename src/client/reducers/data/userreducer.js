@@ -7,6 +7,7 @@ import {
 from 'common/Types';
 import Immutable from 'immutable';
 import Base from 'Base';
+import store from 'store';
 /**
  *
  * @param state
@@ -24,6 +25,7 @@ function userLoginRet(state, action) {
     console.log(action);
     //window.location.href = "/hall";
     Base.socketClient.init(action.data.SID);
+    store.set('SID', action.data.SID)
     console.log("testState userLoginRet:", state.userSession, action);
     Base.player.islogin = true;
     return {

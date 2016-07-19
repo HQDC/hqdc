@@ -58,9 +58,8 @@ function login(data, res) {
             console.log("ip:", ip);
 
             var SID = jwt.sign(comname, "hqfy");
-            var USID = jwt.verify(SID, "hqfy");
-            console.log("reset:", comname, USID)
-                // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
+
+            // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: {
                     user: comname,
@@ -97,12 +96,14 @@ function login(data, res) {
  * session 检测
  */
 function testSession(data, res) {
-    var SID = res._req.cookies.SID;
+    var SID = data.SID;
     console.log("testSession SID:", SID);
+    var userName = jwt.verify(SID, "hqfy");
+    var ip = getClientIp(res._req);
     if (SID) {
         sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
             data: {
-                user: comname,
+                user: userName,
                 ip: ip,
                 ret: 0,
                 SID: SID
