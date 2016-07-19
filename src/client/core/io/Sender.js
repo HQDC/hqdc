@@ -7,9 +7,7 @@ import socketProxy from "./proxy/SocketProxy";
 import {addAlert} from "../../actions/alert";
 function sendMSG(actionType, sendData = {}) {
     sendData.type = actionType;
-    console.log("send msg",sendData.type);
     if (isWeb(actionType)) {
-        console.log("send msg1",sendData.type);
         return (dispatch, getState)=> {
             postFetchCall("api/msg", sendData, data => {
                 dispatch(data)

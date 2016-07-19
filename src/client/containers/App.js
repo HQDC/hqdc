@@ -17,7 +17,7 @@ from 'redux-router';
 class App extends Component {
 
     render() {
-        console.log("AlertContainer", AlertContainer);
+
         const {
             children
         } = this.props;

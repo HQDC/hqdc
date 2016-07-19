@@ -77,7 +77,7 @@ class Header extends Component {
                 croom
             } {
                 dpdown
-            } < /Nav> < /Navbar.Collapse > < /Navbar>
+            } </Nav> </Navbar.Collapse > </Navbar>
         );
     }
 }

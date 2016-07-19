@@ -20,11 +20,11 @@ class LoginJump extends Component {
         super(props);
         this.testSessionHandler = this.testSessionHandler.bind(this);
     }
-
     testSessionHandler(sid) {
-        console.log("LoginJump store.SID", sid)
-        if (sid != null && sid.length > 0) {
-            return HallPage
+        console.log("LoginJump store.SID", sid);
+        if (sid.length > 0) {
+            return "hello";
+            //return HallPage
         }
         return LoginPage
     }
@@ -41,7 +41,7 @@ class LoginJump extends Component {
 
 function mapStateToProps(state) {
     return {
-        sid: store.get("SID")
+        sid: (store.get("SID")?store.get("SID"):"")
     }
 }
 
