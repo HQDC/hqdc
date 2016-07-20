@@ -41,7 +41,7 @@ SocketProxy.prototype.init = function(io, secret) {
 
     io.on('connection', socketioJwt.authorize({
         secret: secret,
-       // handshake: true,
+        // handshake: true,
         timeout: 15000 // 15 seconds to send the authentication message
     }));
     io.on("authenticated", (socket) => {
@@ -49,7 +49,8 @@ SocketProxy.prototype.init = function(io, secret) {
         setLineType(socket, TYPES.SOCKET);
         var handshakeData = socket.handshake;
 
-        console.log("socket connect ========> ", socket.decoded_token);
+        console.log("socket connect decoded_token ========> ", socket.decoded_token);
+        console.log("socket connect cookie ========> ", handshakeData.headers.cookie);
         if (isString(handshakeData.headers.cookie)) {
             var curCookie = parse(handshakeData.headers.cookie);
             console.log("curCookie", curCookie);

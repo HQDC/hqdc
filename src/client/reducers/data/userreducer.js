@@ -28,7 +28,9 @@ function userLoginRet(state, action) {
     store.set('SID', action.data.SID);
     console.log("testState userLoginRet:", state.userSession, action);
     return {
-        userSession: state.userSession.merge(Immutable.fromJS(action.data),{"isLogin":true})
+        userSession: state.userSession.merge(Immutable.fromJS(action.data), {
+            "isLogin": true
+        })
     };
 }
 
@@ -69,8 +71,8 @@ function STCHallUpDateRet(state, action) {
 var defaultCall = function(state = {
     userSession: Immutable.Map({
         ret: -1,
-        isLogin:false,
-        SID:(store.get('SID')?store.get('SID'):"")
+        isLogin: false,
+        SID: (store.get('SID') ? store.get('SID') : "")
     })
 }, action) {
     switch (action.type) {

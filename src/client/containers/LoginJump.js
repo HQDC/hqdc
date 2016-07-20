@@ -4,7 +4,7 @@ import React, {
 }
 from 'react';
 import {
-     userTestSession
+    userTestSession
 }
 from '../actions/user';
 import {
@@ -37,9 +37,11 @@ class LoginJump extends Component {
 
     render() {
         let {
-            SID,isLogin
+            SID, isLogin
         } = this.props;
-        this.testSessionHandler(SID);
+        if (isLogin == false) {
+            this.testSessionHandler(SID);
+        }
         let ShowView = this.viewSelecterHandler(isLogin);
         return (
             <ShowView />
@@ -51,14 +53,14 @@ function mapStateToProps(state) {
     return {
         userTestSession: userTestSession,
         SID: state.user.userSession.get("SID"),
-        isLogin:state.user.userSession.get("isLogin")
+        isLogin: state.user.userSession.get("isLogin")
     }
 }
 
 LoginJump.propTypes = {
     SID: PropTypes.string.isRequired,
     userTestSession: PropTypes.func.isRequired,
-    isLogin:PropTypes.bool.isRequired
+    isLogin: PropTypes.bool.isRequired
 };
 
 export default connect(

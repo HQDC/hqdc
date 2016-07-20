@@ -11,8 +11,6 @@ import LoginJump from './containers/LoginJump';
 export default (
 	<Route path="/" component={App}>
 		<IndexRoute component={LoginJump} />
-		/*<Route path="/login" component={LoginPage}/>
-				<Route path="/hall" component={HallPage}/>*/
 		<Route path="*" component={NotFoundPage}/>
 	</Route>
 )
