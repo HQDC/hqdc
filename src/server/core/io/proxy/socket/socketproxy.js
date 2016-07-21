@@ -26,8 +26,6 @@ import {
 from '../../../../../common/utils/TypeUtils';
 import socketioJwt from 'socketio-jwt';
 
-
-
 function SocketProxy() {
     this._connect = false;
 }

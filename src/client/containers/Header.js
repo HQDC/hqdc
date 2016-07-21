@@ -14,11 +14,12 @@ from 'react-bootstrap';
 import {
     userLogout
 }
-from '../actions/user'
+from '../actions/user';
 import {
-    showCreateRoom
+    addModal
 }
-from '../actions/hall'
+from '../actions/modal'
+import CreateRoomTestModal from '../components/CreateRoomTestModal';
 import ViewUpdateTypes from '../constants/UpdateViewTypes';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 class Header extends Component {
@@ -40,7 +41,7 @@ class Header extends Component {
     showCreateRoomHandler(selectedKey) {
             event.preventDefault();
             console.log("click create room", selectedKey);
-            this.props.showCreateRoom();
+            this.props.addModal(CreateRoomTestModal);
         }
         // Unbind change listener
     componentWillUnmount() {
@@ -64,20 +65,20 @@ class Header extends Component {
             croom = "";
             dpdown = <NavItem eventKey={4} href="/login">未登录</NavItem>;
         }
-        return (
-		<Navbar inverse >
-			<Navbar.Header>
+        return ( < Navbar inverse >
+            <Navbar.Header>
 					<Navbar.Brand>
 						<a href="#">SinceTimes</a>
 					</Navbar.Brand>
 					<Navbar.Toggle />
-			</Navbar.Header> 
-			<Navbar.Collapse >
-				<Nav pullRight eventKey = {1}> 
-				{croom}{dpdown} 
-				</Nav> 
-			</Navbar.Collapse> 
-        </Navbar>
+			</Navbar.Header> < Navbar.Collapse >
+            < Nav pullRight eventKey = {
+                1
+            } > {
+                croom
+            } {
+                dpdown
+            } < /Nav>  < /Navbar.Collapse > < /Navbar>
         );
     }
 }
@@ -87,19 +88,19 @@ function mapStateToProps(state) {
         ret: 0,
         userSession: state.user.userSession,
         userLogout: userLogout,
-        showCreateRoom: showCreateRoom
+        addModal: addModal
     }
 }
 
 Header.propTypes = {
     ret: PropTypes.number.isRequired,
     userLogout: PropTypes.func.isRequired,
-    showCreateRoom: PropTypes.func.isRequired,
+    addModal: PropTypes.func.isRequired,
     userSession: ImmutablePropTypes.map.isRequired
 };
 
 export default connect(
     mapStateToProps, {
         userLogout,
-        showCreateRoom
+        addModal
     })(Header);

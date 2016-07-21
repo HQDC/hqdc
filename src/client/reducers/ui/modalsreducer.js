@@ -25,7 +25,7 @@ function defaultCall(state = {
 	onShowModal: ""
 }, action) {
 	switch (action.type) {
-		case ModalTypes.SHOW_MODAL:
+		case ModalTypes.ADD_MODAL:
 			return addModalHandler(state, action.modal);
 		case ModalTypes.DEL_MODAL:
 			return hideModalHandler(state, action.modal);

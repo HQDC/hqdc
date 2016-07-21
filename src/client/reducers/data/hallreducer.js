@@ -15,8 +15,8 @@ function hallUpdate(state, action) {
 		return item.state = 1
 	});
 	return {
-		done: done.toList().toJS(),
-		ing: ing.toList().toJS()
+		done: done,
+		ing: ing
 	};
 }
 /**

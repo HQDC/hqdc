@@ -7,6 +7,7 @@ import keyMirror from 'fbjs/lib/keyMirror';
  */
 export default keyMirror({
 	SHOW_MODAL: null,
-	DEL_MODAL:null,
-	HIDE_MODAL:null
+	DEL_MODAL: null,
+	HIDE_MODAL: null,
+	ADD_MODAL: null
 });

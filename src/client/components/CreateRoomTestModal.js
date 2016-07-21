@@ -8,6 +8,10 @@ import {
 }
 from '../actions/user';
 import {
+    delModal
+}
+from '../actions/modal';
+import {
     connect
 }
 from 'react-redux';
@@ -23,7 +27,6 @@ class CreateRoomTestModal extends Component {
     };
 
     close() {
-        this.props.isOpen = false;
         this.forceUpdate();
     };
 
@@ -33,7 +36,7 @@ class CreateRoomTestModal extends Component {
         createRoomData.PSW = this.refs.PSW.getValue();
         createRoomData.EndTime = this.refs.EndTime.getValue();
         createRoomData.GroupName = this.refs.GroupName.getValue();
-        userCreateRoom(createRoomData);
+        this.props.createRoom(createRoomData);
     };
 
     handleChange() {};
@@ -41,7 +44,7 @@ class CreateRoomTestModal extends Component {
     render() {
         console.log("CreateRoomTestModal render");
         return (
-            <Modal show={true} backdrop={false} onHide={()=>this.props.closeHandler()}>
+            <Modal show={true} backdrop={false} onHide={()=>this.props.delModal()}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
@@ -75,17 +78,17 @@ class CreateRoomTestModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        isOpen: state.hall.isOpen
+        createRoom: createRoom
     }
 }
 
 CreateRoomTestModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired
-
+    createRoom: PropTypes.func.isRequired
 };
 
 export default connect(
     mapStateToProps, {
-        createRoom
+        createRoom,
+        delModal
     }
 )(CreateRoomTestModal);
