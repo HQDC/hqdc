@@ -11,6 +11,7 @@ import {
 }
 from '../../lineswitcher';
 import cookieParser from 'cookie-parser';
+
 import {
     parse
 }
@@ -24,7 +25,7 @@ import {
 }
 from '../../../../../common/utils/TypeUtils';
 import socketioJwt from 'socketio-jwt';
-/*import cookieParser from 'cookie-parser';*/
+
 
 
 function SocketProxy() {
@@ -47,10 +48,10 @@ SocketProxy.prototype.init = function(io, secret) {
     io.on("authenticated", (socket) => {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);
-        var handshakeData = socket.handshake;
+        var handshakeData = socket.request;
 
         console.log("socket connect decoded_token ========> ", socket.decoded_token);
-        console.log("socket connect cookie ========> ", handshakeData.headers.cookie);
+        console.log("socket connect cookie ========> ", socket.request);
         if (isString(handshakeData.headers.cookie)) {
             var curCookie = parse(handshakeData.headers.cookie);
             console.log("curCookie", curCookie);
