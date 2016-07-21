@@ -64,20 +64,20 @@ class Header extends Component {
             croom = "";
             dpdown = <NavItem eventKey={4} href="/login">未登录</NavItem>;
         }
-        return ( < Navbar inverse >
-            <Navbar.Header>
-                    <Navbar.Brand>
-                        <a href="#">SinceTimes</a>
-                    </Navbar.Brand>
-                    <Navbar.Toggle />
-                </Navbar.Header> < Navbar.Collapse >
-            < Nav pullRight eventKey = {
-                1
-            } > {
-                croom
-            } {
-                dpdown
-            } </Nav> </Navbar.Collapse > </Navbar>
+        return (
+		<Navbar inverse >
+			<Navbar.Header>
+					<Navbar.Brand>
+						<a href="#">SinceTimes</a>
+					</Navbar.Brand>
+					<Navbar.Toggle />
+			</Navbar.Header> 
+			<Navbar.Collapse >
+				<Nav pullRight eventKey = {1}> 
+				{croom}{dpdown} 
+				</Nav> 
+			</Navbar.Collapse> 
+        </Navbar>
         );
     }
 }
@@ -95,7 +95,7 @@ Header.propTypes = {
     ret: PropTypes.number.isRequired,
     userLogout: PropTypes.func.isRequired,
     showCreateRoom: PropTypes.func.isRequired,
-    userSession:ImmutablePropTypes.map.isRequired
+    userSession: ImmutablePropTypes.map.isRequired
 };
 
 export default connect(

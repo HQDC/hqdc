@@ -16,6 +16,7 @@ import {
     ButtonInput, OverlayTrigger, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col
 }
 from 'react-bootstrap';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 class HallPage extends Component {
     render() {
         var ingitems = this.props.ing.map((item) => {
@@ -56,8 +57,8 @@ function mapStateToProps(state) {
 
 HallPage.propTypes = {
     ret: PropTypes.number.isRequired,
-    done: PropTypes.object.isRequired,
-    ing: PropTypes.object.isRequired
+    done: PropTypes.array.isRequired,
+    ing: PropTypes.array.isRequired
 };
 
 export default connect(

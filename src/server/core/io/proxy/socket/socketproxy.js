@@ -47,15 +47,12 @@ SocketProxy.prototype.init = function(io, secret) {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);
         var request = socket.request;
-
         console.log("socket connect decoded_token ========> ", socket.decoded_token);
-        console.log("socket connect cookie ========> ", request.headers.cookie);
         if (isString(request.headers.cookie)) {
             var curCookie = parse(request.headers.cookie);
             console.log("curCookie", curCookie);
         }
         socket.on('message', (data) => {
-            socket.emit('message', "client")
             routerHandler(data, socket);
         });
     });

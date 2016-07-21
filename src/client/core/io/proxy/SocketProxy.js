@@ -9,23 +9,11 @@ import {
 }
 from 'common/Types';
 class SocketProxy {
-
     constructor() {
         this.connect = false;
         this.socket = null;
     }
 }
-/**
- * 向服务器发送数据
- * @param sendData {...data}
- */
-SocketProxy.prototype.sendMSG = function(sendData) {
-    console.log("call socket sendmsg");
-    this.socket.emit("message", sendData);
-};
-SocketProxy.prototype.disconnect = function() {
-    this.socket.disconnect();
-};
 /**
  * 初始化 客户端 socket
  */
@@ -63,7 +51,6 @@ SocketProxy.prototype.init = function(token) {
                 type: MSG_TYPES.SYS_S_AUTHENTICATED,
                 data: "authenticated"
             });
-            this.sendMSG("test")
         });
         this.socket.on('unauthorized', (msg) => {
             console.log("client unauthorized ->", msg.data.type);
@@ -101,6 +88,16 @@ SocketProxy.prototype.init = function(token) {
         });
     }
 };
-
+/**
+ * 向服务器发送数据
+ * @param sendData {...data}
+ */
+SocketProxy.prototype.sendMSG = function(sendData) {
+    console.log("call socket sendmsg");
+    this.socket.emit("message", sendData);
+};
+SocketProxy.prototype.disconnect = function() {
+    this.socket.disconnect();
+};
 var socketProxy = new SocketProxy();
 export default socketProxy;
