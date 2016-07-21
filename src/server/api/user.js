@@ -67,9 +67,9 @@ function login(data, res) {
                     ret: 0,
                     SID: SID
                 },
-                cookie: {
+                /*cookie: {
                     SID: SID
-                },
+                },*/
                 cookieopt: {
                     maxAge: 900000,
                     httpOnly: true
@@ -108,9 +108,9 @@ function testSession(data, res) {
                 ret: 0,
                 SID: SID
             },
-            cookie: {
+            /*cookie: {
                 SID: SID
-            },
+            },*/
             cookieopt: {
                 maxAge: 900000,
                 httpOnly: true

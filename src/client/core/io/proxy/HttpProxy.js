@@ -2,25 +2,27 @@
  * Created by Tile on 2015/11/30.
  */
 import "isomorphic-fetch";
-import {getDataPath} from '../../../../common/utils/pathutil'
+import {
+    getDataPath
+}
+from '../../../../common/utils/pathutil'
 
-function postFetchCall(path,body, successFun, errorFun) {
+function postFetchCall(path, body, successFun, errorFun) {
     let webPath = getDataPath(path);
-    console.log("cookie:",document.cookie);
     fetch(webPath, {
-        method: "post",
-        credentials: 'include',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: body == null ? {} : JSON.stringify(body)
-    }).then(response => {
-            console.log("http return:",response);
+            method: "post",
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: body == null ? {} : JSON.stringify(body)
+        }).then(response => {
+            console.log("http return:", response);
             return response.json();
         })
         .then(data => {
-            console.log("pass json success return:" , data);
+            console.log("pass json success return:", data);
             successFun(data);
         })
         .catch(err => {
@@ -28,17 +30,18 @@ function postFetchCall(path,body, successFun, errorFun) {
             errorFun(err);
         })
 }
+
 function getFetchCall(path, successFun, errorFun) {
     let webPath = getDataPath(path);
-    console.log("webPath:",webPath);
+    console.log("webPath:", webPath);
     fetch(webPath, {
-        method: "get",
-        credentials: 'include',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then(response => {
+            method: "get",
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
             console.log("http return:" + webPath);
             return response.json();
         })
@@ -53,9 +56,9 @@ function getFetchCall(path, successFun, errorFun) {
 }
 
 
-exports.postFetchCall =  postFetchCall;
+exports.postFetchCall = postFetchCall;
 
-exports.getFetchCall =  getFetchCall;
+exports.getFetchCall = getFetchCall;
 
 /*import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
  function getUrl(path) {

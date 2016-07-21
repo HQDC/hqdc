@@ -15,7 +15,17 @@ class SocketProxy {
         this.socket = null;
     }
 }
-
+/**
+ * 向服务器发送数据
+ * @param sendData {...data}
+ */
+SocketProxy.prototype.sendMSG = function(sendData) {
+    console.log("call socket sendmsg");
+    this.socket.emit("message", sendData);
+};
+SocketProxy.prototype.disconnect = function() {
+    this.socket.disconnect();
+};
 /**
  * 初始化 客户端 socket
  */
@@ -38,21 +48,22 @@ SocketProxy.prototype.init = function(token) {
         };
         console.log("init Socket UID", UID);
         this.socket = proxyConnect("http://localhost:5000", opts);*/
-        this.socket = proxyConnect("http://localhost:5000");
-        //this.socket = proxyConnect("http://localhost:5000");
+        this.socket = proxyConnect("http://192.168.4.120:5000");
+        //-----------------------------authenticated-------------------------------------------
         this.socket.on("connect", () => {
             console.log("connect send authenticate to server", token);
             this.socket.emit('authenticate', {
                 token: token
             });
         });
-        this.socket.on('authenticated', function() {
+        this.socket.on('authenticated', () => {
             console.log("authenticated success");
             this.connect = true;
             Base.reduxStore.dispatch({
                 type: MSG_TYPES.SYS_S_AUTHENTICATED,
                 data: "authenticated"
             });
+            this.sendMSG("test")
         });
         this.socket.on('unauthorized', (msg) => {
             console.log("client unauthorized ->", msg.data.type);
@@ -62,6 +73,13 @@ SocketProxy.prototype.init = function(token) {
                 data: "unauthorized"
             });
         });
+
+        //-----------------------------authenticated-------------------------------------------
+        /*this.socket.on("connect", () => {
+            console.log("connect ");
+            this.sendMSG("test")
+        });*/
+        //-----------------------------splite-------------------------------------------
         this.socket.on("disconnect", () => {
             this.connect = false;
             Base.reduxStore.dispatch({
@@ -83,16 +101,6 @@ SocketProxy.prototype.init = function(token) {
         });
     }
 };
-/**
- * 向服务器发送数据
- * @param sendData {...data}
- */
-SocketProxy.prototype.sendMSG = function(sendData) {
-    console.log("call socket sendmsg");
-    this.socket.emit("message", sendData);
-};
-SocketProxy.prototype.disconnect = function() {
-    this.socket.disconnect();
-};
+
 var socketProxy = new SocketProxy();
 export default socketProxy;

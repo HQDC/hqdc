@@ -39,32 +39,44 @@ SocketProxy.prototype.init = function(io, secret) {
     //http 共享session
     this._io = io;
     console.log("socketInit", secret);
-
     io.on('connection', socketioJwt.authorize({
         secret: secret,
-        // handshake: true,
         timeout: 15000 // 15 seconds to send the authentication message
     }));
     io.on("authenticated", (socket) => {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);
-        var handshakeData = socket.request;
+        var request = socket.request;
 
         console.log("socket connect decoded_token ========> ", socket.decoded_token);
-        console.log("socket connect cookie ========> ", socket.request);
-        if (isString(handshakeData.headers.cookie)) {
-            var curCookie = parse(handshakeData.headers.cookie);
+        console.log("socket connect cookie ========> ", request.headers.cookie);
+        if (isString(request.headers.cookie)) {
+            var curCookie = parse(request.headers.cookie);
             console.log("curCookie", curCookie);
         }
         socket.on('message', (data) => {
+            socket.emit('message', "client")
             routerHandler(data, socket);
-            /*this.dispatch({
-                user: user,
-                actionType: data.actionType,
-                data: data
-            });*/
         });
     });
+
+    /*io.on('connection', (socket) => {
+        this._connect = true;
+        setLineType(socket, TYPES.SOCKET);
+        var requestData = socket.request;
+
+        console.log("socket connect decoded_token ========> ", socket.decoded_token);
+        console.log("socket connect requestData ========> ", requestData.headers.cookie);
+        if (isString(requestData.headers.cookie)) {
+            var curCookie = parse(requestData.headers.cookie);
+            console.log("curCookie", curCookie);
+        }
+        socket.on('message', (data) => {
+            socket.emit('message', "client")
+            routerHandler(data, socket);
+        });
+    });
+*/
     io.on('reconnect', function(socket) {
         console.log("-------------reconnect-------------", socket);
     });
