@@ -1,35 +1,21 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, { PropTypes, Component } from 'react';
-import styles from './FDShowModal.css';
-import withStyles from '../../decorators/withStyles';
-import UserActions from '../../actions/UserActions';
 import { ButtonInput,OverlayTrigger,Thumbnail,Tooltip,ProgressBar,Label,Well,Popover,Grid,Row, Button,Input, Panel, Col,Modal} from 'react-bootstrap';
-@withStyles(styles)
+import {connect} from 'react-redux';
+import {createRoom} from '../actions/hall';
+import {delModal}  from '../actions/modal';
 class FDShowModal extends Component {
 	constructor() {
 		super();
-		this.state = {};
 	}
-	;
-
-	static propTypes = {
-		isOpen: React.PropTypes.bool,
-		fddata: React.PropTypes.object
-	};
-	static defaultProps = {
-		isOpen: false,
-		fddata: {name: "", takeout_menu: []}
-	};
 
 	submitHandler() {
-		UserActions.userCreateRoom();
+        this.props.createRoom({})
 	}
-	;
+
 
 	handleChange() {
 	}
-
-	;
 
 	/**
 	 * 格式化成 订餐统一数据
@@ -103,7 +89,7 @@ class FDShowModal extends Component {
 			}
 		}
 		return (
-			<Modal show={this.props.isOpen} backdrop={false} bsSize="lg" onHide={()=>this.props.closeHandler()}>
+			<Modal show={this.props.isOpen} backdrop={false} bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
 					<h3>{fooddata.name}</h3>
 				</Modal.Header>
@@ -120,4 +106,20 @@ class FDShowModal extends Component {
 	}
 }
 
-export default FDShowModal;
+function mapStateToProps(state) {
+    return {
+        createRoom: createRoom
+    }
+}
+
+FDShowModal.propTypes = {
+    createRoom: PropTypes.func.isRequired,
+    delModal:PropTypes.func.isRequired
+};
+
+export default connect(
+    mapStateToProps, {
+        createRoom,
+        delModal
+    }
+)(FDShowModal);

@@ -36,7 +36,7 @@ SocketProxy.prototype.init = function(token) {
         };
         console.log("init Socket UID", UID);
         this.socket = proxyConnect("http://localhost:5000", opts);*/
-        this.socket = proxyConnect("http://192.168.4.120:5000");
+        this.socket = proxyConnect("http://127.0.0.1:5000");
         //-----------------------------authenticated-------------------------------------------
         this.socket.on("connect", () => {
             console.log("connect send authenticate to server", token);

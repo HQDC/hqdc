@@ -172,12 +172,10 @@ function createRoom(data, res) {
             }
         }));
     } else {
-        res.status(200).send({
-            ret: 1,
-            data: {
-                user: ""
-            }
+        sendMSG(res, MSG_TYPES.ERROR_ALERT, {
+            msg: "The URL must be BaiDuWaiMai"
         });
+
     }
     //res.redirect('/login');
 }
