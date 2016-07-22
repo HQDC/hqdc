@@ -8,6 +8,7 @@ from 'common/Types';
 import Immutable from 'immutable';
 import Base from 'Base';
 import store from 'store';
+
 /**
  *
  * @param state
@@ -22,7 +23,6 @@ function testSessionRet(state, action) {
  * @param action
  */
 function userLoginRet(state, action) {
-    console.log(action);
     //window.location.href = "/hall";
     Base.socketClient.init(action.data.SID);
     store.set('SID', action.data.SID);
@@ -34,6 +34,12 @@ function userLoginRet(state, action) {
     };
 }
 
+
+function foodListRet(state, action) {
+    return {
+        foodData: action.data
+    };
+}
 
 /**
  *
@@ -69,15 +75,19 @@ function STCHallUpDateRet(state, action) {
  * @returns {{}}
  */
 var defaultCall = function(state = {
-    userSession: Immutable.Map({
-        ret: -1,
-        isLogin: false,
-        SID: (store.get('SID') ? store.get('SID') : "")
-    })
-}, action) {
+        userSession: Immutable.Map({
+            ret: -1,
+            isLogin: false,
+            SID: (store.get('SID') ? store.get('SID') : ""),
+            foodData: {}
+        })
+    },
+    action) {
     switch (action.type) {
         case MSG_TYPES.STC_W_LOGIN:
             return userLoginRet(state, action);
+        case MSG_TYPES.STC_W_FOODLIST:
+            return foodListRet(state, action);
         default:
             return state;
     }

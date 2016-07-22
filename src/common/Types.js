@@ -11,7 +11,7 @@ var MSG_TYPE = keyMirror({
     CTS_W_SESSION: null, //SESSION 检测
     CTS_W_LOGOUT: null, //退出
     CTS_W_CREATE_ROOM: null, //创建房间
-
+    CTS_W_FOODLIST: null, //获取菜单数据
     //-----------socket---------------------
     CTS_S_CHANGE_FD_UPDATE: null,
 
@@ -20,6 +20,7 @@ var MSG_TYPE = keyMirror({
     STC_W_LOGIN: null, //登录
     STC_W_SESSION: null, //SESSION 检测
     STC_W_LOGOUT: null, //退出
+    STC_W_FOODLIST: null, //菜单数据
     //------------------socket---------------------------
 
     STC_S_HALL_ROOM_UPDATE: null, //room update

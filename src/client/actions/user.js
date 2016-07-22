@@ -37,33 +37,38 @@ export function userTestSession(SID) {
  * @returns {Function}
  */
 export function createRoom(data) {
-	return (dispatch, getState) => {
-		httpClient.post('createroom', null, data => {
-			console.log("createRoom:", data.data.retdata);
-			if (data.ret == 1) {
+	console.log(data)
+	return sendMSG(MSG_TYPES.CTS_W_FOODLIST, {
+		"fddata": data
+	});
+	/*
+		return (dispatch, getState) => {
+			httpClient.post('createroom', null, data => {
+				console.log("createRoom:", data.data.retdata);
+				if (data.ret == 1) {
+					dispatch({
+						type: UserActionTypes.USER_TEST_SESSION,
+						fddata: data.data.retdata,
+						isCroomOpen: false,
+						isFDListShow: true
+					});
+				} else {
+					dispatch({
+						type: UserActionTypes.USER_TEST_SESSION,
+						error: {
+							eType: 1,
+							msg: "create error"
+						}
+					});
+				}
+			}, err => {
 				dispatch({
 					type: UserActionTypes.USER_TEST_SESSION,
-					fddata: data.data.retdata,
-					isCroomOpen: false,
-					isFDListShow: true
-				});
-			} else {
-				dispatch({
-					type: UserActionTypes.USER_TEST_SESSION,
-					error: {
-						eType: 1,
-						msg: "create error"
+					... {
+						eType: 2,
+						msg: "net error"
 					}
 				});
-			}
-		}, err => {
-			dispatch({
-				type: UserActionTypes.USER_TEST_SESSION,
-				... {
-					eType: 2,
-					msg: "net error"
-				}
 			});
-		});
-	}
+		}*/
 }

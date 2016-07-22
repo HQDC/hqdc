@@ -3,8 +3,9 @@
  */
 import path from 'path';
 import _ from 'lodash';
-function ProcessManger(maxworker){
-    if(ProcessManger.instance != undefined){
+
+function ProcessManger(maxworker) {
+    if (ProcessManger.instance != undefined) {
         return ProcessManger.instance;
     }
     /**
@@ -31,9 +32,9 @@ function ProcessManger(maxworker){
  * 加入工作处理队列
  * @param workdata
  */
-ProcessManger.prototype.doWork = function(workdata){
-    if(this.haveFree() == false){
-        if(workdata.busyreturn == true){
+ProcessManger.prototype.doWork = function(workdata) {
+    if (this.haveFree() == false) {
+        if (workdata.busyreturn == true) {
             workdata.errorfun();
         }
     }
@@ -41,9 +42,9 @@ ProcessManger.prototype.doWork = function(workdata){
     this.doNext();
 };
 
-ProcessManger.prototype.doNext = function(){
-    if(this.haveOrder()){
-        if(this.haveFree()){
+ProcessManger.prototype.doNext = function() {
+    if (this.haveOrder()) {
+        if (this.haveFree()) {
             var targetorder = this.orderlist.pop();
             var worker = this.getFreeWorker();
             worker.isbusy = true;
@@ -52,12 +53,12 @@ ProcessManger.prototype.doNext = function(){
                 targetorder.returnfun(retdata);
                 worker.isbusy = false;
                 worker.removeAllListeners("message");
-                if(targetorder.overexit == true){
+                if (targetorder.overexit == true) {
                     worker.exit(1);
-                }else{
+                } else {
                     ProcessManger.instance.freeworkers.push(worker)
                 }
-                _.remove(ProcessManger.instance.freeworkers,(n)=>{
+                _.remove(ProcessManger.instance.freeworkers, (n) => {
                     return (ProcessManger.instance.freeworkers[n] == worker);
                 });
                 ProcessManger.instance.doNext();
@@ -68,26 +69,26 @@ ProcessManger.prototype.doNext = function(){
     }
 };
 
-ProcessManger.prototype.pushWorkingOrder = function(data){
-    var randomnum = Math.getRandomNum(1,99999990);
-    while(this.workingorder[randomnum] != undefined){
-        randomnum = Math.getRandomNum(1,99999999);
+ProcessManger.prototype.pushWorkingOrder = function(data) {
+    var randomnum = Math.getRandomNum(1, 99999990);
+    while (this.workingorder[randomnum] != undefined) {
+        randomnum = Math.getRandomNum(1, 99999999);
     }
     this.workingorder[randomnum] = data;
     return randomnum;
 };
 
-ProcessManger.prototype.haveOrder = function(){
+ProcessManger.prototype.haveOrder = function() {
     return this.orderlist.length != 0;
 };
 
-ProcessManger.prototype.getFreeWorker = function(){
+ProcessManger.prototype.getFreeWorker = function() {
     var datapaser = null;
-    if(this.freeworkers.length > 0){
+    if (this.freeworkers.length > 0) {
         datapaser = this.freeworkers.pop();
-    }else{
+    } else {
         var childProcess = require('child_process');
-        datapaser = childProcess.fork(path.join('./src/api/process/dataexchanger'));
+        datapaser = childProcess.fork(path.join(__dirname + '/dataexchanger'));
     }
     return datapaser;
 };
@@ -96,7 +97,7 @@ ProcessManger.prototype.getFreeWorker = function(){
  * 是否有空闲worker
  * @returns {boolean}
  */
-ProcessManger.prototype.haveFree = function(){
+ProcessManger.prototype.haveFree = function() {
     return this.busyworkers.length < this.max;
 };
 
@@ -109,20 +110,20 @@ ProcessManger.prototype.haveFree = function(){
  * @param busyreturn    如果队列忙是否直接返回(不会执行)
  * @returns {{}}
  */
-ProcessManger.prototype.creatworkdata = function(execdata,doclass,returnfun,overexit,busyreturn){
+ProcessManger.prototype.creatworkdata = function(execdata, doclass, returnfun, overexit, busyreturn) {
     var obj = {};
-    obj.doclass     = doclass;
-    obj.execdata    = execdata;
-    obj.returnfun   = returnfun;
+    obj.doclass = doclass;
+    obj.execdata = execdata;
+    obj.returnfun = returnfun;
     /**
      * 如果繁忙不处理立刻返回
      * @type {boolean}
      */
-    obj.busyreturn  = busyreturn;
+    obj.busyreturn = busyreturn;
     /**
      * 执行完是否立刻退出
      */
-    obj.overexit    = overexit;
+    obj.overexit = overexit;
     console.log("workdatacreat");
     return obj;
 };

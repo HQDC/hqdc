@@ -143,20 +143,26 @@ function logout(data, res) {
         needStopNext: true
     };
 }
-
 /**
- * 创建房间
+ * foodlist
  */
-function createRoom(data, res) {
-    console.log("createroom", req.query);
-    var workermanager = require('./../process/processmanager');
+function createRoom(data, res) {}
+/**
+ * foodlist
+ */
+function getFoodList(data, res) {
+    console.log("getFoodList", data);
+    var workermanager = require('./process/processmanager');
+    console.log("getFoodList1");
     var groupData = {};
-    groupData.GroupName = req.query.GroupName;
-    groupData.DCUrl = req.query.DCUrl;
-    groupData.PSW = req.query.PSW;
-    groupData.EndTime = req.query.EndTime;
+    groupData.GroupName = data.fddata.GroupName;
+    groupData.DCUrl = data.fddata.DCUrl;
+    groupData.PSW = data.fddata.PSW;
+    console.log("getFoodList2");
+    groupData.EndTime = data.fddata.EndTime;
     //groupData.BoxPrice = req.body.BoxPrice;
     var doclass = getclassbyurl(groupData.DCUrl);
+    console.log("getFoodList3");
     console.log(doclass);
     if (doclass != null) {
         console.log("doclass not null");
@@ -165,8 +171,11 @@ function createRoom(data, res) {
         }, doclass, (data) => {
             console.log("return success");
             if (data.ret == 0) {
-                res.status(200).send({
+                /*res.status(200).send({
                     ret: 1,
+                    data: data
+                });*/
+                sendMSG(res, MSG_TYPES.STC_W_FOODLIST, {
                     data: data
                 });
             }
@@ -214,6 +223,8 @@ function MsgHandler(type, data, res) {
             return logout(data, res);
         case MSG_TYPES.CTS_W_SESSION:
             return testSession(data, res);
+        case MSG_TYPES.CTS_W_FOODLIST:
+            return getFoodList(data, res);
         case MSG_TYPES.CTS_W_CREATE_ROOM:
             return createRoom(data, res);
         default:
