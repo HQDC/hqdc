@@ -176,7 +176,7 @@ function getFoodList(data, res) {
                     data: data
                 });*/
                 sendMSG(res, MSG_TYPES.STC_W_FOODLIST, {
-                    data: data
+                    data: data.retdata
                 });
             }
         }));

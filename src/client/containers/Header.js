@@ -51,13 +51,15 @@ class Header extends Component {
         var dpdown;
         var croom;
         let {
-            userSession
+            isLogin,
+            name,
+            ip
         } = this.props;
-        console.log("render Header", userSession);
-        if (userSession.get('isLogin') == true) {
+
+        if (isLogin == true) {
             croom = (<NavItem eventKey={2} onSelect={this.showCreateRoomHandler} >Creat Room</NavItem>);
             dpdown =
-                <NavDropdown eventKey={3} onSelect={this.handleSelect} title={userSession.get("name") +":"+ userSession.get("ip")}
+                <NavDropdown eventKey={3} onSelect={this.handleSelect} title={name +":"+ ip}
                              id="collapsible-navbar-dropdown">
                     <MenuItem eventKey='3.1' >注销</MenuItem>
                 </NavDropdown>;
@@ -71,22 +73,25 @@ class Header extends Component {
 						<a href="#">SinceTimes</a>
 					</Navbar.Brand>
 					<Navbar.Toggle />
-			</Navbar.Header> < Navbar.Collapse >
+			</Navbar.Header> <Navbar.Collapse >
             < Nav pullRight eventKey = {
                 1
             } > {
                 croom
             } {
                 dpdown
-            } < /Nav>  < /Navbar.Collapse > < /Navbar>
+            } </Nav>  </Navbar.Collapse> </Navbar>
         );
     }
 }
 
 function mapStateToProps(state) {
+    console.log("mapStateToProps",state);
     return {
         ret: 0,
-        userSession: state.user.userSession,
+        isLogin:state.user.userSession.get('isLogin'),
+        name:state.user.userSession.get("name"),
+        ip:state.user.userSession.get("ip"),
         userLogout: userLogout,
         addModal: addModal
     }
@@ -96,11 +101,13 @@ Header.propTypes = {
     ret: PropTypes.number.isRequired,
     userLogout: PropTypes.func.isRequired,
     addModal: PropTypes.func.isRequired,
-    userSession: ImmutablePropTypes.map.isRequired
+    isLogin:PropTypes.bool.isRequired,
+    ip:PropTypes.string.isRequired,
+    name:PropTypes.string.isRequired
 };
 
 export default connect(
     mapStateToProps, {
         userLogout,
         addModal
-    })(Header);
+    })(Header)

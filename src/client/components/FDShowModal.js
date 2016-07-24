@@ -86,7 +86,9 @@ class FDShowModal extends Component {
 	}
 
 	render() {
+
 		var fooddata = this.props.foodData;
+		console.log("FDShowModal",this.props.foodData);
 		var v_fdlist = [];
 		var rowNum = 4;
 		var rowList = [];
@@ -99,7 +101,7 @@ class FDShowModal extends Component {
 			}
 		}
 		return (
-			<Modal show={this.props.isOpen} backdrop={false} bsSize="lg" onHide={()=>this.props.delModal()}>
+			<Modal show={true} backdrop={false} bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
 					<h3>{fooddata.name}</h3>
 				</Modal.Header>
@@ -159,12 +161,12 @@ FDShowModal.propTypes = {
 		phone: PropTypes.string.isRequired,
 		category: PropTypes.string.isRequired,
 		address: PropTypes.string.isRequired,
-		worktime: PropTypes.string.isRequired,
-		state: PropTypes.string.isRequired,
-		score: PropTypes.string.isRequired,
-		invoice: PropTypes.string.isRequired,
-		coupon: PropTypes.string.isRequired,
-		id: PropTypes.number.isRequired,
+		worktime: PropTypes.object.isRequired,
+		state: PropTypes.number.isRequired,
+
+		invoice: PropTypes.number.isRequired,
+		coupon: PropTypes.number.isRequired,
+		id: PropTypes.string.isRequired,
 		takeout_menu: PropTypes.array.isRequired
 	})
 };

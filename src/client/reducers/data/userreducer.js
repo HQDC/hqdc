@@ -37,7 +37,8 @@ function userLoginRet(state, action) {
 
 function foodListRet(state, action) {
     return {
-        foodData: action.data
+        userSession: state.userSession,
+        "foodData":action.data
     };
 }
 

@@ -50,7 +50,7 @@ class CreateRoomTestModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Input type="text" label="GroupName" ref="GroupName" onChange={()=>this.handleChange}/>
-                    <Input type="text" value="http://waimai.baidu.com/waimai/shop/17505482147936014164" label="DCUrl"
+                    <Input type="text" value="http://waimai.baidu.com/waimai/shop/1447461529" label="DCUrl"
                            ref="DCUrl"/>
                     <Input type="text" label="PSW" ref="PSW"/>
                     <Input type="text" label="MaxCost" ref="MaxCost"/>
