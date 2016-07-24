@@ -58,8 +58,8 @@ ProcessManger.prototype.doNext = function() {
                 } else {
                     ProcessManger.instance.freeworkers.push(worker)
                 }
-                _.remove(ProcessManger.instance.freeworkers, (n) => {
-                    return (ProcessManger.instance.freeworkers[n] == worker);
+                _.remove(ProcessManger.instance.busyworkers, function(n) {
+                    return n.isbusy == false;
                 });
                 ProcessManger.instance.doNext();
                 //console.log("-----------------\n",ProcessManger.instance.busyworkers.length ,(ProcessManger.instance.busyworkers[0]==worker),ProcessManger.instance.busyworkers.indexOf(worker));
@@ -79,6 +79,7 @@ ProcessManger.prototype.pushWorkingOrder = function(data) {
 };
 
 ProcessManger.prototype.haveOrder = function() {
+    console.log("orderlist:",this.orderlist.length);
     return this.orderlist.length != 0;
 };
 
@@ -98,6 +99,7 @@ ProcessManger.prototype.getFreeWorker = function() {
  * @returns {boolean}
  */
 ProcessManger.prototype.haveFree = function() {
+    console.log("busyworkers:",this.busyworkers.length);
     return this.busyworkers.length < this.max;
 };
 

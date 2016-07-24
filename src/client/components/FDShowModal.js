@@ -101,7 +101,7 @@ class FDShowModal extends Component {
 			}
 		}
 		return (
-			<Modal show={true} backdrop={false} bsSize="lg" onHide={()=>this.props.delModal()}>
+			<Modal show={true} backdrop={false} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
 					<h3>{fooddata.name}</h3>
 				</Modal.Header>

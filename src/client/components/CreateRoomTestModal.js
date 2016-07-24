@@ -32,6 +32,7 @@ class CreateRoomTestModal extends Component {
 
     submitHandler() {
         var createRoomData = {};
+        console.log("url:",this.refs.DCUrl.getValue());
         createRoomData.DCUrl = this.refs.DCUrl.getValue();
         createRoomData.PSW = this.refs.PSW.getValue();
         createRoomData.EndTime = this.refs.EndTime.getValue();
@@ -50,8 +51,7 @@ class CreateRoomTestModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Input type="text" label="GroupName" ref="GroupName" onChange={()=>this.handleChange}/>
-                    <Input type="text" value="http://waimai.baidu.com/waimai/shop/1447461529" label="DCUrl"
-                           ref="DCUrl"/>
+                    <Input type="text" label="DCUrl" ref="DCUrl"/>
                     <Input type="text" label="PSW" ref="PSW"/>
                     <Input type="text" label="MaxCost" ref="MaxCost"/>
                     <Input type="radio" name="inlineRadioOptions" label="Radio1" value="option1"/>

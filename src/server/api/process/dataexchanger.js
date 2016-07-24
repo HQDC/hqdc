@@ -17,6 +17,7 @@ process.on('message', function(data) {
   } else {
     //返回菜单数据
     formater.exec(data.execdata, function(successdata) {
+      console.log("process get data success ");
       process.send({
         ret: 0,
         msg: "成功",
