@@ -73,25 +73,25 @@ class Header extends Component {
 						<a href="#">SinceTimes</a>
 					</Navbar.Brand>
 					<Navbar.Toggle />
-			</Navbar.Header> <Navbar.Collapse >
+			</Navbar.Header> < Navbar.Collapse >
             < Nav pullRight eventKey = {
                 1
             } > {
                 croom
             } {
                 dpdown
-            } </Nav>  </Navbar.Collapse> </Navbar>
+            } < /Nav>  </Navbar.Collapse > < /Navbar>
         );
     }
 }
 
 function mapStateToProps(state) {
-    console.log("mapStateToProps",state);
+    console.log("mapStateToProps", state);
     return {
         ret: 0,
-        isLogin:state.user.userSession.get('isLogin'),
-        name:state.user.userSession.get("name"),
-        ip:state.user.userSession.get("ip"),
+        isLogin: state.user.userSession.get('isLogin'),
+        name: state.user.userSession.get("name"),
+        ip: state.user.userSession.get("ip"),
         userLogout: userLogout,
         addModal: addModal
     }
@@ -101,9 +101,9 @@ Header.propTypes = {
     ret: PropTypes.number.isRequired,
     userLogout: PropTypes.func.isRequired,
     addModal: PropTypes.func.isRequired,
-    isLogin:PropTypes.bool.isRequired,
-    ip:PropTypes.string.isRequired,
-    name:PropTypes.string.isRequired
+    isLogin: PropTypes.bool.isRequired,
+    ip: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
 };
 
 export default connect(

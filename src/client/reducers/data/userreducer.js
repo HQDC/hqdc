@@ -38,7 +38,7 @@ function userLoginRet(state, action) {
 function foodListRet(state, action) {
     return {
         userSession: state.userSession,
-        "foodData":action.data
+        "foodData": action.data
     };
 }
 
@@ -79,6 +79,8 @@ var defaultCall = function(state = {
         userSession: Immutable.Map({
             ret: -1,
             isLogin: false,
+            ip: "",
+            name: "",
             SID: (store.get('SID') ? store.get('SID') : ""),
             foodData: {}
         })

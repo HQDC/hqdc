@@ -70,14 +70,14 @@ class FDShowModal extends Component {
 		var isSaledOut = (item.saled_out == 2);
 		return (
 			<Col key={item.tid} xs={3}>
-				<Thumbnail width={200} height={200} src={item.image} alt="无图">
-					<center>
-						<Row>
-							<h4><Label bsStyle="info">{"名称:" + item.name}</Label></h4>
-							<h4><Label bsStyle="warning">{"价格:" + item.price + "元"}</Label></h4>
-							<h4><Label bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label></h4>
-							<Input type="radio" name={"isShow"+item.tid} label="show" defaultChecked={!isSaledOut}/>
-							<Input type="radio" name={"isShow"+item.tid} label="hide" defaultChecked={isSaledOut}/>
+		<Thumbnail key={"thumb_"+item.tid} width={200} height={200} src={item.image} alt="无图">
+					<center  key={"c_"+item.tid}>
+						<Row key={"row_"+item.tid}>
+							<h4><Label key={"lab_name_"+item.tid} bsStyle="info">{"名称:" + item.name}</Label></h4>
+							<h4><Label key={"lab_price_"+item.tid} bsStyle="warning">{"价格:" + item.price + "元"}</Label></h4>
+							<h4><Label key={"lab_leftnum_"+item.tid} bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label></h4>
+							<Input key={"inp_none_"+item.tid} type="radio" name={"isShow"+item.tid} label="show" defaultChecked={!isSaledOut}/>
+							<Input key={"inp_some_"+item.tid} type="radio" name={"isShow"+item.tid} label="hide" defaultChecked={isSaledOut}/>
 						</Row>
 					</center>
 				</Thumbnail>
@@ -88,7 +88,7 @@ class FDShowModal extends Component {
 	render() {
 
 		var fooddata = this.props.foodData;
-		console.log("FDShowModal",this.props.foodData);
+		console.log("FDShowModal", this.props.foodData);
 		var v_fdlist = [];
 		var rowNum = 4;
 		var rowList = [];
@@ -101,9 +101,9 @@ class FDShowModal extends Component {
 			}
 		}
 		return (
-			<Modal show={true} backdrop={false} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
+			<Modal show={true} backdrop={true} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
-					<h3>{fooddata.name}</h3>
+					<Modal.Title id="contained-modal-title-lg">{fooddata.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Row key="1">

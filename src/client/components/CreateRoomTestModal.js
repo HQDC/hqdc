@@ -32,7 +32,7 @@ class CreateRoomTestModal extends Component {
 
     submitHandler() {
         var createRoomData = {};
-        console.log("url:",this.refs.DCUrl.getValue());
+        console.log("url:", this.refs.DCUrl.getValue());
         createRoomData.DCUrl = this.refs.DCUrl.getValue();
         createRoomData.PSW = this.refs.PSW.getValue();
         createRoomData.EndTime = this.refs.EndTime.getValue();
@@ -45,13 +45,14 @@ class CreateRoomTestModal extends Component {
     render() {
         console.log("CreateRoomTestModal render");
         return (
-            <Modal show={true} backdrop={false} onHide={()=>this.props.delModal()}>
+
+            <Modal show={true} dialogClassName="custom-modal" backdrop={true} onHide={()=>this.props.delModal()}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Input type="text" label="GroupName" ref="GroupName" onChange={()=>this.handleChange}/>
-                    <Input type="text" label="DCUrl" ref="DCUrl"/>
+                    <Input type="text" label="DCUrl" defaultValue="http://waimai.baidu.com/waimai/shop/1438078139" ref="DCUrl"/>
                     <Input type="text" label="PSW" ref="PSW"/>
                     <Input type="text" label="MaxCost" ref="MaxCost"/>
                     <Input type="radio" name="inlineRadioOptions" label="Radio1" value="option1"/>
