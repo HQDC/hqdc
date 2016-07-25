@@ -143,10 +143,7 @@ function logout(data, res) {
         needStopNext: true
     };
 }
-/**
- * foodlist
- */
-function createRoom(data, res) {}
+
 /**
  * foodlist
  */
@@ -184,7 +181,6 @@ function getFoodList(data, res) {
         sendMSG(res, MSG_TYPES.ERROR_ALERT, {
             msg: "The URL must be BaiDuWaiMai"
         });
-
     }
     //res.redirect('/login');
 }
@@ -225,8 +221,6 @@ function MsgHandler(type, data, res) {
             return testSession(data, res);
         case MSG_TYPES.CTS_W_FOODLIST:
             return getFoodList(data, res);
-        case MSG_TYPES.CTS_W_CREATE_ROOM:
-            return createRoom(data, res);
         default:
             return {
                 needStopNext: false

@@ -4,7 +4,7 @@ import React, {
 }
 from 'react';
 import {
-    createRoom
+    getFoodList
 }
 from '../actions/user';
 import {
@@ -23,6 +23,7 @@ class CreateRoomTestModal extends Component {
     constructor() {
         super();
         console.log("CreateRoomTestModal constructor");
+        this.submitHandler = this.submitHandler.bind(this);
         this.state = {};
     };
 
@@ -37,7 +38,7 @@ class CreateRoomTestModal extends Component {
         createRoomData.PSW = this.refs.PSW.getValue();
         createRoomData.EndTime = this.refs.EndTime.getValue();
         createRoomData.GroupName = this.refs.GroupName.getValue();
-        this.props.createRoom(createRoomData);
+        this.props.getFoodList(createRoomData);
     };
 
     handleChange() {};
@@ -45,7 +46,6 @@ class CreateRoomTestModal extends Component {
     render() {
         console.log("CreateRoomTestModal render");
         return (
-
             <Modal show={true} dialogClassName="custom-modal" backdrop={true} onHide={()=>this.props.delModal()}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
@@ -70,7 +70,7 @@ class CreateRoomTestModal extends Component {
                     </Input>
                 </Modal.Body>
                 <Modal.Footer>
-                    <center><Button bsStyle="info" onClick={()=>this.submitHandler()}>Submit</Button></center>
+                    <center><Button bsStyle="info" onClick={this.submitHandler}>Submit</Button></center>
                 </Modal.Footer>
             </Modal>
         );
@@ -79,17 +79,17 @@ class CreateRoomTestModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        createRoom: createRoom
+        getFoodList: getFoodList
     }
 }
 
 CreateRoomTestModal.propTypes = {
-    createRoom: PropTypes.func.isRequired
+    getFoodList: PropTypes.func.isRequired
 };
 
 export default connect(
     mapStateToProps, {
-        createRoom,
+        getFoodList,
         delModal
     }
 )(CreateRoomTestModal);

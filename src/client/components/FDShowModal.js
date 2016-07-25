@@ -22,6 +22,7 @@ from '../actions/modal';
 class FDShowModal extends Component {
 	constructor() {
 		super();
+		this.submitHandler = this.submitHandler.bind(this);
 	}
 
 	submitHandler() {
@@ -111,7 +112,7 @@ class FDShowModal extends Component {
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<center><Button bsStyle="info" onClick={()=>this.submitHandler()}>Submit</Button></center>
+					<center><Button bsStyle="info" onClick={this.submitHandler}>Submit</Button></center>
 				</Modal.Footer>
 			</Modal>
 		);

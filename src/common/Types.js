@@ -24,6 +24,8 @@ var MSG_TYPE = keyMirror({
     //------------------socket---------------------------
 
     STC_S_HALL_ROOM_UPDATE: null, //room update
+    STC_S_CREATE_ROOM_SUCCESS: null, // create roomesuccess
+
     //------------------system---------------------------
     SYS_S_AUTHENTICATED: null, //socket 验证成功 已经connect
     SYS_S_UNAUTHORIZED: null, //socket 验证失败 

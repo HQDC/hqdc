@@ -31,12 +31,13 @@ export function userTestSession(SID) {
 		"SID": SID
 	});
 }
+
 /**
  *
  * @param data
  * @returns {Function}
  */
-export function createRoom(data) {
+export function getFoodList(data) {
 	console.log(data)
 	return sendMSG(MSG_TYPES.CTS_W_FOODLIST, {
 		"fddata": data
