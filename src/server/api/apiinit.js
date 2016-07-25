@@ -7,7 +7,7 @@ import {
 }
 from '../core/io/lineswitcher';
 import user from './user';
-import hall from './hall'
+import hall from './hall';
 
 function apiInit() {
 	connectSwitcher(

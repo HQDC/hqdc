@@ -15,6 +15,9 @@ import crypto from 'crypto';
 import cookie from 'cookie';
 import signature from 'cookie-signature';
 import jwt from 'jsonwebtoken';
+
+import {userManager} from './data';
+
 /*import cookie from 'cookie';*/
 
 /*import dcconfig from '../../dcconfig';*/
@@ -56,20 +59,16 @@ function login(data, res) {
         if (reg.test(comname)) {
             var ip = getClientIp(res._req);
             console.log("ip:", ip);
-
-            var SID = jwt.sign(comname, "hqfy");
-
-            // res.end({type:MSG_TYPES.STC_W_LOGIN,data:{"user":comname,"ip":ip,"ret":0}});
+            var SID = userManager.sign(comname);
+            var userData = {
+                name: comname,
+                ip: ip,
+                ret: 0,
+                SID: SID
+            };
+            userManager.addUser( userManager.createUser(SID,comname,ip,"") );
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
-                data: {
-                    name: comname,
-                    ip: ip,
-                    ret: 0,
-                    SID: SID
-                },
-                /*cookie: {
-                    SID: SID
-                },*/
+                data:userData,
                 cookieopt: {
                     maxAge: 900000,
                     httpOnly: true
@@ -98,19 +97,18 @@ function login(data, res) {
 function testSession(data, res) {
     var SID = data.SID;
     console.log("testSession SID:", SID);
-    var userName = jwt.verify(SID, "hqfy");
+    var userName = userManager.unSign(SID);
     var ip = getClientIp(res._req);
+    var userData = {
+        name: userName,
+        ip: ip,
+        ret: 0,
+        SID: SID
+    };
+    userManager.addUser( userManager.createUser(SID,userName,ip,"") );
     if (SID) {
         sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
-            data: {
-                name: userName,
-                ip: ip,
-                ret: 0,
-                SID: SID
-            },
-            /*cookie: {
-                SID: SID
-            },*/
+            data:userData,
             cookieopt: {
                 maxAge: 900000,
                 httpOnly: true
@@ -139,6 +137,13 @@ function logout(data, res) {
         }
     });
     //res.redirect('/login');
+    return {
+        needStopNext: true
+    };
+}
+function socketConnectAuth(data, res) {
+    var userSession = userManager.getUserByName(data.user);
+    console.log("socketConnectAuth:",userSession,data.user);
     return {
         needStopNext: true
     };
@@ -221,6 +226,8 @@ function MsgHandler(type, data, res) {
             return testSession(data, res);
         case MSG_TYPES.CTS_W_FOODLIST:
             return getFoodList(data, res);
+        case MSG_TYPES.SYS_S_AUTHENTICATED:
+            return socketConnectAuth(data, res);
         default:
             return {
                 needStopNext: false

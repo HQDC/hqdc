@@ -8,8 +8,10 @@
 
 import {
     routerHandler, setLineType, TYPES
-}
-from '../../lineswitcher';
+} from '../../lineswitcher';
+import {
+    MSG_TYPES
+} from "../../../../../common/Types";
 import cookieParser from 'cookie-parser';
 
 import {
@@ -46,15 +48,14 @@ SocketProxy.prototype.init = function(io, secret) {
         setLineType(socket, TYPES.SOCKET);
         var request = socket.request;
         console.log("socket connect decoded_token ========> ", socket.decoded_token);
-        if (isString(request.headers.cookie)) {
-            var curCookie = parse(request.headers.cookie);
-            console.log("curCookie", curCookie);
-        }
+        routerHandler({type:MSG_TYPES.SYS_S_AUTHENTICATED,user:socket.decoded_token}, socket);
         socket.on('message', (data) => {
             routerHandler(data, socket);
         });
     });
-
+    io.on('unauthorized',(socket) => {
+        routerHandler({type:MSG_TYPES.SYS_S_UNAUTHORIZED,user:socket.decoded_token}, socket);
+    });
     /*io.on('connection', (socket) => {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);

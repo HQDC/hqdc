@@ -1,10 +1,11 @@
 /**
  * Created by Tile on 2015/9/11.
  */
+import jwt from 'jsonwebtoken';
 var user_hash;
 
 function UserList() {
-    user_hash = [];
+    user_hash = {};
 }
 /**
  * 查询一个用户
@@ -12,12 +13,18 @@ function UserList() {
  * @returns {*}
  */
 UserList.prototype.getUserByID = function(userID) {
-    if (this.hasUser(userID)) {
+    if (!this.hasUser(userID)) {
         console.log("can't find user ID=" + userID);
         return null;
     }
     return user_hash[userID];
 };
+
+
+UserList.prototype.getUserByName = function(name) {
+   return this.getUserByID(this.sign(name));
+};
+
 /**
  * 添加用户
  * @param userData
@@ -25,10 +32,9 @@ UserList.prototype.getUserByID = function(userID) {
  */
 UserList.prototype.addUser = function(userData) {
     if (this.hasUser(userData.uid)) {
-        return false;
+        console.log("user is alive "+userData)
     }
     user_hash[userData.uid] = userData;
-    return true;
 };
 /**
  * 更新用户
@@ -40,6 +46,14 @@ UserList.prototype.updateUser = function(userData) {
     return true;
 };
 
+UserList.prototype.sign = function(userName) {
+    return jwt.sign(userName, "hqfy");
+};
+
+UserList.prototype.unSign = function(unUserName) {
+    return jwt.verify(unUserName, "hqfy");
+};
+
 /**
  *
  * @param userID
@@ -49,7 +63,7 @@ UserList.prototype.updateUser = function(userData) {
  * @returns {boolean}
  * @constructor
  */
-UserList.prototype.CreateUser = function(userID, userName, ip, socketID) {
+UserList.prototype.createUser = function(userID, userName, ip, socketID) {
     var user = {};
     user.uid = userID;
     user.name = userName;
@@ -88,5 +102,5 @@ UserList.prototype.delUser = function(deldata) {
 UserList.prototype.hasUser = function(userID) {
     return user_hash[userID] != null;
 };
-var userManager = new UserList()
+var userManager = new UserList();
 export default userManager;
