@@ -38,6 +38,7 @@ class CreateRoomTestModal extends Component {
         createRoomData.PSW = this.refs.PSW.getValue();
         createRoomData.EndTime = this.refs.EndTime.getValue();
         createRoomData.GroupName = this.refs.GroupName.getValue();
+        createRoomData.uid = this.props.uid;
         this.props.getFoodList(createRoomData);
     };
 
@@ -79,12 +80,14 @@ class CreateRoomTestModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        getFoodList: getFoodList
+        getFoodList: getFoodList,
+        uid: state.user.userSession.get("SID"),
     }
 }
 
 CreateRoomTestModal.propTypes = {
-    getFoodList: PropTypes.func.isRequired
+    getFoodList: PropTypes.func.isRequired,
+    uid: PropTypes.string.isRequired
 };
 
 export default connect(

@@ -17,7 +17,7 @@ from "../core/io/Sender";
 function createRoom(data, res) {
     console.log("createRoom", data);
     sendMSG(res, MSG_TYPES.STC_S_CREATE_ROOM_SUCCESS, {
-        data: data.retdata
+        data: data
     });
 }
 
@@ -35,10 +35,9 @@ function MsgHandler(type, data, res) {
     switch (type) {
         case MSG_TYPES.CTS_W_CREATE_ROOM:
             return createRoom(data, res);
-
         default:
             return {
-            needStopNext: false
+                needStopNext: false
             };
     }
 }

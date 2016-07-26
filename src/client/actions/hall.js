@@ -7,8 +7,8 @@ import {
 	MSG_TYPES
 }
 from '../../common/Types';
-export function createRoom(roomData) {
+export function createRoom(uid) {
 	return sendMSG(MSG_TYPES.CTS_W_CREATE_ROOM, {
-		"roomData": roomData
+		"uid": uid
 	});
 }

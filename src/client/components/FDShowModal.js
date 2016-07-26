@@ -25,8 +25,23 @@ class FDShowModal extends Component {
 		this.submitHandler = this.submitHandler.bind(this);
 	}
 
+	getHideList() {
+		var hidelist = new Array();
+		for (var i = 0; i < this.props.foodData.takeout_menu.length; i++) {
+			var itemData = this.props.foodData.takeout_menu[i];
+			if (itemData != null && itemData.onsell != 0) {
+				var refitem = this.refs["ref_show_" + itemData.tid];
+				console.log("hidelist->", itemData.tid);
+			}
+		};
+	}
+
 	submitHandler() {
-		this.props.createRoom({})
+		this.getHideList()
+		this.props.createRoom({
+			"uid": this.props.uid,
+			"hidelist": {}
+		});
 	}
 
 	/**
@@ -63,22 +78,17 @@ class FDShowModal extends Component {
 	 * @param data
 	 */
 	getItem(item) {
-		if (item == null || item.onsell == 0) {
-			return "";
-		}
-
 		var left_state = item.leftnum > 0 ? "success" : "default";
 		var isSaledOut = (item.saled_out == 2);
 		return (
 			<Col key={item.tid} xs={3}>
-		<Thumbnail key={"thumb_"+item.tid} width={200} height={200} src={item.image} alt="无图">
+				<Thumbnail key={"thumb_"+item.tid} width={200} height={200} src={encodeURI(item.image)} alt="无图">
 					<center  key={"c_"+item.tid}>
 						<Row key={"row_"+item.tid}>
 							<h4><Label key={"lab_name_"+item.tid} bsStyle="info">{"名称:" + item.name}</Label></h4>
 							<h4><Label key={"lab_price_"+item.tid} bsStyle="warning">{"价格:" + item.price + "元"}</Label></h4>
 							<h4><Label key={"lab_leftnum_"+item.tid} bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label></h4>
-							<Input key={"inp_none_"+item.tid} type="radio" name={"isShow"+item.tid} label="show" defaultChecked={!isSaledOut}/>
-							<Input key={"inp_some_"+item.tid} type="radio" name={"isShow"+item.tid} label="hide" defaultChecked={isSaledOut}/>
+							<Input ref={"ref_show_"+item.tid} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={!isSaledOut}/>
 						</Row>
 					</center>
 				</Thumbnail>
@@ -87,18 +97,22 @@ class FDShowModal extends Component {
 	}
 
 	render() {
-
 		var fooddata = this.props.foodData;
 		console.log("FDShowModal", this.props.foodData);
 		var v_fdlist = [];
 		var rowNum = 4;
 		var rowList = [];
 		for (var i = 0; i < fooddata.takeout_menu.length; i++) {
-			if (rowList.length < rowNum) {
-				rowList.push(this.getItem(fooddata.takeout_menu[i]));
-			} else {
-				v_fdlist.push(<Row>{rowList}</Row>);
-				rowList = [];
+			var itemData = fooddata.takeout_menu[i];
+			console.log("render->", itemData.tid);
+			if (itemData != null && itemData.onsell != 0) {
+				if (rowList.length == 0) {
+					v_fdlist.push(<Row>{rowList}</Row>);
+				}
+				rowList.push(this.getItem(itemData));
+				if (rowList.length >= rowNum) {
+					rowList = [];
+				}
 			}
 		}
 		return (
@@ -122,6 +136,8 @@ class FDShowModal extends Component {
 function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
+		uid: state.user.userSession.get("SID"),
+
 		foodData: state.user.foodData
 	}
 }
@@ -156,6 +172,7 @@ function mapStateToProps(state) {
 FDShowModal.propTypes = {
 	createRoom: PropTypes.func.isRequired,
 	delModal: PropTypes.func.isRequired,
+	uid: PropTypes.string.isRequired,
 	foodData: PropTypes.shape({ // 是否符合指定格式的物件
 		name: PropTypes.string.isRequired,
 		logo: PropTypes.string.isRequired,

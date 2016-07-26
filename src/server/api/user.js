@@ -16,7 +16,10 @@ import cookie from 'cookie';
 import signature from 'cookie-signature';
 import jwt from 'jsonwebtoken';
 
-import {userManager} from './data';
+import {
+    userManager
+}
+from './data';
 
 /*import cookie from 'cookie';*/
 
@@ -66,9 +69,9 @@ function login(data, res) {
                 ret: 0,
                 SID: SID
             };
-            userManager.addUser( userManager.createUser(SID,comname,ip,"") );
+            userManager.addUser(userManager.createUser(SID, comname, ip, ""));
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
-                data:userData,
+                data: userData,
                 cookieopt: {
                     maxAge: 900000,
                     httpOnly: true
@@ -105,10 +108,10 @@ function testSession(data, res) {
         ret: 0,
         SID: SID
     };
-    userManager.addUser( userManager.createUser(SID,userName,ip,"") );
+    userManager.addUser(userManager.createUser(SID, userName, ip, ""));
     if (SID) {
         sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
-            data:userData,
+            data: userData,
             cookieopt: {
                 maxAge: 900000,
                 httpOnly: true
@@ -141,9 +144,10 @@ function logout(data, res) {
         needStopNext: true
     };
 }
+
 function socketConnectAuth(data, res) {
     var userSession = userManager.getUserByName(data.user);
-    console.log("socketConnectAuth:",userSession,data.user);
+    console.log("socketConnectAuth:", userSession, data.user);
     return {
         needStopNext: true
     };
@@ -155,28 +159,25 @@ function socketConnectAuth(data, res) {
 function getFoodList(data, res) {
     console.log("getFoodList", data);
     var workermanager = require('./process/processmanager');
-    console.log("getFoodList1");
     var groupData = {};
     groupData.GroupName = data.fddata.GroupName;
     groupData.DCUrl = data.fddata.DCUrl;
     groupData.PSW = data.fddata.PSW;
-    console.log("getFoodList2");
     groupData.EndTime = data.fddata.EndTime;
     //groupData.BoxPrice = req.body.BoxPrice;
     var doclass = getclassbyurl(groupData.DCUrl);
-    console.log("getFoodList3");
+
     console.log(doclass);
     if (doclass != null) {
-        console.log("doclass not null");
         workermanager.doWork(workermanager.creatworkdata({
             url: groupData.DCUrl
         }, doclass, (data) => {
-            console.log("return success");
             if (data.ret == 0) {
                 /*res.status(200).send({
                     ret: 1,
                     data: data
                 });*/
+                userManager.setUserFoodList(data.uid, data.retdata);
                 sendMSG(res, MSG_TYPES.STC_W_FOODLIST, {
                     data: data.retdata
                 });

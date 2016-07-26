@@ -2,10 +2,10 @@
  * Created by Tile on 2015/9/11.
  */
 import jwt from 'jsonwebtoken';
-var user_hash;
 
 function UserList() {
-    user_hash = {};
+    this.user_hash = {};
+    this.temp_foodinfo = {}
 }
 /**
  * 查询一个用户
@@ -17,12 +17,20 @@ UserList.prototype.getUserByID = function(userID) {
         console.log("can't find user ID=" + userID);
         return null;
     }
-    return user_hash[userID];
+    return this.user_hash[userID];
 };
 
 
 UserList.prototype.getUserByName = function(name) {
-   return this.getUserByID(this.sign(name));
+    return this.getUserByID(this.sign(name));
+};
+
+UserList.prototype.setUserFoodList = function(uid, foodinfo) {
+    this.temp_foodinfo[uid] = foodinfo;
+};
+
+UserList.prototype.getUserFoodList = function(uid) {
+    return this.temp_foodinfo[uid];
 };
 
 /**
@@ -32,9 +40,9 @@ UserList.prototype.getUserByName = function(name) {
  */
 UserList.prototype.addUser = function(userData) {
     if (this.hasUser(userData.uid)) {
-        console.log("user is alive "+userData)
+        console.log("user is alive " + userData)
     }
-    user_hash[userData.uid] = userData;
+    this.user_hash[userData.uid] = userData;
 };
 /**
  * 更新用户
@@ -42,7 +50,7 @@ UserList.prototype.addUser = function(userData) {
  * @returns {boolean}
  */
 UserList.prototype.updateUser = function(userData) {
-    user_hash[userID] = userData;
+    this.user_hash[userID] = userData;
     return true;
 };
 
@@ -81,13 +89,13 @@ UserList.prototype.delUser = function(deldata) {
         return false;
     }
     if (typeof(deldata) == "number") {
-        delete user_hash[deldata];
+        delete this.user_hash[deldata];
         return true;
     }
     if (typeof(deldata) == "object") {
         if (deldata.uid != null) {
             if (this.hasUser(deldata.uid)) {
-                delete user_hash[deldata.uid];
+                delete this.user_hash[deldata.uid];
                 return true;
             }
         }
@@ -100,7 +108,7 @@ UserList.prototype.delUser = function(deldata) {
  * @returns {boolean}
  */
 UserList.prototype.hasUser = function(userID) {
-    return user_hash[userID] != null;
+    return this.user_hash[userID] != null;
 };
 var userManager = new UserList();
 export default userManager;
