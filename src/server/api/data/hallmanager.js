@@ -88,5 +88,5 @@ HallList.prototype.delHall = function(deldata) {
 HallList.prototype.hasHall = function(hallID) {
     return hall_hash[hallID] != null;
 };
-var hallManager = new HallList()
+var hallManager = new HallList();
 export default hallManager;
