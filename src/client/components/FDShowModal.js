@@ -54,13 +54,12 @@ class FDShowModal extends Component {
 				return tid == id;
 			});
 		} else {
-
+			this.hidelist.push(id);
 		}
-
-		console.log("idChange->", id, e.target.checked);
+		console.log("idChange->", id, e.target.checked,this.hidelist);
 	}
 	submitHandler() {
-		this.getHideList();
+
 		this.props.createRoom({
 			"uid": this.props.uid,
 			"hidelist": this.hidelist
@@ -159,7 +158,7 @@ function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
 		uid: state.user.userSession.get("SID"),
-		foodlist: [state.user.foodData.takeout_menu[0]],
+		foodlist: state.user.foodData.takeout_menu,
 		foodData: state.user.foodData
 
 	}
