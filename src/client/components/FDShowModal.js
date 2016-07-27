@@ -35,7 +35,9 @@ class FDShowModal extends Component {
 			}
 		};
 	}
-
+	hideHandleChange(id) {
+		console.log("idChange->", id);
+	}
 	submitHandler() {
 		this.getHideList()
 		this.props.createRoom({
@@ -88,7 +90,7 @@ class FDShowModal extends Component {
 							<h4><Label key={"lab_name_"+item.tid} bsStyle="info">{"名称:" + item.name}</Label></h4>
 							<h4><Label key={"lab_price_"+item.tid} bsStyle="warning">{"价格:" + item.price + "元"}</Label></h4>
 							<h4><Label key={"lab_leftnum_"+item.tid} bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label></h4>
-							<Input ref={"ref_show_"+item.tid} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={!isSaledOut}/>
+							<Input ref={"ref_show_"+item.tid} onChange={()=> this.hideHandleChange(item.tid)} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={!isSaledOut}/>
 						</Row>
 					</center>
 				</Thumbnail>
@@ -137,8 +139,8 @@ function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
 		uid: state.user.userSession.get("SID"),
-
 		foodData: state.user.foodData
+
 	}
 }
 /*name:店名,
