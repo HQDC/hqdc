@@ -12,9 +12,14 @@ import {
 }
 from 'react-redux';
 import {
+	BD_TYPES
+}
+from '../../common/baidu/BaiDuTypes';
+import {
 	createRoom
 }
 from '../actions/hall';
+import _ from 'lodash';
 import {
 	delModal
 }
@@ -22,6 +27,7 @@ from '../actions/modal';
 class FDShowModal extends Component {
 	constructor() {
 		super();
+		this.hidelist = [];
 		this.submitHandler = this.submitHandler.bind(this);
 	}
 
@@ -39,18 +45,25 @@ class FDShowModal extends Component {
 				} else {
 					console.error("can't find ", refitem);
 				}
-
 			}
 		}
 	}
-	hideHandleChange(id) {
-		console.log("idChange->", id);
+	hideHandleChange(e, id) {
+		if (e.target.checked) {
+			_.remove(this.hidelist, (tid) => {
+				return tid == id;
+			});
+		} else {
+
+		}
+
+		console.log("idChange->", id, e.target.checked);
 	}
 	submitHandler() {
 		this.getHideList();
 		this.props.createRoom({
 			"uid": this.props.uid,
-			"hidelist": {}
+			"hidelist": this.hidelist
 		});
 	}
 
@@ -89,7 +102,7 @@ class FDShowModal extends Component {
 	 */
 	getItem(item) {
 		var left_state = item.leftnum > 0 ? "success" : "default";
-		var isSaledOut = (item.saled_out == 2);
+
 		return (
 			<Col key={item.tid} xs={3}>
 				<Thumbnail key={"thumb_"+item.tid} width={200} height={200} src={item.image} alt="无图">
@@ -98,7 +111,7 @@ class FDShowModal extends Component {
 							<h4><Label key={"lab_name_"+item.tid} bsStyle="info">{"名称:" + item.name}</Label></h4>
 							<h4><Label key={"lab_price_"+item.tid} bsStyle="warning">{"价格:" + item.price + "元"}</Label></h4>
 							<h4><Label key={"lab_leftnum_"+item.tid} bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label></h4>
-							<Input ref={"ref_show_"+item.tid} onChange={()=> this.hideHandleChange(item.tid)} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={!isSaledOut}/>
+							<Input onChange={(e)=> this.hideHandleChange(e,item.tid)} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={true}/>
 						</Row>
 					</center>
 				</Thumbnail>
@@ -114,7 +127,7 @@ class FDShowModal extends Component {
 		var rowList = [];
 		for (var i = 0; i < this.props.foodlist.length; i++) {
 			var itemData = this.props.foodlist[i];
-			if (itemData != null && itemData.onsell != 0) {
+			if (itemData != null && itemData.onsell != 0 && itemData.saled_out == BD_TYPES.SELL_OUT_NO) {
 				if (rowList.length == 0) {
 					v_fdlist.push(<Row>{rowList}</Row>);
 				}
@@ -146,9 +159,7 @@ function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
 		uid: state.user.userSession.get("SID"),
-		<< << << < HEAD === === =
 		foodlist: [state.user.foodData.takeout_menu[0]],
-		>>> >>> > e0756d666d00981e388f19d2ffb99d06c3496073
 		foodData: state.user.foodData
 
 	}
