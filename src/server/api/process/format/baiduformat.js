@@ -83,7 +83,8 @@ BaiDuFormat.prototype.formatToJson = function (data) {
         st_menuitem.name = menuitem.name;
         st_menuitem.tid = menuitem.item_id;
         st_menuitem.price = menuitem.current_price;
-        st_menuitem.image = imageUrl + menuitem.url;
+        console.log("encodeURI:",encodeURIComponent((menuitem.url)));
+        st_menuitem.image = imageUrl + encodeURIComponent(menuitem.url);
         st_menuitem.des = menuitem.description;
         st_menuitem.onsell = menuitem.on_sale;
         st_menuitem.saled_out = menuitem.saled_out;   // saled_out == 2 卖光

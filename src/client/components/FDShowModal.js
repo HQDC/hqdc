@@ -26,20 +26,28 @@ class FDShowModal extends Component {
 	}
 
 	getHideList() {
-		var hidelist = new Array();
-		for (var i = 0; i < this.props.foodData.takeout_menu.length; i++) {
-			var itemData = this.props.foodData.takeout_menu[i];
+		var hidelist = [];
+		for (var i = 0; i < this.props.foodlist.length; i++) {
+			var itemData = this.props.foodlist[i];
 			if (itemData != null && itemData.onsell != 0) {
 				var refitem = this.refs["ref_show_" + itemData.tid];
-				console.log("hidelist->", itemData.tid);
+				console.log("->", refitem);
+				if (refitem != null) {
+					if (refitem.getValue()) {
+
+					}
+				} else {
+					console.error("can't find ", refitem);
+				}
+
 			}
-		};
+		}
 	}
 	hideHandleChange(id) {
 		console.log("idChange->", id);
 	}
 	submitHandler() {
-		this.getHideList()
+		this.getHideList();
 		this.props.createRoom({
 			"uid": this.props.uid,
 			"hidelist": {}
@@ -84,7 +92,7 @@ class FDShowModal extends Component {
 		var isSaledOut = (item.saled_out == 2);
 		return (
 			<Col key={item.tid} xs={3}>
-				<Thumbnail key={"thumb_"+item.tid} width={200} height={200} src={encodeURI(item.image)} alt="无图">
+				<Thumbnail key={"thumb_"+item.tid} width={200} height={200} src={item.image} alt="无图">
 					<center  key={"c_"+item.tid}>
 						<Row key={"row_"+item.tid}>
 							<h4><Label key={"lab_name_"+item.tid} bsStyle="info">{"名称:" + item.name}</Label></h4>
@@ -104,9 +112,8 @@ class FDShowModal extends Component {
 		var v_fdlist = [];
 		var rowNum = 4;
 		var rowList = [];
-		for (var i = 0; i < fooddata.takeout_menu.length; i++) {
-			var itemData = fooddata.takeout_menu[i];
-			console.log("render->", itemData.tid);
+		for (var i = 0; i < this.props.foodlist.length; i++) {
+			var itemData = this.props.foodlist[i];
 			if (itemData != null && itemData.onsell != 0) {
 				if (rowList.length == 0) {
 					v_fdlist.push(<Row>{rowList}</Row>);
@@ -139,6 +146,9 @@ function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
 		uid: state.user.userSession.get("SID"),
+		<< << << < HEAD === === =
+		foodlist: [state.user.foodData.takeout_menu[0]],
+		>>> >>> > e0756d666d00981e388f19d2ffb99d06c3496073
 		foodData: state.user.foodData
 
 	}
@@ -175,6 +185,7 @@ FDShowModal.propTypes = {
 	createRoom: PropTypes.func.isRequired,
 	delModal: PropTypes.func.isRequired,
 	uid: PropTypes.string.isRequired,
+	foodlist: PropTypes.array.isRequired,
 	foodData: PropTypes.shape({ // 是否符合指定格式的物件
 		name: PropTypes.string.isRequired,
 		logo: PropTypes.string.isRequired,
