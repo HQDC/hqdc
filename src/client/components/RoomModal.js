@@ -4,7 +4,7 @@ import React, {
 }
 from 'react';
 import {
-	ButtonInput, OverlayTrigger,Media, Thumbnail, Tooltip, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col, Modal
+	ButtonInput, OverlayTrigger, Thumbnail, Tooltip, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col, Modal
 }
 from 'react-bootstrap';
 import {
@@ -15,7 +15,7 @@ import {
 	BD_TYPES
 }
 from '../../common/baidu/BaiDuTypes';
-    import {
+import {
 	createRoom
 }
 from '../actions/hall';
@@ -24,13 +24,12 @@ import {
 	delModal
 }
 from '../actions/modal';
-class FDShowModal extends Component {
+class RoomModal extends Component {
 	constructor() {
 		super();
 		this.hidelist = [];
 		this.submitHandler = this.submitHandler.bind(this);
 	}
-
 	getHideList() {
 		var hidelist = [];
 		for (var i = 0; i < this.props.foodlist.length; i++) {
@@ -101,19 +100,17 @@ class FDShowModal extends Component {
 	getItem(item) {
 		var left_state = item.leftnum > 0 ? "success" : "default";
 		return (
-			<Col key={item.tid} xs={4}>
-                <Media >
-                    <Media.Left align="middle">
-                        <img key={"thumb_"+item.tid} width={100} height={100} src={item.image} alt="无图"/>
-                    </Media.Left>
-                    <Media.Body>
-                        <h4 align="center"><Label key={"lab_name_"+item.tid} bsStyle="info" align="center">{item.name}</Label></h4>
-                        <Label key={"lab_price_"+item.tid} bsStyle="warning">{item.price + "元"}</Label>
-                        <Label key={"lab_leftnum_"+item.tid} bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label>
-                        <Input onChange={(e)=> this.hideHandleChange(e,item.tid)} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={true}/>
-                    </Media.Body>
-                </Media>
-                <p></p>
+			<Col key={item.tid} xs={3}>
+				<Thumbnail key={"thumb_"+item.tid} width={200} height={200} src={item.image} alt="无图">
+					<center  key={"c_"+item.tid}>
+						<Row key={"row_"+item.tid}>
+							<h4><Label key={"lab_name_"+item.tid} bsStyle="info">{"名称:" + item.name}</Label></h4>
+							<h4><Label key={"lab_price_"+item.tid} bsStyle="warning">{"价格:" + item.price + "元"}</Label></h4>
+							<h4><Label key={"lab_leftnum_"+item.tid} bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label></h4>
+							<Input onChange={(e)=> this.hideHandleChange(e,item.tid)} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={true}/>
+						</Row>
+					</center>
+				</Thumbnail>
 			</Col>
 		)
 	}
@@ -122,7 +119,7 @@ class FDShowModal extends Component {
 		var fooddata = this.props.foodData;
 		console.log("RoomModal", this.props.foodData);
 		var v_fdlist = [];
-		var rowNum = 3;
+		var rowNum = 4;
 		var rowList = [];
 		for (var i = 0; i < this.props.foodlist.length; i++) {
 			var itemData = this.props.foodlist[i];
@@ -137,18 +134,27 @@ class FDShowModal extends Component {
 			}
 		}
 		return (
-			<Modal show={true} backdrop={true} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
+			<Modal show={true} backdrop={false} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
 					<Modal.Title id="contained-modal-title-lg">{fooddata.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Row key="1">
-						{v_fdlist}
-					</Row>
+                    <Panel header="Complete" bsStyle="warning">
+
+                    </Panel>
+                    <Panel header="Complete" bsStyle="warning">
+                        <OverlayTrigger id={itemdata.groupID} placement="top" overlay={<Popover title="Complete Member">{"5/10"}</Popover>}>
+                            <ProgressBar bsStyle="success" now={itemdata.completeNum} key={1}/>
+                        </OverlayTrigger>
+                        <OverlayTrigger id={itemdata.groupID} placement="top" overlay={<Popover title="Left">{"3:30"}</Popover>}>
+                            <ProgressBar bsStyle="warning" now={itemdata.totalNum} key={2}/>
+                        </OverlayTrigger>
+                        <Row key="1">
+                            {v_fdlist}
+                        </Row>
+                    </Panel>
 				</Modal.Body>
-				<Modal.Footer>
-					<center><Button bsStyle="info" onClick={this.submitHandler}>Submit</Button></center>
-				</Modal.Footer>
+
 			</Modal>
 		);
 	}
@@ -190,7 +196,7 @@ function mapStateToProps(state) {
  *      }
  *      ]
  * }*/
-FDShowModal.propTypes = {
+RoomModal.propTypes = {
 	createRoom: PropTypes.func.isRequired,
 	delModal: PropTypes.func.isRequired,
 	uid: PropTypes.string.isRequired,
@@ -210,10 +216,9 @@ FDShowModal.propTypes = {
 		takeout_menu: PropTypes.array.isRequired
 	})
 };
-
 export default connect(
 	mapStateToProps, {
 		createRoom,
 		delModal
 	}
-)(FDShowModal);
+)(RoomModal);

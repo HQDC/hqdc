@@ -10,12 +10,17 @@ import {
     sendMSG
 }
 from "../core/io/Sender";
+import {
+    hallManager,userManager
+}
+    from './data';
 
 /**
  * foodlist
  */
 function createRoom(data, res) {
     console.log("createRoom", data);
+    hallManager.CreateRoom(data.SID,data.name,data.SID);
     sendMSG(res, MSG_TYPES.STC_S_CREATE_ROOM_SUCCESS, {
         data: data
     });

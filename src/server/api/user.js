@@ -17,7 +17,7 @@ import signature from 'cookie-signature';
 import jwt from 'jsonwebtoken';
 
 import {
-    userManager
+    hallManager,userManager
 }
 from './data';
 

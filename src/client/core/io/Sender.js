@@ -5,13 +5,15 @@ import {isSocket,isWeb} from "../../../common/Types";
 import {postFetchCall} from "./proxy/HttpProxy";
 import socketProxy from "./proxy/SocketProxy";
 import {addAlert} from "../../actions/alert";
+import store from 'store';
 function sendMSG(actionType, sendData = {}) {
     sendData.type = actionType;
+    sendData.SID = store.get("SID","0");
     if (isWeb(actionType)) {
         return (dispatch, getState)=> {
             postFetchCall("api/msg", sendData, data => {
-                dispatch(data)
-            }, err=> {
+                dispatch(data);
+            }, (err) => {
                 addAlert("error", "网络错误" + actionType);
             });
         }

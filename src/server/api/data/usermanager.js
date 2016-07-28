@@ -2,7 +2,10 @@
  * Created by Tile on 2015/9/11.
  */
 import jwt from 'jsonwebtoken';
-
+import {
+    userManager
+}
+    from './data';
 function UserList() {
     this.user_hash = {};
     this.temp_foodinfo = {}
