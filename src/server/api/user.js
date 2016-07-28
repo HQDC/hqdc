@@ -177,7 +177,7 @@ function getFoodList(data, res) {
                     ret: 1,
                     data: data
                 });*/
-                userManager.setUserFoodList(data.uid, data.retdata);
+                userManager.setUserFoodList(data.SID, data.retdata);
                 sendMSG(res, MSG_TYPES.STC_W_FOODLIST, {
                     data: data.retdata
                 });

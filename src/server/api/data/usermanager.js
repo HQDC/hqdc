@@ -25,12 +25,12 @@ UserList.prototype.getUserByName = function(name) {
     return this.getUserByID(this.sign(name));
 };
 
-UserList.prototype.setUserFoodList = function(uid, foodinfo) {
-    this.temp_foodinfo[uid] = foodinfo;
+UserList.prototype.setUserFoodList = function(SID, foodinfo) {
+    this.temp_foodinfo[SID] = foodinfo;
 };
 
-UserList.prototype.getUserFoodList = function(uid) {
-    return this.temp_foodinfo[uid];
+UserList.prototype.getUserFoodList = function(SID) {
+    return this.temp_foodinfo[SID];
 };
 
 /**
@@ -39,10 +39,10 @@ UserList.prototype.getUserFoodList = function(uid) {
  * @returns {boolean}
  */
 UserList.prototype.addUser = function(userData) {
-    if (this.hasUser(userData.uid)) {
+    if (this.hasUser(userData.SID)) {
         console.log("user is alive " + userData)
     }
-    this.user_hash[userData.uid] = userData;
+    this.user_hash[userData.SID] = userData;
 };
 /**
  * 更新用户
@@ -73,7 +73,7 @@ UserList.prototype.unSign = function(unUserName) {
  */
 UserList.prototype.createUser = function(userID, userName, ip, socketID) {
     var user = {};
-    user.uid = userID;
+    user.SID = userID;
     user.name = userName;
     user.ip = ip;
     user.socketid = socketID;
@@ -93,9 +93,9 @@ UserList.prototype.delUser = function(deldata) {
         return true;
     }
     if (typeof(deldata) == "object") {
-        if (deldata.uid != null) {
-            if (this.hasUser(deldata.uid)) {
-                delete this.user_hash[deldata.uid];
+        if (deldata.SID != null) {
+            if (this.hasUser(deldata.SID)) {
+                delete this.user_hash[deldata.SID];
                 return true;
             }
         }

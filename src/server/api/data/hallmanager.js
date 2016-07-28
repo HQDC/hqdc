@@ -1,79 +1,78 @@
 /**
  * Created by Tile on 2015/9/11.
  */
-var hall_hash;
+var room_hash;
 
 function HallList() {
-    hall_hash = [];
+    room_hash = [];
 }
 /**
  * 查询一个房间
  * @param hallID
  * @returns {*}
  */
-HallList.prototype.getHallByID = function(hallID) {
-    if (this.hasHall(hallID)) {
-        console.log("can't find hall ID=" + hallID);
+HallList.prototype.getRoomByID = function(roomID) {
+    if (this.hasRoom(roomID)) {
+        console.log("can't find room ID=" + roomID);
         return null;
     }
-    return hall_hash[hallID];
+    return room_hash[roomID];
 };
 /**
  * 添加房间
- * @param hallData
+ * @param roomData
  * @returns {boolean}
  */
-HallList.prototype.addHall = function(hallData) {
-    if (this.hasHall(hallData.uid)) {
+HallList.prototype.addRoom = function(roomData) {
+    if (this.hasRoom(roomData.SID)) {
         return false;
     }
-    hall_hash[hallData.uid] = hallData;
+    room_hash[roomData.SID] = roomData;
     return true;
 };
 /**
  * 更新房间
- * @param hallData
+ * @param roomData
  * @returns {boolean}
  */
-HallList.prototype.updateHall = function(hallData) {
-    hall_hash[hallID] = hallData;
+HallList.prototype.updateRoom = function(roomData) {
+    room_hash[roomID] = roomData;
     return true;
 };
 
 /**
  *
- * @param hallID
- * @param hallName
+ * @param roomID
+ * @param roomName
  * @param ip
  * @param socketID
  * @returns {boolean}
  * @constructor
  */
-HallList.prototype.CreateHall = function(hallID, hallName, masterID) {
-    var hall = {};
-    hall.uid = hallID;
-    hall.name = hallName;
-    hall.ip = ip;
-    hall.socketid = socketID;
-    return hall;
+HallList.prototype.CreateRoom = function(roomID, roomName, masterID) {
+    var roomData = {};
+    roomData.roomID = roomID;
+    roomData.roomName = roomName;
+    roomData.masterID = masterID;
+    return roomData;
 };
 
 /**
  * 删除房间
- * @param deldata 可以是Uid  也可以是  halldata
+ * @param deldata 可以是Uid  也可以是  roomdata
  */
-HallList.prototype.delHall = function(deldata) {
+HallList.prototype.delRoom = function(deldata) {
     if (deldata == null) {
         return false;
     }
     if (typeof(deldata) == "number") {
-        delete hall_hash[deldata];
+        delete room_hash[deldata];
         return true;
     }
     if (typeof(deldata) == "object") {
-        if (deldata.uid != null) {
-            if (this.hasHall(deldata.uid)) {
-                delete hall_hash[deldata.uid];
+        if (deldata.SID != null) {
+            if (this.hasHall(deldata.SID)) {
+                delete room_hash[deldata.SID];
                 return true;
             }
         }
@@ -82,11 +81,11 @@ HallList.prototype.delHall = function(deldata) {
 };
 /**
  * 是否有一个房间
- * @param hallID
+ * @param roomID
  * @returns {boolean}
  */
-HallList.prototype.hasHall = function(hallID) {
-    return hall_hash[hallID] != null;
+HallList.prototype.hasRoom = function(roomID) {
+    return room_hash[roomID] != null;
 };
 var hallManager = new HallList();
 export default hallManager;

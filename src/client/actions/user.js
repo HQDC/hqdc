@@ -27,9 +27,7 @@ export function userLogin(loginName) {
  * @returns {Function}
  */
 export function userTestSession(SID) {
-	return sendMSG(MSG_TYPES.CTS_W_SESSION, {
-		"SID": SID
-	});
+	return sendMSG(MSG_TYPES.CTS_W_SESSION);
 }
 
 /**
