@@ -34,6 +34,12 @@ class Room extends Component {
                     </Panel>
                 </Col>
                 <Col xs={10} md={10}>
+                    <OverlayTrigger id={itemdata.groupID} placement="top" overlay={<Popover title="Complete Member">{"5/10"}</Popover>}>
+                        <ProgressBar bsStyle="success" now={itemdata.completeNum} key={1}/>
+                    </OverlayTrigger>
+                    <OverlayTrigger id={itemdata.groupID} placement="top" overlay={<Popover title="Left">{"3:30"}</Popover>}>
+                        <ProgressBar bsStyle="warning" now={itemdata.totalNum} key={2}/>
+                    </OverlayTrigger>
                     <Panel header="Complete" bsStyle="warning">
                         {doneitems}
                     </Panel>
