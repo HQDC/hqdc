@@ -11,16 +11,17 @@ import {
 }
 from "../core/io/Sender";
 import {
-    hallManager,userManager
+    hallManager, userManager
 }
-    from './data';
+from './data';
 
 /**
  * foodlist
  */
 function createRoom(data, res) {
     console.log("createRoom", data);
-    hallManager.CreateRoom(data.SID,data.name,data.SID);
+    var roomdata = hallManager.createRoom(data.SID, data.name, data.SID);
+    hallManager.addRoom(roomdata);
     sendMSG(res, MSG_TYPES.STC_S_CREATE_ROOM_SUCCESS, {
         data: data
     });

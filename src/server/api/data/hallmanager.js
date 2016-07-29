@@ -1,21 +1,25 @@
 /**
  * Created by Tile on 2015/9/11.
  */
+
+import {
+    userManager
+}
+from './index';
+
 var room_hash;
 
 function HallList() {
     room_hash = [];
 }
+import assert from 'assert';
 /**
  * 查询一个房间
  * @param hallID
  * @returns {*}
  */
 HallList.prototype.getRoomByID = function(roomID) {
-    if (this.hasRoom(roomID)) {
-        console.log("can't find room ID=" + roomID);
-        return null;
-    }
+    assert.ok(this.hasRoom(roomID), "can't find room ID=" + roomID)
     return room_hash[roomID];
 };
 /**
@@ -24,12 +28,27 @@ HallList.prototype.getRoomByID = function(roomID) {
  * @returns {boolean}
  */
 HallList.prototype.addRoom = function(roomData) {
-    if (this.hasRoom(roomData.SID)) {
+    if (this.hasRoom(roomData.RID)) {
         return false;
     }
-    room_hash[roomData.SID] = roomData;
+    room_hash[roomData.RID] = roomData;
     return true;
 };
+
+
+HallList.prototype.enterRoom = function(RID, SID) {
+    assert.ok(!this.hasRoom(RID), "enter null room RID:" + RID + " SID:" + SID);
+    var userData = userManager.getUserByID(SID);
+    room_hash[RID].playerList[SID] = userData;
+    return true;
+};
+
+HallList.prototype.outRoom = function(RID, SID) {
+    assert.ok(this.hasRoom(RID), "enter null room");
+    room_hash[RID] = roomData;
+    return true;
+};
+
 /**
  * 更新房间
  * @param roomData
@@ -49,11 +68,14 @@ HallList.prototype.updateRoom = function(roomData) {
  * @returns {boolean}
  * @constructor
  */
-HallList.prototype.CreateRoom = function(roomID, roomName, masterID) {
+HallList.prototype.createRoom = function(roomID, roomName, masterID) {
     var roomData = {};
-    roomData.roomID = roomID;
+    roomData.RID = roomID;
     roomData.roomName = roomName;
     roomData.masterID = masterID;
+    userManager.getUserFoodList(masterID, true)
+    roomData.playerList = {};
+    roomData.foodData = ;
     return roomData;
 };
 
@@ -78,6 +100,14 @@ HallList.prototype.delRoom = function(deldata) {
         }
     }
     return false;
+};
+/**
+ * 这个in room 循环所有房间列表查询玩家
+ * @param userID
+ * @returns {boolean}
+ */
+UserList.prototype.isPlayerInRoom = function(userID) {
+
 };
 /**
  * 是否有一个房间

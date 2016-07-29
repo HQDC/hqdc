@@ -3,9 +3,11 @@
  */
 import jwt from 'jsonwebtoken';
 import {
-    userManager
+    hallManager
 }
-    from './data';
+from './index';
+import assert from 'assert';
+
 function UserList() {
     this.user_hash = {};
     this.temp_foodinfo = {}
@@ -16,10 +18,7 @@ function UserList() {
  * @returns {*}
  */
 UserList.prototype.getUserByID = function(userID) {
-    if (!this.hasUser(userID)) {
-        console.log("can't find user ID=" + userID);
-        return null;
-    }
+    assert.ok(this.hasUser(userID), "can't find user ID=" + userID);
     return this.user_hash[userID];
 };
 
@@ -32,19 +31,25 @@ UserList.prototype.setUserFoodList = function(SID, foodinfo) {
     this.temp_foodinfo[SID] = foodinfo;
 };
 
-UserList.prototype.getUserFoodList = function(SID) {
-    return this.temp_foodinfo[SID];
+UserList.prototype.getUserFoodList = function(SID, clean) {
+    assert.ok(this.hasUserFoodList(SID), "error foodlist is null");
+    var foodInfo = this.temp_foodinfo[SID];
+    var needClean = clean == null ? false : clean;
+    if (clean) {
+        delete this.temp_foodinfo[SID];
+    };
+    return foodInfo;
 };
-
+UserList.prototype.hasUserFoodList = function(SID) {
+    return this.temp_foodinfo[SID] != null;
+};
 /**
  * 添加用户
  * @param userData
  * @returns {boolean}
  */
 UserList.prototype.addUser = function(userData) {
-    if (this.hasUser(userData.SID)) {
-        console.log("user is alive " + userData)
-    }
+    assert.ok(!this.hasUser(userData.SID), "user is alive " + userData);
     this.user_hash[userData.SID] = userData;
 };
 /**
@@ -79,6 +84,7 @@ UserList.prototype.createUser = function(userID, userName, ip, socketID) {
     user.SID = userID;
     user.name = userName;
     user.ip = ip;
+    user.RID = "none";
     user.socketid = socketID;
     return user;
 };
@@ -113,5 +119,16 @@ UserList.prototype.delUser = function(deldata) {
 UserList.prototype.hasUser = function(userID) {
     return this.user_hash[userID] != null;
 };
+
+/**
+ * 这个in room 只判断 用户 RID 是否为 空
+ * @param userID
+ * @returns {boolean}
+ */
+UserList.prototype.isInRoom = function(userID) {
+    var userData = this.getUserByID(userID)
+    return userData.RID != "none";
+};
+
 var userManager = new UserList();
 export default userManager;
