@@ -38,7 +38,6 @@ class CreateRoomTestModal extends Component {
         createRoomData.PSW = this.refs.PSW.getValue();
         createRoomData.EndTime = this.refs.EndTime.getValue();
         createRoomData.GroupName = this.refs.GroupName.getValue();
-        createRoomData.uid = this.props.uid;
         this.props.getFoodList(createRoomData);
     };
 

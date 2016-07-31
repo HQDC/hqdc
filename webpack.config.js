@@ -16,7 +16,7 @@ var config = {
 		extensions: ["", ".js", ".jsx", '.es6'],
 		alias: {
 			"Base": 'client/core/Base.js',
-			"dcconfig": 'dcconfig.js'
+			"utils":"common/utils/index.js"
 		}
 	},
 	plugins: [

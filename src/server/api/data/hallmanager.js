@@ -7,20 +7,19 @@ import {
 }
 from './index';
 
-var room_hash;
-
+import _ from 'lodash';
+import {mAssert} from '../../../common/utils/index';
 function HallList() {
-    room_hash = [];
+    this.room_hash = {};
 }
-import assert from 'assert';
 /**
  * 查询一个房间
- * @param hallID
+ * @param roomID
  * @returns {*}
  */
 HallList.prototype.getRoomByID = function(roomID) {
-    assert.ok(this.hasRoom(roomID), "can't find room ID=" + roomID)
-    return room_hash[roomID];
+    mAssert(this.hasRoom(roomID), "can't find room ID=" + roomID);
+    return this.room_hash[roomID];
 };
 /**
  * 添加房间
@@ -31,21 +30,20 @@ HallList.prototype.addRoom = function(roomData) {
     if (this.hasRoom(roomData.RID)) {
         return false;
     }
-    room_hash[roomData.RID] = roomData;
+    this.room_hash[roomData.RID] = roomData;
     return true;
 };
 
 
 HallList.prototype.enterRoom = function(RID, SID) {
-    assert.ok(!this.hasRoom(RID), "enter null room RID:" + RID + " SID:" + SID);
-    var userData = userManager.getUserByID(SID);
-    room_hash[RID].playerList[SID] = userData;
+     mAssert(!this.hasRoom(RID), "enter null room RID:" + RID + " SID:" + SID);
+    this.room_hash[RID].playerList[SID] = userManager.getUserByID(SID);
     return true;
 };
 
 HallList.prototype.outRoom = function(RID, SID) {
-    assert.ok(this.hasRoom(RID), "enter null room");
-    room_hash[RID] = roomData;
+     mAssert(this.hasRoom(RID), "enter null room");
+    this.room_hash[RID] = roomData;
     return true;
 };
 
@@ -55,46 +53,68 @@ HallList.prototype.outRoom = function(RID, SID) {
  * @returns {boolean}
  */
 HallList.prototype.updateRoom = function(roomData) {
-    room_hash[roomID] = roomData;
+    this.room_hash[roomID] = roomData;
     return true;
 };
 
 /**
  *
- * @param roomID
- * @param roomName
- * @param ip
- * @param socketID
+ * @param cData
  * @returns {boolean}
  * @constructor
  */
-HallList.prototype.createRoom = function(roomID, roomName, masterID) {
+HallList.prototype.createRoom = function(cData) {
     var roomData = {};
-    roomData.RID = roomID;
-    roomData.roomName = roomName;
-    roomData.masterID = masterID;
-    userManager.getUserFoodList(masterID, true)
+    console.log("h0");
+    roomData.RID = this.getHallSoleID();
+    console.log("h0.1");
+    roomData.masterID = cData.SID;
+    console.log("h1");
+    roomData.PSW = "";
+    roomData.maxPNum = 999;
+    roomData.boxPrice = 1;
     roomData.playerList = {};
-    roomData.foodData = ;
+    roomData.hideList = cData.hidelist;
+    console.log("h2");
+    roomData.foodData = userManager.getUserFoodData(cData.SID, true);
+    console.log("h3");
     return roomData;
 };
 
+HallList.prototype.getHallSoleID = function() {
+    var MAX_NUM = 999999;
+    var id = _.random(1,MAX_NUM);
+    while (this.hasRoom(id)){
+        id = _.random(1,MAX_NUM);
+    }
+    return id;
+};
+HallList.prototype.getSyncRooms = function() {
+    var returnList = [];
+    _.forIn(this.room_hash,function(key,value){
+        var roomData = {};
+        _.assign(roomData,value);
+        delete roomData["PSW"];
+        returnList.push(roomData);
+    });
+    return returnList;
+};
 /**
  * 删除房间
- * @param deldata 可以是Uid  也可以是  roomdata
+ *
  */
-HallList.prototype.delRoom = function(deldata) {
-    if (deldata == null) {
+HallList.prototype.delRoom = function(delData) {
+    if (delData == null) {
         return false;
     }
-    if (typeof(deldata) == "number") {
-        delete room_hash[deldata];
+    if (typeof(delData) == "number") {
+        delete this.room_hash[delData];
         return true;
     }
-    if (typeof(deldata) == "object") {
-        if (deldata.SID != null) {
-            if (this.hasHall(deldata.SID)) {
-                delete room_hash[deldata.SID];
+    if (typeof(delData) == "object") {
+        if (delData.SID != null) {
+            if (this.hasHall(delData.SID)) {
+                delete this.room_hash[delData.SID];
                 return true;
             }
         }
@@ -106,7 +126,7 @@ HallList.prototype.delRoom = function(deldata) {
  * @param userID
  * @returns {boolean}
  */
-UserList.prototype.isPlayerInRoom = function(userID) {
+HallList.prototype.isPlayerInRoom = function(userID) {
 
 };
 /**
@@ -115,7 +135,7 @@ UserList.prototype.isPlayerInRoom = function(userID) {
  * @returns {boolean}
  */
 HallList.prototype.hasRoom = function(roomID) {
-    return room_hash[roomID] != null;
+    return this.room_hash[roomID] != null;
 };
 var hallManager = new HallList();
 export default hallManager;

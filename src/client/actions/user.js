@@ -36,7 +36,7 @@ export function userTestSession(SID) {
  * @returns {Function}
  */
 export function getFoodList(data) {
-	console.log(data)
+	console.log(data);
 	return sendMSG(MSG_TYPES.CTS_W_FOODLIST, {
 		"fddata": data
 	});

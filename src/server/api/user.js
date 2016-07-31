@@ -108,7 +108,10 @@ function testSession(data, res) {
         ret: 0,
         SID: SID
     };
+    console.log("userManager.addUser1", SID);
     userManager.addUser(userManager.createUser(SID, userName, ip, ""));
+
+    console.log("userManager.addUser2", SID);
     if (SID) {
         sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
             data: userData,
@@ -171,15 +174,15 @@ function getFoodList(data, res) {
     if (doclass != null) {
         workermanager.doWork(workermanager.creatworkdata({
             url: groupData.DCUrl
-        }, doclass, (data) => {
-            if (data.ret == 0) {
+        }, doclass, (rData) => {
+            if (rData.ret == 0) {
                 /*res.status(200).send({
                     ret: 1,
                     data: data
                 });*/
-                userManager.setUserFoodList(data.SID, data.retdata);
+                userManager.setUserFoodData(data.SID, rData.retdata);
                 sendMSG(res, MSG_TYPES.STC_W_FOODLIST, {
-                    data: data.retdata
+                    data: rData.retdata
                 });
             }
         }));

@@ -2,11 +2,12 @@
  * Created by Tile on 2015/9/11.
  */
 import jwt from 'jsonwebtoken';
+
 import {
     hallManager
 }
 from './index';
-import assert from 'assert';
+import {mAssert} from '../../../common/utils/index';
 
 function UserList() {
     this.user_hash = {};
@@ -18,7 +19,7 @@ function UserList() {
  * @returns {*}
  */
 UserList.prototype.getUserByID = function(userID) {
-    assert.ok(this.hasUser(userID), "can't find user ID=" + userID);
+    mAssert(this.hasUser(userID), "can't find user ID=" + userID);
     return this.user_hash[userID];
 };
 
@@ -27,20 +28,22 @@ UserList.prototype.getUserByName = function(name) {
     return this.getUserByID(this.sign(name));
 };
 
-UserList.prototype.setUserFoodList = function(SID, foodinfo) {
-    this.temp_foodinfo[SID] = foodinfo;
+UserList.prototype.setUserFoodData = function(SID, foodInfo) {
+    this.temp_foodinfo[SID] = foodInfo;
 };
 
-UserList.prototype.getUserFoodList = function(SID, clean) {
-    assert.ok(this.hasUserFoodList(SID), "error foodlist is null");
+UserList.prototype.getUserFoodData = function(SID, clean) {
+
+    mAssert(this.hasUserFoodData(SID), "error foodlist is null");
     var foodInfo = this.temp_foodinfo[SID];
     var needClean = clean == null ? false : clean;
-    if (clean) {
+    if (needClean) {
+
         delete this.temp_foodinfo[SID];
-    };
+    }
     return foodInfo;
 };
-UserList.prototype.hasUserFoodList = function(SID) {
+UserList.prototype.hasUserFoodData = function(SID) {
     return this.temp_foodinfo[SID] != null;
 };
 /**
@@ -49,7 +52,8 @@ UserList.prototype.hasUserFoodList = function(SID) {
  * @returns {boolean}
  */
 UserList.prototype.addUser = function(userData) {
-    assert.ok(!this.hasUser(userData.SID), "user is alive " + userData);
+    // mAssert(!this.hasUser(userData.SID), "user is alive " + userData);
+    mAssert(!this.hasUser(userData.SID), "user is alive " + userData);
     this.user_hash[userData.SID] = userData;
 };
 /**

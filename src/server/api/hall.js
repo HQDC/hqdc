@@ -18,15 +18,13 @@ from './data';
 /**
  * foodlist
  */
-function createRoom(data, res) {
-    console.log("createRoom", data);
-    var roomdata = hallManager.createRoom(data.SID, data.name, data.SID);
-    hallManager.addRoom(roomdata);
-    sendMSG(res, MSG_TYPES.STC_S_CREATE_ROOM_SUCCESS, {
-        data: data
-    });
+function createRoom(cData, res) {
+    console.log("createRoom", cData);
+    var roomData = hallManager.createRoom(cData);
+    console.log("roomData.hideList:", roomData.hideList);
+    hallManager.addRoom(roomData);
+    sendMSG(res, MSG_TYPES.STC_S_CREATE_ROOM_SUCCESS);
 }
-
 
 /**
  *
