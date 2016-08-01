@@ -30,11 +30,12 @@ UserList.prototype.getUserByName = function(name) {
 
 UserList.prototype.setUserFoodData = function(SID, foodInfo) {
     this.temp_foodinfo[SID] = foodInfo;
+    console.log("temp_foodinfo->",this.temp_foodinfo);
 };
 
 UserList.prototype.getUserFoodData = function(SID, clean) {
 
-    mAssert(this.hasUserFoodData(SID), "error foodlist is null");
+    mAssert(this.hasUserFoodData(SID), "error foodlist is null:"+SID);
     var foodInfo = this.temp_foodinfo[SID];
     var needClean = clean == null ? false : clean;
     if (needClean) {
@@ -44,6 +45,7 @@ UserList.prototype.getUserFoodData = function(SID, clean) {
     return foodInfo;
 };
 UserList.prototype.hasUserFoodData = function(SID) {
+    mAssert(this.temp_foodinfo[SID] != null, "error foodlist is SID:"+SID);
     return this.temp_foodinfo[SID] != null;
 };
 /**

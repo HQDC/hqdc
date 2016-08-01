@@ -14,7 +14,7 @@ function sendMSG(actionType, sendData = {}) {
             postFetchCall("api/msg", sendData, data => {
                 dispatch(data);
             }, (err) => {
-                addAlert("error", "网络错误" + actionType);
+                addAlert("error", "网络错误" + actionType + " "+ err);
             });
         }
     } else if (isSocket(actionType)) {

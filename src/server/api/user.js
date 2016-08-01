@@ -163,11 +163,7 @@ function getFoodList(data, res) {
     console.log("getFoodList", data);
     var workermanager = require('./process/processmanager');
     var groupData = {};
-    groupData.GroupName = data.fddata.GroupName;
     groupData.DCUrl = data.fddata.DCUrl;
-    groupData.PSW = data.fddata.PSW;
-    groupData.EndTime = data.fddata.EndTime;
-    //groupData.BoxPrice = req.body.BoxPrice;
     var doclass = getclassbyurl(groupData.DCUrl);
 
     console.log(doclass);
@@ -180,6 +176,7 @@ function getFoodList(data, res) {
                     ret: 1,
                     data: data
                 });*/
+
                 userManager.setUserFoodData(data.SID, rData.retdata);
                 sendMSG(res, MSG_TYPES.STC_W_FOODLIST, {
                     data: rData.retdata

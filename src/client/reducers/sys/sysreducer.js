@@ -14,24 +14,24 @@ import Base from 'Base';
  * @param action
  */
 function sysNetAuthenticatedHandler(state, action) {
-    console.log("sysNetInfo", state.sysNetinfo, action);
-    return {
-        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS({msg:"AuthenticatedSuccess"}))
-    };
+    return state.set("sysNetInfo_msg","AuthenticatedSuccess");
 }
 
 function sysNetUnauthorizedHandler(state, action) {
-    console.log("sysNetInfo", state.sysNetinfo, action);
-    return {
-        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS({msg:"Unauthorized"}))
-    };
+    return state.set("sysNetInfo_msg", "Unauthorized");
 }
 
 function sysNetDisconnectHandler(state, action) {
-    console.log("sysNetInfo", state.sysNetinfo, action);
-    return {
-        sysNetinfo: state.sysNetinfo.merge(Immutable.fromJS({msg:"Disconnect"}))
-    };
+    return state.set("sysNetInfo_msg","Disconnect");
+
+}
+
+function sysStateLoadingHandler(state, action) {
+    return state.set("sysStateInfo_isLoading",true);
+}
+
+function sysStateUnLoadingHandler(state, action) {
+    return state.set("sysStateInfo_isLoading",false);
 }
 
 /**
@@ -40,9 +40,10 @@ function sysNetDisconnectHandler(state, action) {
  * @param action
  * @returns {{}}
  */
-var defaultCall = function(state = {
-    sysNetinfo: Immutable.Map()
-}, action) {
+var defaultCall = function(state = Immutable.fromJS({
+    sysNetInfo_msg:"",
+    sysStateInfo_isLoading:false
+}), action) {
     switch (action.type) {
         case MSG_TYPES.SYS_S_AUTHENTICATED:
             return sysNetAuthenticatedHandler(state, action);
@@ -50,6 +51,12 @@ var defaultCall = function(state = {
             return sysNetUnauthorizedHandler(state, action);
         case MSG_TYPES.SYS_S_DISCONNECT:
             return sysNetDisconnectHandler(state, action);
+        case MSG_TYPES.STATE_LOADING:
+            return sysStateLoadingHandler(state, action);
+        case MSG_TYPES.STATE_UNLOADING:
+            return sysStateUnLoadingHandler(state, action);
+        case MSG_TYPES.STC_W_FOODLIST:
+            return state.set("sysStateInfo_isLoading",false);
         default:
             return state;
     }

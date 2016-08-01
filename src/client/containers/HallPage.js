@@ -4,10 +4,7 @@ import React, {
 }
 from 'react';
 import RoomItem from './RoomItem';
-import {
-    createRoom
-}
-from '../actions/user';
+
 import {
     connect
 }

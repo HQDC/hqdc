@@ -73,14 +73,14 @@ class Header extends Component {
 						<a href="#">SinceTimes</a>
 					</Navbar.Brand>
 					<Navbar.Toggle />
-			</Navbar.Header> < Navbar.Collapse >
+			</Navbar.Header> <Navbar.Collapse >
             < Nav pullRight eventKey = {
                 1
             } > {
                 croom
             } {
                 dpdown
-            } < /Nav>  </Navbar.Collapse > < /Navbar>
+            } </Nav>  </Navbar.Collapse> </Navbar>
         );
     }
 }

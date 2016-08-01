@@ -37,8 +37,7 @@ function userLoginRet(state, action) {
 
 function foodListRet(state, action) {
     return {
-        userSession: state.userSession,
-        "foodData": action.data
+        userSession: state.userSession.set("foodData",action.data)
     };
 }
 
@@ -82,7 +81,8 @@ var defaultCall = function(state = {
             ip: "",
             name: "",
             SID: (store.get('SID') ? store.get('SID') : ""),
-            foodData: {}
+            foodData: {},
+            isLoading:false
         })
     },
     action) {

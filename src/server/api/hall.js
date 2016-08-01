@@ -21,7 +21,7 @@ from './data';
 function createRoom(cData, res) {
     console.log("createRoom", cData);
     var roomData = hallManager.createRoom(cData);
-    console.log("roomData.hideList:", roomData.hideList);
+    console.log("roomData.hideList:", roomData);
     hallManager.addRoom(roomData);
     sendMSG(res, MSG_TYPES.STC_S_CREATE_ROOM_SUCCESS);
 }

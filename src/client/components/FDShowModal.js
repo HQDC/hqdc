@@ -4,6 +4,10 @@ import React, {
 }
 from 'react';
 import {
+    setLoadingState
+}
+    from '../actions/state';
+import {
 	ButtonInput, OverlayTrigger,Media, Thumbnail, Tooltip, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col, Modal
 }
 from 'react-bootstrap';
@@ -28,6 +32,7 @@ class FDShowModal extends Component {
 	constructor() {
 		super();
 		this.hidelist = [];
+        this.isloading = false;
 		this.submitHandler = this.submitHandler.bind(this);
 	}
 
@@ -59,9 +64,15 @@ class FDShowModal extends Component {
 		console.log("idChange->", id, e.target.checked, this.hidelist);
 	}
 	submitHandler() {
-
+        if(this.props.isLoading){
+            return;
+        }
+        this.props.setLoadingState();
 		this.props.createRoom({
-			"hidelist": this.hidelist
+			"hidelist": this.hidelist,
+            "PSW":this.refs.PSW.getValue(),
+            "EndTime":this.refs.EndTime.getValue(),
+            "GroupName":this.refs.GroupName.getValue()
 		});
 	}
 
@@ -137,17 +148,44 @@ class FDShowModal extends Component {
 			}
 		}
 		return (
-			<Modal show={true} backdrop={true} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
+			<Modal show={true} backdrop={false} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
 					<Modal.Title id="contained-modal-title-lg">{fooddata.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Row key="1">
+                    <Input type="text" label="GroupName" ref="GroupName" onChange={()=>this.handleChange}/>
+                    <Input type="text" label="PSW" ref="PSW"/>
+                    <Input type="text" label="MaxCost" ref="MaxCost"/>
+                    <Input type="radio" name="inlineRadioOptions" label="Radio1" value="option1"/>
+                    <Input type="radio" name="inlineRadioOptions" label="Radio2" value="option2"/>
+                    <Input type="select" label="EndTime" ref="EndTime" placeholder="select">
+                        <option value="1">16:00</option>
+                        <option value="2">16:10</option>
+                        <option value="3">16:20</option>
+                        <option value="4">16:30</option>
+                        <option value="5">16:40</option>
+                        <option value="6">16:50</option>
+                        <option value="7">17:00</option>
+                        <option value="8">17:10</option>
+                        <option value="9">17:20</option>
+                        <option value="10">17:30</option>
+                        <option value="11">17:40</option>
+                        <option value="12">17:50</option>
+                        <option value="13">18:00</option>
+                        <option value="11">17:40</option>
+                        <option value="12">17:50</option>
+                        <option value="13">18:00</option>
+                        <option value="14">18:10</option>
+                        <option value="15">18:20</option>
+                        <option value="16">18:30</option>
+                    </Input>
+
+                    <Row key="1">
 						{v_fdlist}
 					</Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<center><Button bsStyle="info" onClick={this.submitHandler}>Submit</Button></center>
+					<center><Button bsStyle={this.props.isLoading?"warning" :"info"} onClick={this.submitHandler}>{this.props.isLoading ? "Loading" : "Submit"}</Button></center>
 				</Modal.Footer>
 			</Modal>
 		);
@@ -157,9 +195,11 @@ class FDShowModal extends Component {
 function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
+        setLoadingState: setLoadingState,
 		uid: state.user.userSession.get("SID"),
-		foodlist: state.user.foodData.takeout_menu,
-		foodData: state.user.foodData
+        foodData: state.user.userSession.get("foodData"),
+		foodlist: state.user.userSession.get("foodData").takeout_menu,
+        isLoading: state.sys.get("sysStateInfo_isLoading")
 	}
 }
 /*name:店名,
@@ -194,7 +234,9 @@ FDShowModal.propTypes = {
 	createRoom: PropTypes.func.isRequired,
 	delModal: PropTypes.func.isRequired,
 	uid: PropTypes.string.isRequired,
+    setLoadingState: PropTypes.func.isRequired,
 	foodlist: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
 	foodData: PropTypes.shape({ // 是否符合指定格式的物件
 		name: PropTypes.string.isRequired,
 		logo: PropTypes.string.isRequired,
@@ -214,6 +256,7 @@ FDShowModal.propTypes = {
 export default connect(
 	mapStateToProps, {
 		createRoom,
-		delModal
+		delModal,
+        setLoadingState
 	}
 )(FDShowModal);

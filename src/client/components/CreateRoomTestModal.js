@@ -8,6 +8,10 @@ import {
 }
 from '../actions/user';
 import {
+    setLoadingState
+}
+    from '../actions/state';
+import {
     delModal
 }
 from '../actions/modal';
@@ -32,45 +36,30 @@ class CreateRoomTestModal extends Component {
     };
 
     submitHandler() {
+        if(this.props.isLoading){
+            return;
+        }
         var createRoomData = {};
         console.log("url:", this.refs.DCUrl.getValue());
         createRoomData.DCUrl = this.refs.DCUrl.getValue();
-        createRoomData.PSW = this.refs.PSW.getValue();
-        createRoomData.EndTime = this.refs.EndTime.getValue();
-        createRoomData.GroupName = this.refs.GroupName.getValue();
+        this.props.setLoadingState();
         this.props.getFoodList(createRoomData);
     };
 
     handleChange() {};
 
     render() {
-        console.log("CreateRoomTestModal render");
+        console.log("CreateRoomTestModal render: isLoading",this.props.isLoading);
         return (
             <Modal show={true} dialogClassName="custom-modal" backdrop={true} onHide={()=>this.props.delModal()}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Input type="text" label="GroupName" ref="GroupName" onChange={()=>this.handleChange}/>
                     <Input type="text" label="DCUrl" defaultValue="http://waimai.baidu.com/waimai/shop/1438078139" ref="DCUrl"/>
-                    <Input type="text" label="PSW" ref="PSW"/>
-                    <Input type="text" label="MaxCost" ref="MaxCost"/>
-                    <Input type="radio" name="inlineRadioOptions" label="Radio1" value="option1"/>
-                    <Input type="radio" name="inlineRadioOptions" label="Radio2" value="option2"/>
-                    <Input type="select" label="EndTime" ref="EndTime" placeholder="select">
-                        <option checked value="0">16:40</option>
-                        <option value="1">16:50</option>
-                        <option value="2">17:00</option>
-                        <option value="3">17:10</option>
-                        <option value="4">17:20</option>
-                        <option value="5">17:30</option>
-                        <option value="6">17:40</option>
-                        <option value="7">17:50</option>
-                        <option value="8">18:00</option>
-                    </Input>
                 </Modal.Body>
                 <Modal.Footer>
-                    <center><Button bsStyle="info" onClick={this.submitHandler}>Submit</Button></center>
+                    <center><Button bsStyle={this.props.isLoading?"warning" :"info"} onClick={this.submitHandler}>{this.props.isLoading ? "Loading" : "Submit"}</Button></center>
                 </Modal.Footer>
             </Modal>
         );
@@ -80,18 +69,23 @@ class CreateRoomTestModal extends Component {
 function mapStateToProps(state) {
     return {
         getFoodList: getFoodList,
+        setLoadingState: setLoadingState,
         uid: state.user.userSession.get("SID"),
+        isLoading: state.sys.get("sysStateInfo_isLoading")
     }
 }
 
 CreateRoomTestModal.propTypes = {
     getFoodList: PropTypes.func.isRequired,
-    uid: PropTypes.string.isRequired
+    setLoadingState: PropTypes.func.isRequired,
+    uid: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired
 };
 
 export default connect(
     mapStateToProps, {
         getFoodList,
-        delModal
+        delModal,
+        setLoadingState
     }
 )(CreateRoomTestModal);
