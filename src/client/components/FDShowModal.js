@@ -31,10 +31,13 @@ from '../actions/modal';
 class FDShowModal extends Component {
 	constructor() {
 		super();
-		this.hidelist = [];
-        this.isloading = false;
 		this.submitHandler = this.submitHandler.bind(this);
+        this.timeSelectHandler = this.timeSelectHandler.bind(this);
 	}
+
+    timeSelectHandler(e){
+        this.endTime = e.target.value;
+    }
 
 	getHideList() {
 		var hidelist = [];
@@ -68,10 +71,12 @@ class FDShowModal extends Component {
             return;
         }
         this.props.setLoadingState();
+		console.log("input End Time ",this.endTime);
 		this.props.createRoom({
 			"hidelist": this.hidelist,
             "PSW":this.refs.PSW.getValue(),
-            "EndTime":this.refs.EndTime.getValue(),
+            "EndTime":(this.endTime == null ?this.props.DEFAULT_TIME:this.endTime),
+            "MaxCost":this.refs.MaxCost.getValue(),
             "GroupName":this.refs.GroupName.getValue()
 		});
 	}
@@ -147,39 +152,25 @@ class FDShowModal extends Component {
 				}
 			}
 		}
+        var timeOptions = [];
+        for (var j = 0; j < this.props.DEFAULT_TIMES.length; j++) {
+            var itemValue= this.props.DEFAULT_TIMES[j];
+            timeOptions.push(<option value={itemValue}>{itemValue}</option>);
+        }
 		return (
 			<Modal show={true} backdrop={false} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
 					<Modal.Title id="contained-modal-title-lg">{fooddata.name}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-                    <Input type="text" label="GroupName" ref="GroupName" onChange={()=>this.handleChange}/>
+                    <Input type="text" label="GroupName" ref="GroupName" />
                     <Input type="text" label="PSW" ref="PSW"/>
                     <Input type="text" label="MaxCost" ref="MaxCost"/>
                     <Input type="radio" name="inlineRadioOptions" label="Radio1" value="option1"/>
                     <Input type="radio" name="inlineRadioOptions" label="Radio2" value="option2"/>
-                    <Input type="select" label="EndTime" ref="EndTime" placeholder="select">
-                        <option value="1">16:00</option>
-                        <option value="2">16:10</option>
-                        <option value="3">16:20</option>
-                        <option value="4">16:30</option>
-                        <option value="5">16:40</option>
-                        <option value="6">16:50</option>
-                        <option value="7">17:00</option>
-                        <option value="8">17:10</option>
-                        <option value="9">17:20</option>
-                        <option value="10">17:30</option>
-                        <option value="11">17:40</option>
-                        <option value="12">17:50</option>
-                        <option value="13">18:00</option>
-                        <option value="11">17:40</option>
-                        <option value="12">17:50</option>
-                        <option value="13">18:00</option>
-                        <option value="14">18:10</option>
-                        <option value="15">18:20</option>
-                        <option value="16">18:30</option>
+                    <Input type="select" label="EndTime" defaultValue={this.props.DEFAULT_TIME} onChange={this.timeSelectHandler} placeholder="select">
+                        {timeOptions}
                     </Input>
-
                     <Row key="1">
 						{v_fdlist}
 					</Row>
@@ -199,7 +190,26 @@ function mapStateToProps(state) {
 		uid: state.user.userSession.get("SID"),
         foodData: state.user.userSession.get("foodData"),
 		foodlist: state.user.userSession.get("foodData").takeout_menu,
-        isLoading: state.sys.get("sysStateInfo_isLoading")
+        isLoading: state.sys.get("sysStateInfo_isLoading"),
+        DEFAULT_TIMES:
+        [
+            "15:50",
+            "16:00",
+            "16:10",
+            "16:20",
+            "16:30",
+            "16:40",
+            "16:50",
+            "17:00",
+            "17:10",
+            "17:20",
+            "17:30",
+            "17:40",
+            "17:50",
+            "18:00",
+            "18:10"
+        ],
+        DEFAULT_TIME:"16:30"
 	}
 }
 /*name:店名,
@@ -237,6 +247,8 @@ FDShowModal.propTypes = {
     setLoadingState: PropTypes.func.isRequired,
 	foodlist: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    DEFAULT_TIMES:PropTypes.array.isRequired,
+    DEFAULT_TIME:PropTypes.string.isRequired,
 	foodData: PropTypes.shape({ // 是否符合指定格式的物件
 		name: PropTypes.string.isRequired,
 		logo: PropTypes.string.isRequired,
