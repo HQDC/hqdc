@@ -21,10 +21,11 @@ var MSG_TYPE = keyMirror({
     STC_W_SESSION: null, //SESSION 检测
     STC_W_LOGOUT: null, //退出
     STC_W_FOODLIST: null, //菜单数据
+    STC_W_CREATE_ROOM_SUCCESS: null, // create roomesuccess
     //------------------socket---------------------------
 
     STC_S_HALL_ROOM_UPDATE: null, //room update
-    STC_S_CREATE_ROOM_SUCCESS: null, // create roomesuccess
+
     //------------------state---------------------------
 
     STATE_LOADING: null, //loading

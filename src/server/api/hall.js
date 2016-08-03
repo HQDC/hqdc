@@ -7,7 +7,8 @@ import {
 }
 from "../../common/Types";
 import {
-    sendMSG
+    sendMSG,
+    socketProxy
 }
 from "../core/io/Sender";
 import {
@@ -21,9 +22,13 @@ from './data';
 function createRoom(cData, res) {
     console.log("createRoom", cData);
     var roomData = hallManager.createRoom(cData);
-    console.log("roomData.hideList:", roomData);
+    //console.log("roomData.hideList:", roomData);
     hallManager.addRoom(roomData);
-    sendMSG(res, MSG_TYPES.STC_S_CREATE_ROOM_SUCCESS);
+    console.log("roomData.hideList -----------");
+    sendMSG(res, MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS);
+    console.log("STC_S_CREATE_ROOM_SUCCESS -----------");
+    socketProxy.sendMSGToALL( MSG_TYPES.STC_S_HALL_ROOM_UPDATE,hallManager.getSyncRooms());
+    console.log("STC_S_HALL_ROOM_UPDATE =================");
 }
 
 /**

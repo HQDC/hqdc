@@ -5,7 +5,7 @@
 var switchers = [];
 
 function connectSwitcher(list) {
-    console.log("initSwitcher.LG:", list.length)
+    console.log("initSwitcher.LG:", list.length);
     switchers = list;
 }
 /**
@@ -14,13 +14,9 @@ function connectSwitcher(list) {
  * @param res     如果从web 端 过来的 res是web的 res  如果是socket 端那么res 是socket
  */
 function routerHandler(data, res) {
-    console.log("switchersLG:", switchers.length);
     var needStopNext = true;
-    console.log("switchersLG2:", switchers.length);
     for (var i = 0; i < switchers.length; i++) {
-        console.log("进入循环 ");
         var itemSwitcher = switchers[i];
-        console.log("拿到handler", data);
         if (data == null) {
             console.error("routerHandler data is null");
             return;

@@ -166,7 +166,7 @@ function getFoodList(data, res) {
     groupData.DCUrl = data.fddata.DCUrl;
     var doclass = getclassbyurl(groupData.DCUrl);
 
-    console.log(doclass);
+
     if (doclass != null) {
         workermanager.doWork(workermanager.creatworkdata({
             url: groupData.DCUrl

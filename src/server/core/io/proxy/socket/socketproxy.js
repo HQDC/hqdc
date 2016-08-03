@@ -38,7 +38,7 @@ var socketProxy = new SocketProxy();
 SocketProxy.prototype.init = function(io, secret) {
     //http 共享session
     this._io = io;
-    console.log("socketInit", secret);
+    console.log("socketInit", secret,this._io);
     io.on('connection', socketioJwt.authorize({
         secret: secret,
         timeout: 15000 // 15 seconds to send the authentication message
@@ -47,7 +47,7 @@ SocketProxy.prototype.init = function(io, secret) {
         this._connect = true;
         setLineType(socket, TYPES.SOCKET);
         var request = socket.request;
-        console.log("socket connect decoded_token ========> ", socket.decoded_token);
+        console.log("socket connect decoded_token ========> ",this._io);
         routerHandler({type:MSG_TYPES.SYS_S_AUTHENTICATED,user:socket.decoded_token}, socket);
         socket.on('message', (data) => {
             routerHandler(data, socket);
@@ -99,14 +99,16 @@ SocketProxy.prototype.sendMSGToOne = function(socketID, msgHead, msgBody) {
 
 /**
  * 向所有户端发送消息
- * @param msgHead ClientSocketToServerTypes.js
+ * @param actionType ClientSocketToServerTypes.js
  * @param msgBody [actionType:ClientSocketToServerTypes.xxx,data:{msgBody}]
  */
-SocketProxy.prototype.sendMSGToALL = function(msgHead, msgBody) {
-    this._io.socket.emit('message', {
-        actionType: msgHead,
+SocketProxy.prototype.sendMSGToALL = function(actionType, msgBody) {
+    console.log("SocketProxy call sendMSGToALL1",this._connect);
+    this._io.sockets.emit('message', {
+        actionType: actionType,
         data: msgBody
     });
+    console.log("SocketProxy call sendMSGToALL2");
 };
 
 export default socketProxy;

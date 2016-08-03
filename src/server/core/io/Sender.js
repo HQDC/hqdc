@@ -6,7 +6,9 @@ import {
 }
 from "./lineswitcher"
 
-function sendOneMSG(res, actionType, sendData) {
+import socketProxy from "./proxy/socket/socketproxy"
+
+function sendOneMSG(res, actionType, sendData = {}) {
     var type = getLineType(res);
     sendData.type = actionType;
     switch (type) {
@@ -34,3 +36,6 @@ function sendOneMSG(res, actionType, sendData) {
 }
 
 exports.sendMSG = sendOneMSG;
+
+exports.socketProxy = socketProxy;
+

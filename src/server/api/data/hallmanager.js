@@ -65,19 +65,18 @@ HallList.prototype.updateRoom = function(roomData) {
  */
 HallList.prototype.createRoom = function(cData) {
     var roomData = {};
-    console.log("h0");
     roomData.RID = this.getHallSoleID();
-    console.log("h0.1");
     roomData.masterID = cData.SID;
-    console.log("h1");
-    roomData.PSW = "";
+    roomData.PSW = cData.PSW;
+    roomData.EndTime = cData.EndTime;
+    roomData.MaxCost = cData.MaxCost;
+    roomData.GroupName = cData.GroupName;
+    roomData.EndTime = cData.EndTime;
     roomData.maxPNum = 999;
     roomData.boxPrice = 1;
     roomData.playerList = {};
     roomData.hideList = cData.hidelist;
-    console.log("h2");
     roomData.foodData = userManager.getUserFoodData(cData.SID, true);
-    console.log("h3");
     return roomData;
 };
 
@@ -90,6 +89,7 @@ HallList.prototype.getHallSoleID = function() {
     return id;
 };
 HallList.prototype.getSyncRooms = function() {
+    console.log("getSyncRooms1");
     var returnList = [];
     _.forIn(this.room_hash,function(key,value){
         var roomData = {};
@@ -97,6 +97,7 @@ HallList.prototype.getSyncRooms = function() {
         delete roomData["PSW"];
         returnList.push(roomData);
     });
+    console.log("getSyncRooms2",returnList);
     return returnList;
 };
 /**
