@@ -24,11 +24,9 @@ function createRoom(cData, res) {
     var roomData = hallManager.createRoom(cData);
     //console.log("roomData.hideList:", roomData);
     hallManager.addRoom(roomData);
-    console.log("roomData.hideList -----------");
     sendMSG(res, MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS);
-    console.log("STC_S_CREATE_ROOM_SUCCESS -----------");
     socketProxy.sendMSGToALL( MSG_TYPES.STC_S_HALL_ROOM_UPDATE,hallManager.getSyncRooms());
-    console.log("STC_S_HALL_ROOM_UPDATE =================");
+    console.log("show Complete")
 }
 
 /**

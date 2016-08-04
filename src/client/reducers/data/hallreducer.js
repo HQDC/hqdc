@@ -9,18 +9,17 @@ import Immutable from 'immutable';
 
 function hallUpdate(state, action) {
     console.log("hallUpdate:",action);
-	var done = action.list.filter(function(item) {
-		return item.state = 2
+	var done = action.data.data.filter(function(item) {
+		return item.State == "done"
 	});
-	var ing = action.list.filter(function(item) {
-		return item.state = 1
+	var ing = action.data.data.filter(function(item) {
+		return item.State = "ing"
 	});
 	return {
 		done: done,
 		ing: ing
 	};
 }
-
 
 function createRoomSuccess(state, action) {
     console.log("success");

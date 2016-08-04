@@ -26,7 +26,6 @@ function userLoginRet(state, action) {
     //window.location.href = "/hall";
     Base.socketClient.init(action.data.SID);
     store.set('SID', action.data.SID);
-    console.log("testState userLoginRet:", state.userSession, action);
     return {
         userSession: state.userSession.merge(Immutable.fromJS(action.data), {
             "isLogin": true
@@ -50,14 +49,7 @@ function userLogOutRet(state, action) {
     //socketClient.disconnect();
 }
 
-/**
- *
- * @param state
- * @param action
- */
-function createRoomRet(state, action) {
 
-}
 
 /**
  *
@@ -81,8 +73,7 @@ var defaultCall = function(state = {
             ip: "",
             name: "",
             SID: (store.get('SID') ? store.get('SID') : ""),
-            foodData: {},
-            isLoading:false
+            foodData: {}
         })
     },
     action) {
@@ -91,6 +82,7 @@ var defaultCall = function(state = {
             return userLoginRet(state, action);
         case MSG_TYPES.STC_W_FOODLIST:
             return foodListRet(state, action);
+
         default:
             return state;
     }

@@ -71,6 +71,7 @@ HallList.prototype.createRoom = function(cData) {
     roomData.EndTime = cData.EndTime;
     roomData.MaxCost = cData.MaxCost;
     roomData.GroupName = cData.GroupName;
+    roomData.State = "ing";
     roomData.EndTime = cData.EndTime;
     roomData.maxPNum = 999;
     roomData.boxPrice = 1;
@@ -91,10 +92,11 @@ HallList.prototype.getHallSoleID = function() {
 HallList.prototype.getSyncRooms = function() {
     console.log("getSyncRooms1");
     var returnList = [];
-    _.forIn(this.room_hash,function(key,value){
-        var roomData = {};
-        _.assign(roomData,value);
-        delete roomData["PSW"];
+    _.forIn(this.room_hash,function(item){
+        var roomData = _.pick(item,["RID","EndTime","MaxCost","State","GroupName"]);
+        roomData.playerNum = item.playerList.length | 1;
+        roomData.hasPSW = item.PSW.length > 0;
+        roomData.foodData = _.pick(item.foodData,["name","logo","address","phone"]);
         returnList.push(roomData);
     });
     console.log("getSyncRooms2",returnList);

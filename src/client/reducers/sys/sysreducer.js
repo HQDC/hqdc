@@ -56,7 +56,10 @@ var defaultCall = function(state = Immutable.fromJS({
         case MSG_TYPES.STATE_UNLOADING:
             return sysStateUnLoadingHandler(state, action);
         case MSG_TYPES.STC_W_FOODLIST:
-            return state.set("sysStateInfo_isLoading",false);
+            return sysStateUnLoadingHandler(state, action);
+        case MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS:
+            return sysStateUnLoadingHandler(state, action);
+
         default:
             return state;
     }

@@ -42,6 +42,8 @@ function defaultCall(state = {
 			return hideModalHandler(state, action.modal);
 		case MSG_TYPES.STC_W_FOODLIST:
 			return showFoodListModal(state);
+		case MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS:
+			return hideModalHandler(state);
 		default:
 			return state;
 	}

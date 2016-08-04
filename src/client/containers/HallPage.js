@@ -16,21 +16,27 @@ from 'react-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 class HallPage extends Component {
     render() {
+        console.log("hall Render");
         var ingitems = this.props.ing.map((item) => {
+            console.log("this.props.ing-->");
             return (
-                <RoomItem key={item.groupID}>{item}</RoomItem>
+                <h4>{item.GroupName}</h4>
+                //<RoomItem {...item} key={item.groupID}/>
             );
         });
 
         var doneitems = this.props.done.map((item) => {
+            console.log("this.props.done-->");
             return (
-                <RoomItem key={item.groupID}>{item}</RoomItem>
+                <h4>{item.GroupName}</h4>
+               // <RoomItem {...item} key={item.groupID}/>
             );
         });
         return (
             <Row className="show-grid">
                 <Col xs={6} md={6}>
                     <Panel header="Ing" bsStyle="success">
+                        <h2>asdfsd</h2>
                         {ingitems}
                     </Panel>
                 </Col>
