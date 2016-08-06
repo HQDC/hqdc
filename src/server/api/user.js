@@ -7,7 +7,8 @@ import {
 }
 from "../../common/Types";
 import {
-    sendMSG
+    sendMSG,
+    sendMSGToALL
 }
 from "../core/io/Sender";
 import crypto from 'crypto';
@@ -78,6 +79,7 @@ function login(data, res) {
                 }
             });
 
+
         } else {
             sendMSG(res, MSG_TYPES.ERROR_ALERT, {
                 msg: "2-4hz"
@@ -120,6 +122,7 @@ function testSession(data, res) {
                 httpOnly: true
             }
         });
+
     } else {
         sendMSG(res, MSG_TYPES.ERROR_ALERT, {
             msg: "Session null"
@@ -151,6 +154,7 @@ function logout(data, res) {
 function socketConnectAuth(data, res) {
     var userSession = userManager.getUserByName(data.user);
     console.log("socketConnectAuth:", userSession, data.user);
+    sendMSGToALL( MSG_TYPES.STC_S_HALL_ROOM_UPDATE,hallManager.getSyncRooms());
     return {
         needStopNext: true
     };

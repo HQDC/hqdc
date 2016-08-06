@@ -17,32 +17,31 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 class HallPage extends Component {
     render() {
         console.log("hall Render");
-        var ingitems = this.props.ing.map((item) => {
-            console.log("this.props.ing-->");
-            return (
-                <h4>{item.GroupName}</h4>
-                //<RoomItem {...item} key={item.groupID}/>
+        var ingItems = [];
+        for (var i = 0; i < this.props.ing.length; i++) {
+            var ingItem = this.props.ing[i];
+            ingItems.push (
+                <RoomItem {...ingItem} key={ingItem.groupID}/>
             );
-        });
+        }
+        var downItems = [];
+        for (var j = 0; j < this.props.done.length; j++) {
+            var downItem = this.props.done[j];
+            downItems.push (
+                <RoomItem {...downItem} key={downItem.groupID}/>
+            );
+        }
 
-        var doneitems = this.props.done.map((item) => {
-            console.log("this.props.done-->");
-            return (
-                <h4>{item.GroupName}</h4>
-               // <RoomItem {...item} key={item.groupID}/>
-            );
-        });
         return (
             <Row className="show-grid">
                 <Col xs={6} md={6}>
                     <Panel header="Ing" bsStyle="success">
-                        <h2>asdfsd</h2>
-                        {ingitems}
+                        {ingItems}
                     </Panel>
                 </Col>
                 <Col xs={6} md={6}>
                     <Panel header="Complete" bsStyle="warning">
-                        {doneitems}
+                        {downItems}
                     </Panel>
                 </Col>
             </Row>

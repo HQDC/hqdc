@@ -29,25 +29,26 @@ from '../../../../../common/utils/TypeUtils';
 import socketioJwt from 'socketio-jwt';
 
 function SocketProxy() {
-    this._connect = false;
+
 }
-var socketProxy = new SocketProxy();
+var _io;
+
 /**
  * 初始化 服务器 socket
  */
 SocketProxy.prototype.init = function(io, secret) {
     //http 共享session
-    this._io = io;
-    console.log("socketInit", secret,this._io);
+    _io = io;
+
     io.on('connection', socketioJwt.authorize({
         secret: secret,
         timeout: 15000 // 15 seconds to send the authentication message
     }));
     io.on("authenticated", (socket) => {
-        this._connect = true;
+
         setLineType(socket, TYPES.SOCKET);
         var request = socket.request;
-        console.log("socket connect decoded_token ========> ",this._io);
+
         routerHandler({type:MSG_TYPES.SYS_S_AUTHENTICATED,user:socket.decoded_token}, socket);
         socket.on('message', (data) => {
             routerHandler(data, socket);
@@ -89,26 +90,26 @@ SocketProxy.prototype.init = function(io, secret) {
  */
 SocketProxy.prototype.sendMSGToOne = function(socketID, msgHead, msgBody) {
     //socket.emit("message",{actionType:msgHead, data:msgBody});
-    this._io.sockets.connected[socketID].emit('message', {
+    _io.sockets.connected[socketID].emit('message', {
         actionType: msgHead,
         data: {
             msgBody
         }
     });
 };
-
 /**
  * 向所有户端发送消息
  * @param actionType ClientSocketToServerTypes.js
  * @param msgBody [actionType:ClientSocketToServerTypes.xxx,data:{msgBody}]
  */
 SocketProxy.prototype.sendMSGToALL = function(actionType, msgBody) {
-    console.log("SocketProxy call sendMSGToALL1",this._connect);
-    this._io.sockets.emit('message', {
+
+    _io.sockets.emit('message', {
         actionType: actionType,
         data: msgBody
     });
     console.log("SocketProxy call sendMSGToALL2");
 };
-
+var socketProxy = new SocketProxy();
 export default socketProxy;
+exports.sendMSGToALL = socketProxy.sendMSGToALL;
