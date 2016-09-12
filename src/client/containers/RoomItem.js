@@ -12,22 +12,23 @@ class RoomItem extends Component {
 		return (
 			<Col xs={4} md={4}>
 				<OverlayTrigger id={this.props.RID} placement="top"
-								overlay={<Popover id={this.props.RID} title="Popover bottom"><strong>{this.props.GroupName}</strong>{this.props.foodData.name}</Popover>}>
+								overlay={<Popover id={this.props.RID} title={this.props.GroupName}>{this.props.foodData.name}</Popover>}>
 					<Well>
 						<Row className="show-grid">
 							<Col xs={6} md={6}>
 								<div>{this.props.GroupName}</div>
 							</Col>
 							<Col xs={4} md={4}>
-								<div>{this.props.EndTime}</div>
+								<div><font size="3" color="red">{this.props.EndTime}</font></div>
 							</Col>
 							<Col xs={2} md={2}>
 								{showlock}
 							</Col>
 						</Row>
+
 						<ProgressBar>
-							<ProgressBar bsStyle="success" now={100} key={1}/>
-							<ProgressBar bsStyle="warning" now={100} key={2}/>
+							<ProgressBar active  label={20+"人"}  bsStyle="info" now={35} key={1} />
+							<ProgressBar active label={60+"人"} bsStyle="warning" now={65} key={2} />
 						</ProgressBar>
 						<Row className="show-grid">
 							<Col xs={12} md={12}>

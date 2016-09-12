@@ -41,8 +41,8 @@ var defaultCall = function(state = {
 	switch (action.type) {
 		case MSG_TYPES.STC_S_HALL_ROOM_UPDATE:
 			return hallUpdate(state, action);
-        case MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS:
-            return createRoomSuccess(state, action);
+        /*case MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS:
+            return createRoomSuccess(state, action);*/
 		default:
 			return state;
 	}
