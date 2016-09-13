@@ -14,8 +14,6 @@ import http from 'http';
 import log4js from 'log4js';
 //log the hqdc logger messages to a file, and the console ones as well.
 
-
-
 log4js.configure({
 	appenders: [{
 		type: "file",
