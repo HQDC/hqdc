@@ -1,18 +1,9 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, { PropTypes, Component } from 'react';
 import { OverlayTrigger,Label,Glyphicon, Row, Well,Popover, ProgressBar,Badge, Panel, Col} from 'react-bootstrap';
-import reactCSS, { hover } from 'reactcss';
 
 class RoomItem extends Component {
 	render() {
-        const styles = reactCSS({
-            'default': {
-                card: {
-                    background: this.props.background,
-                    boxShadow: '0 2px 4px rgba(0,0,0,.15)'
-                }
-            }
-        });
 
 		var showlock = "";
 		if (this.props.hasPSW) {
@@ -22,7 +13,7 @@ class RoomItem extends Component {
 			<Col xs={4} md={4}>
 				<OverlayTrigger id={this.props.RID} placement="top"
 								overlay={<Popover id={this.props.RID} title={this.props.GroupName}>{this.props.foodData.name}</Popover>}>
-					<Well bsClass={styles.card}>
+					<Well>
 						<Row className="show-grid">
 							<Col xs={6} md={6}>
 								<div>{this.props.GroupName}</div>

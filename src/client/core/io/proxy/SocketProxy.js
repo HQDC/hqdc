@@ -4,6 +4,7 @@
  */
 import proxyConnect from 'socket.io-client';
 import Base from 'Base';
+import os from 'os';
 import {
     MSG_TYPES
 }
@@ -14,6 +15,7 @@ class SocketProxy {
         this.socket = null;
     }
 }
+
 /**
  * 初始化 客户端 socket
  */

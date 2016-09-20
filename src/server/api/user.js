@@ -16,6 +16,7 @@ import crypto from 'crypto';
 import cookie from 'cookie';
 import signature from 'cookie-signature';
 import jwt from 'jsonwebtoken';
+import os from 'os';
 
 import {
     hallManager,userManager
@@ -33,7 +34,18 @@ function getClientIp(req) {
     retip = (retip.substring((retip.lastIndexOf(":") + 1), retip.length));
     return retip;
 }
-
+function getIPAdress(){
+    var interfaces = os.networkInterfaces();
+    for(var devName in interfaces){
+        var iface = interfaces[devName];
+        for(var i=0;i<iface.length;i++){
+            var alias = iface[i];
+            if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
+                return alias.address;
+            }
+        }
+    }
+};
 
 /*function setCookie(res, name, val, secret, options) {
  console.log("setcookie ");
@@ -53,7 +65,8 @@ function login(data, res) {
     if (data.name != null) {
         comname = decodeURI(data.name);
     }
-    console.log("login", comname);
+    console.log("login", comname,getIPAdress());
+
     var today = new Date();
     var time = today.getTime() + 60 * 1000;
     var time2 = new Date(time);
@@ -61,16 +74,11 @@ function login(data, res) {
     if (comname != null) {
         var reg = /^[\u4e00-\u9fa5]{2,4}$/;
         if (reg.test(comname)) {
-            var ip = getClientIp(res._req);
-            console.log("ip:", ip);
+            console.log("hello");
             var SID = userManager.sign(comname);
-            var userData = {
-                name: comname,
-                ip: ip,
-                ret: 0,
-                SID: SID
-            };
-            userManager.addUser(userManager.createUser(SID, comname, ip, ""));
+            console.log("hello2");
+            var userData = createUserData(res,SID);
+            userManager.addUser(userManager.createUser(SID, userData.name, userData.ip, ""));
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: userData,
                 cookieopt: {
@@ -95,23 +103,28 @@ function login(data, res) {
         needStopNext: true
     };
 }
-
+function createUserData(res,SID){
+    console.log("createUserData1");
+    var ip = getClientIp(res._req);
+    console.log("createUserData2");
+    var userName = userManager.unSign(SID);
+    return {
+        name: userName,
+        ip: ip,
+        ret: 0,
+        SID: SID,
+        server:getIPAdress()
+    };
+}
 /**
  * session 检测
  */
 function testSession(data, res) {
     var SID = data.SID;
     console.log("testSession SID:", SID);
-    var userName = userManager.unSign(SID);
-    var ip = getClientIp(res._req);
-    var userData = {
-        name: userName,
-        ip: ip,
-        ret: 0,
-        SID: SID
-    };
+    var userData = createUserData(res,SID);
     console.log("userManager.addUser1", SID);
-    userManager.addUser(userManager.createUser(SID, userName, ip, ""));
+    userManager.addUser(userManager.createUser(SID, userData.name, userData.ip, ""));
 
     console.log("userManager.addUser2", SID);
     if (SID) {
