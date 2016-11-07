@@ -1,6 +1,7 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, {
-    PropTypes, Component
+    PropTypes,
+    Component
 }
 from 'react';
 import {
@@ -10,7 +11,7 @@ from '../actions/user';
 import {
     setLoadingState
 }
-    from '../actions/state';
+from '../actions/state';
 import {
     delModal
 }
@@ -20,7 +21,20 @@ import {
 }
 from 'react-redux';
 import {
-    ButtonInput, OverlayTrigger, Tooltip, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col, Modal
+    ButtonInput,
+    OverlayTrigger,
+    Tooltip,
+    ProgressBar,
+    Label,
+    Well,
+    Popover,
+    Grid,
+    Row,
+    Button,
+    Input,
+    Panel,
+    Col,
+    Modal
 }
 from 'react-bootstrap';
 class CreateRoomTestModal extends Component {
@@ -36,7 +50,7 @@ class CreateRoomTestModal extends Component {
     };
 
     submitHandler() {
-        if(this.props.isLoading){
+        if (this.props.isLoading) {
             return;
         }
         var createRoomData = {};
@@ -49,7 +63,7 @@ class CreateRoomTestModal extends Component {
     handleChange() {};
 
     render() {
-        console.log("CreateRoomTestModal render: isLoading",this.props.isLoading);
+        console.log("CreateRoomTestModal render: isLoading", this.props.isLoading);
         return (
             <Modal show={true} dialogClassName="custom-modal" backdrop={true} onHide={()=>this.props.delModal()}>
                 <Modal.Header closeButton>

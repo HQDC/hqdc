@@ -1,10 +1,25 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, {
-	PropTypes, Component
+	PropTypes,
+	Component
 }
 from 'react';
 import {
-	ButtonInput, OverlayTrigger, Thumbnail, Tooltip, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col, Modal
+	ButtonInput,
+	OverlayTrigger,
+	Thumbnail,
+	Tooltip,
+	ProgressBar,
+	Label,
+	Well,
+	Popover,
+	Grid,
+	Row,
+	Button,
+	Input,
+	Panel,
+	Col,
+	Modal
 }
 from 'react-bootstrap';
 import {

@@ -1,14 +1,30 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, {
-	PropTypes, Component
+	PropTypes,
+	Component
 }
 from 'react';
 import {
-    setLoadingState
+	setLoadingState
 }
-    from '../actions/state';
+from '../actions/state';
 import {
-	ButtonInput, OverlayTrigger,Media, Thumbnail, Tooltip, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col, Modal
+	ButtonInput,
+	OverlayTrigger,
+	Media,
+	Thumbnail,
+	Tooltip,
+	ProgressBar,
+	Label,
+	Well,
+	Popover,
+	Grid,
+	Row,
+	Button,
+	Input,
+	Panel,
+	Col,
+	Modal
 }
 from 'react-bootstrap';
 import {
@@ -19,7 +35,7 @@ import {
 	BD_TYPES
 }
 from '../../common/baidu/BaiDuTypes';
-    import {
+import {
 	createRoom
 }
 from '../actions/hall';
@@ -32,12 +48,12 @@ class FDShowModal extends Component {
 	constructor() {
 		super();
 		this.submitHandler = this.submitHandler.bind(this);
-        this.timeSelectHandler = this.timeSelectHandler.bind(this);
+		this.timeSelectHandler = this.timeSelectHandler.bind(this);
 	}
 
-    timeSelectHandler(e){
-        this.endTime = e.target.value;
-    }
+	timeSelectHandler(e) {
+		this.endTime = e.target.value;
+	}
 
 	getHideList() {
 		var hidelist = [];
@@ -67,17 +83,17 @@ class FDShowModal extends Component {
 		console.log("idChange->", id, e.target.checked, this.hidelist);
 	}
 	submitHandler() {
-        if(this.props.isLoading){
-            return;
-        }
-        this.props.setLoadingState();
-		console.log("input End Time ",this.endTime);
+		if (this.props.isLoading) {
+			return;
+		}
+		this.props.setLoadingState();
+		console.log("input End Time ", this.endTime);
 		this.props.createRoom({
 			"hidelist": this.hidelist,
-            "PSW":this.refs.PSW.getValue(),
-            "EndTime":(this.endTime == null ?this.props.DEFAULT_TIME:this.endTime),
-            "MaxCost":this.refs.MaxCost.getValue(),
-            "GroupName":this.refs.GroupName.getValue()
+			"PSW": this.refs.PSW.getValue(),
+			"EndTime": (this.endTime == null ? this.props.DEFAULT_TIME : this.endTime),
+			"MaxCost": this.refs.MaxCost.getValue(),
+			"GroupName": this.refs.GroupName.getValue()
 		});
 	}
 
@@ -152,11 +168,11 @@ class FDShowModal extends Component {
 				}
 			}
 		}
-        var timeOptions = [];
-        for (var j = 0; j < this.props.DEFAULT_TIMES.length; j++) {
-            var itemValue= this.props.DEFAULT_TIMES[j];
-            timeOptions.push(<option value={itemValue}>{itemValue}</option>);
-        }
+		var timeOptions = [];
+		for (var j = 0; j < this.props.DEFAULT_TIMES.length; j++) {
+			var itemValue = this.props.DEFAULT_TIMES[j];
+			timeOptions.push(<option value={itemValue}>{itemValue}</option>);
+		}
 		return (
 			<Modal show={true} backdrop={false} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
@@ -186,30 +202,29 @@ class FDShowModal extends Component {
 function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
-        setLoadingState: setLoadingState,
+		setLoadingState: setLoadingState,
 		uid: state.user.userSession.get("SID"),
-        foodData: state.user.userSession.get("foodData"),
+		foodData: state.user.userSession.get("foodData"),
 		foodlist: state.user.userSession.get("foodData").takeout_menu,
-        isLoading: state.sys.get("sysStateInfo_isLoading"),
-        DEFAULT_TIMES:
-        [
-            "15:50",
-            "16:00",
-            "16:10",
-            "16:20",
-            "16:30",
-            "16:40",
-            "16:50",
-            "17:00",
-            "17:10",
-            "17:20",
-            "17:30",
-            "17:40",
-            "17:50",
-            "18:00",
-            "18:10"
-        ],
-        DEFAULT_TIME:"16:30"
+		isLoading: state.sys.get("sysStateInfo_isLoading"),
+		DEFAULT_TIMES: [
+			"15:50",
+			"16:00",
+			"16:10",
+			"16:20",
+			"16:30",
+			"16:40",
+			"16:50",
+			"17:00",
+			"17:10",
+			"17:20",
+			"17:30",
+			"17:40",
+			"17:50",
+			"18:00",
+			"18:10"
+		],
+		DEFAULT_TIME: "16:30"
 	}
 }
 /*name:店名,
@@ -244,11 +259,11 @@ FDShowModal.propTypes = {
 	createRoom: PropTypes.func.isRequired,
 	delModal: PropTypes.func.isRequired,
 	uid: PropTypes.string.isRequired,
-    setLoadingState: PropTypes.func.isRequired,
+	setLoadingState: PropTypes.func.isRequired,
 	foodlist: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    DEFAULT_TIMES:PropTypes.array.isRequired,
-    DEFAULT_TIME:PropTypes.string.isRequired,
+	isLoading: PropTypes.bool.isRequired,
+	DEFAULT_TIMES: PropTypes.array.isRequired,
+	DEFAULT_TIME: PropTypes.string.isRequired,
 	foodData: PropTypes.shape({ // 是否符合指定格式的物件
 		name: PropTypes.string.isRequired,
 		logo: PropTypes.string.isRequired,
@@ -269,6 +284,6 @@ export default connect(
 	mapStateToProps, {
 		createRoom,
 		delModal,
-        setLoadingState
+		setLoadingState
 	}
 )(FDShowModal);

@@ -7,6 +7,6 @@ import keyMirror from 'fbjs/lib/keyMirror';
  */
 export default keyMirror({
 	ADD_ALERT: null,
-	DEL_ALERT:null,
-	HIDE_ALERT:null
+	DEL_ALERT: null,
+	HIDE_ALERT: null
 });

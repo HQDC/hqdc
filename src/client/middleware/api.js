@@ -1,5 +1,11 @@
-import { Schema, arrayOf, normalize } from 'normalizr'
-import { camelizeKeys } from 'humps'
+import {
+	Schema,
+	arrayOf,
+	normalize
+} from 'normalizr'
+import {
+	camelizeKeys
+} from 'humps'
 
 
 // Extracts the next page URL from Github API response.
@@ -25,16 +31,23 @@ function callApi(endpoint, schema) {
 
 	return fetch(fullUrl)
 		.then(response =>
-			response.json().then(json => ({json, response}))
-		).then(({ json, response }) => {
+			response.json().then(json => ({
+				json,
+				response
+			}))
+		).then(({
+			json,
+			response
+		}) => {
 			if (!response.ok) {
 				return Promise.reject(json)
 			}
 			const camelizedJson = camelizeKeys(json)
 			const nextPageUrl = getNextPageUrl(response) || undefined
 			return Object.assign({},
-				normalize(camelizedJson, schema),
-				{nextPageUrl}
+				normalize(camelizedJson, schema), {
+					nextPageUrl
+				}
 			)
 		})
 }
@@ -78,8 +91,13 @@ export default store => next => action => {
 		return next(action)
 	}
 
-	let { endpoint } = callAPI
-	const { schema, types } = callAPI
+	let {
+		endpoint
+	} = callAPI
+	const {
+		schema,
+		types
+	} = callAPI
 
 	if (typeof endpoint === 'function') {
 		endpoint = endpoint(store.getState())
@@ -105,8 +123,10 @@ export default store => next => action => {
 		return finalAction
 	}
 
-	const [ requestType, successType, failureType ] = types;
-	next(actionWith({type: requestType}));
+	const [requestType, successType, failureType] = types;
+	next(actionWith({
+		type: requestType
+	}));
 
 	return callApi(endpoint, schema).then(
 		response => next(actionWith({

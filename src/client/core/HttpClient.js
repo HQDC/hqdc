@@ -2,7 +2,10 @@
  * Created by Tile on 2015/11/30.
  */
 import "isomorphic-fetch";
-import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
+import {
+	canUseDOM
+} from 'fbjs/lib/ExecutionEnvironment';
+
 function getUrl(path) {
 	if (path.startsWith('http') || canUseDOM) {
 		return path;
@@ -11,30 +14,31 @@ function getUrl(path) {
 		`http://${process.env.WEBSITE_HOSTNAME}${path}` :
 		`http://127.0.0.1:${global.server.get('port')}${path}`;
 }
+
 function fetchCall(path, type, body, successFun, errorFun) {
-    let webPath = getUrl(path);
+	let webPath = getUrl(path);
 	fetch(webPath, {
-		method: type,
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: body == null ? {} : JSON.stringify(body)
-	}).then(response => {
+			method: type,
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: body == null ? {} : JSON.stringify(body)
+		}).then(response => {
 			return response.json();
 		})
 		.then(data => {
-            console.log("http:"+webPath);
+			console.log("http:" + webPath);
 			successFun(data);
 		})
 		.catch(err => {
-            console.log("error http:"+webPath);
+			console.log("error http:" + webPath);
 			errorFun(err);
 		})
 }
 const HttpClient = {
-	get: (path, body, successFun, errorFun)=> fetchCall(path, "get", body, successFun, errorFun),
-	post: (path, body, successFun, errorFun)=> fetchCall(path, "post", body, successFun, errorFun)
+	get: (path, body, successFun, errorFun) => fetchCall(path, "get", body, successFun, errorFun),
+	post: (path, body, successFun, errorFun) => fetchCall(path, "post", body, successFun, errorFun)
 };
 
 export default HttpClient;
