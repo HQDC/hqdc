@@ -1,6 +1,7 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, {
-    PropTypes, Component
+    PropTypes,
+    Component
 }
 from 'react';
 import {
@@ -8,7 +9,12 @@ import {
 }
 from 'react-redux';
 import {
-    Navbar, Nav, NavItem, NavDropdown, MenuItem, Col
+    Navbar,
+    Nav,
+    NavItem,
+    NavDropdown,
+    MenuItem,
+    Col
 }
 from 'react-bootstrap';
 import {
@@ -67,21 +73,22 @@ class Header extends Component {
             croom = "";
             dpdown = <NavItem eventKey={4} href="/login">未登录</NavItem>;
         }
-        return ( < Navbar inverse >
-            <Navbar.Header>
-					<Navbar.Brand>
-						<a href="#">SinceTimes</a>
-					</Navbar.Brand>
-					<Navbar.Toggle />
-			</Navbar.Header> <Navbar.Collapse >
-            < Nav pullRight eventKey = {
-                1
-            } > {
-                croom
-            } {
-                dpdown
-            } </Nav>  </Navbar.Collapse> </Navbar>
-        );
+
+
+
+        var returnContainer =
+            <Navbar inverse>
+                <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">SinceTimes</a>
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                </Navbar.Header> <Navbar.Collapse >
+                <Nav pullRight eventKey = {1}> {croom} {dpdown}</Nav>
+                </Navbar.Collapse>
+            </Navbar>
+
+        return returnContainer;
     }
 }
 

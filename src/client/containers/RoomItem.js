@@ -1,8 +1,28 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
-import React, { PropTypes, Component } from 'react';
-import { OverlayTrigger,Label,Glyphicon, Row, Well,Popover, ProgressBar,Badge, Panel, Col} from 'react-bootstrap';
+import React, {
+	PropTypes,
+	Component
+} from 'react';
+import {
+	OverlayTrigger,
+	Label,
+	Glyphicon,
+	Row,
+	Well,
+	Popover,
+	ProgressBar,
+	Badge,
+	Panel,
+	Col
+} from 'react-bootstrap';
 
 class RoomItem extends Component {
+	constructor(props) {
+		super(props);
+		this.clickEnterRoom = this.clickEnterRoom.bind(this);
+	}
+	clickEnterRoom() {
+		console.log("enter room");
+	}
 	render() {
 
 		var showlock = "";
@@ -10,7 +30,7 @@ class RoomItem extends Component {
 			showlock = <Glyphicon glyph="lock"/>;
 		}
 		return (
-			<Col xs={4} md={4}>
+			<Col xs={4} md={4} onClick={this.clickEnterRoom}>
 				<OverlayTrigger id={this.props.RID} placement="top"
 								overlay={<Popover id={this.props.RID} title={this.props.GroupName}>{this.props.foodData.name}</Popover>}>
 					<Well>
@@ -42,18 +62,18 @@ class RoomItem extends Component {
 	}
 }
 RoomItem.propTypes = {
-    EndTime: PropTypes.string.isRequired,
-    RID: PropTypes.number.isRequired,
-    MaxCost: PropTypes.string.isRequired,
-    State: PropTypes.string.isRequired,
-    hasPSW: PropTypes.bool.isRequired,
-    GroupName: PropTypes.string.isRequired,
-    playerNum: PropTypes.number.isRequired,
-    foodData: PropTypes.shape({ // 是否符合指定格式的物件
-        name: PropTypes.string.isRequired,
-        logo: PropTypes.string.isRequired,
-        phone: PropTypes.string.isRequired,
-        address: PropTypes.string.isRequired
-    })
+	EndTime: PropTypes.string.isRequired,
+	RID: PropTypes.number.isRequired,
+	MaxCost: PropTypes.string.isRequired,
+	State: PropTypes.string.isRequired,
+	hasPSW: PropTypes.bool.isRequired,
+	GroupName: PropTypes.string.isRequired,
+	playerNum: PropTypes.number.isRequired,
+	foodData: PropTypes.shape({ // 是否符合指定格式的物件
+		name: PropTypes.string.isRequired,
+		logo: PropTypes.string.isRequired,
+		phone: PropTypes.string.isRequired,
+		address: PropTypes.string.isRequired
+	})
 };
 export default RoomItem;

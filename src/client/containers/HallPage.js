@@ -1,6 +1,7 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, {
-    PropTypes, Component
+    PropTypes,
+    Component
 }
 from 'react';
 import RoomItem from './RoomItem';
@@ -10,7 +11,18 @@ import {
 }
 from 'react-redux';
 import {
-    ButtonInput, OverlayTrigger, ProgressBar, Label, Well, Popover, Grid, Row, Button, Input, Panel, Col
+    ButtonInput,
+    OverlayTrigger,
+    ProgressBar,
+    Label,
+    Well,
+    Popover,
+    Grid,
+    Row,
+    Button,
+    Input,
+    Panel,
+    Col
 }
 from 'react-bootstrap';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -20,14 +32,14 @@ class HallPage extends Component {
         var ingItems = [];
         for (var i = 0; i < this.props.ing.length; i++) {
             var ingItem = this.props.ing[i];
-            ingItems.push (
+            ingItems.push(
                 <RoomItem {...ingItem} key={ingItem.groupID}/>
             );
         }
         var downItems = [];
         for (var j = 0; j < this.props.done.length; j++) {
             var downItem = this.props.done[j];
-            downItems.push (
+            downItems.push(
                 <RoomItem {...downItem} key={downItem.groupID}/>
             );
         }

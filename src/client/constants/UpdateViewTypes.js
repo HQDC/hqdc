@@ -6,5 +6,5 @@ import keyMirror from 'fbjs/lib/keyMirror';
  * 更新视图
  */
 export default keyMirror({
-    USER_UPDATE:null,
+	USER_UPDATE: null,
 });
