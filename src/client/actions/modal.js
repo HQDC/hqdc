@@ -3,6 +3,7 @@
  */
 import ModalTypes from '../constants/ModalTypes';
 export function addModal(modal) {
+	console.log("call Add Modal", modal);
 	return {
 		type: ModalTypes.ADD_MODAL,
 		modal: modal

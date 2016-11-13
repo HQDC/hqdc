@@ -13,10 +13,10 @@ import {
 }
 from 'redux';
 const rootReducer = combineReducers({
-	user,
-	hall,
 	alerts,
 	modals,
+	user,
+	hall,
 	errors,
 	router,
 	sys

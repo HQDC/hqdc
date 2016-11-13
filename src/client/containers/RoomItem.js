@@ -21,10 +21,10 @@ class RoomItem extends Component {
 		this.clickEnterRoom = this.clickEnterRoom.bind(this);
 	}
 	clickEnterRoom() {
-		console.log("enter room");
+		event.preventDefault();
+		this.props.enterHandler(this.props.RID);
 	}
 	render() {
-
 		var showlock = "";
 		if (this.props.hasPSW) {
 			showlock = <Glyphicon glyph="lock"/>;
@@ -67,6 +67,7 @@ RoomItem.propTypes = {
 	MaxCost: PropTypes.string.isRequired,
 	State: PropTypes.string.isRequired,
 	hasPSW: PropTypes.bool.isRequired,
+	enterHandler: PropTypes.func.isRequired,
 	GroupName: PropTypes.string.isRequired,
 	playerNum: PropTypes.number.isRequired,
 	foodData: PropTypes.shape({ // 是否符合指定格式的物件

@@ -25,7 +25,12 @@ import {
     addModal
 }
 from '../actions/modal'
+import {
+    addAlert
+}
+from '../actions/alert'
 import CreateRoomTestModal from '../components/CreateRoomTestModal';
+//import CreateRoomTestModal from '../components/OrderForFoodsModal';
 import ViewUpdateTypes from '../constants/UpdateViewTypes';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 class Header extends Component {
@@ -48,6 +53,7 @@ class Header extends Component {
             event.preventDefault();
             console.log("click create room", selectedKey);
             this.props.addModal(CreateRoomTestModal);
+            this.props.addAlert("info", "createRoom");
         }
         // Unbind change listener
     componentWillUnmount() {
@@ -100,7 +106,8 @@ function mapStateToProps(state) {
         name: state.user.userSession.get("name"),
         ip: state.user.userSession.get("ip"),
         userLogout: userLogout,
-        addModal: addModal
+        addModal: addModal,
+        addAlert: addAlert
     }
 }
 
@@ -108,6 +115,7 @@ Header.propTypes = {
     ret: PropTypes.number.isRequired,
     userLogout: PropTypes.func.isRequired,
     addModal: PropTypes.func.isRequired,
+    addAlert: PropTypes.func.isRequired,
     isLogin: PropTypes.bool.isRequired,
     ip: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
@@ -116,5 +124,6 @@ Header.propTypes = {
 export default connect(
     mapStateToProps, {
         userLogout,
-        addModal
+        addModal,
+        addAlert
     })(Header)

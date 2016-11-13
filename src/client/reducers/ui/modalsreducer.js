@@ -35,6 +35,7 @@ function showFoodListModal(state) {
 function defaultCall(state = {
 	onShowModal: ""
 }, action) {
+	console.log("modal reducer");
 	switch (action.type) {
 		case ModalTypes.ADD_MODAL:
 			return addModalHandler(state, action.modal);
