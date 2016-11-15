@@ -12,7 +12,8 @@ import {
 }
 from "../core/io/Sender";
 import {
-    hallManager, userManager
+    hallManager,
+    userManager
 }
 from './data';
 
@@ -25,10 +26,44 @@ function createRoom(cData, res) {
     //console.log("roomData.hideList:", roomData);
     hallManager.addRoom(roomData);
     sendMSG(res, MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS);
-    sendMSGToALL( MSG_TYPES.STC_S_HALL_ROOM_UPDATE,hallManager.getSyncRooms());
-    console.log("show Complete")
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.RID));
+    console.log("show Complete");
 }
-
+/**
+ * foodlist
+ */
+function enterRoom(roomData, res) {
+    console.log("enterRoom ", roomData);
+    hallManager.enterRoom(roomData.roomID, roomData.UID);
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
+    console.log("enterRoom Complete");
+}
+/**
+ * foodlist
+ */
+function synRooms(roomData, res) {
+    console.log("synRooms ", roomData);
+    hallManager.enterRoom(roomData.roomID, roomData.UID);
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMS, hallManager.getSyncRoomList());
+    console.log("synRooms Complete");
+}
+/**
+ * foodlist
+ */
+function quitRoom(roomData, res) {
+    console.log("quitRoom ", roomData);
+    hallManager.quitRoom(roomData.roomID, roomData.UID);
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
+    console.log("quitRoom Complete");
+}
+/**
+ * synRoomItem
+ */
+function getSyncRoomItem(roomData, res) {
+    console.log("getSyncRoomItem ", roomData);
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
+    console.log("getSyncRoomItem Complete");
+}
 /**
  *
  * @param type          消息头
@@ -40,8 +75,16 @@ function createRoom(cData, res) {
 function MsgHandler(type, data, res) {
     console.log("hallHandler:", type, data);
     switch (type) {
+        case MSG_TYPES.CTS_S_SYN_ROOMITEM:
+            return getSyncRoomItem(data, res);
         case MSG_TYPES.CTS_W_CREATE_ROOM:
             return createRoom(data, res);
+        case MSG_TYPES.CTS_S_ENTER_ROOM:
+            return enterRoom(data, res);
+        case MSG_TYPES.CTS_S_QUIT_ROOM:
+            return quitRoom(data, res);
+        case MSG_TYPES.CTS_S_SYN_ROOMS:
+            return synRooms(data, res);
         default:
             return {
                 needStopNext: false

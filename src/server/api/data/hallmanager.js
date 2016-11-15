@@ -8,7 +8,10 @@ import {
 from './index';
 
 import _ from 'lodash';
-import {mAssert} from '../../../common/utils/index';
+import {
+    mAssert
+} from '../../../common/utils/index';
+
 function HallList() {
     this.room_hash = {};
 }
@@ -36,14 +39,16 @@ HallList.prototype.addRoom = function(roomData) {
 
 
 HallList.prototype.enterRoom = function(RID, SID) {
-     mAssert(!this.hasRoom(RID), "enter null room RID:" + RID + " SID:" + SID);
+    mAssert(!this.hasRoom(RID), "enter null room RID:" + RID + " SID:" + SID);
     this.room_hash[RID].playerList[SID] = userManager.getUserByID(SID);
+    roomData.playerNum = Math.max(roomData.playerNum + 1, 0);
     return true;
 };
 
-HallList.prototype.outRoom = function(RID, SID) {
-     mAssert(this.hasRoom(RID), "enter null room");
+HallList.prototype.quitRoom = function(RID, SID) {
+    mAssert(this.hasRoom(RID), "enter null room");
     this.room_hash[RID] = roomData;
+    roomData.playerNum = Math.max(roomData.playerNum - 1, 0);
     return true;
 };
 
@@ -76,6 +81,7 @@ HallList.prototype.createRoom = function(cData) {
     roomData.maxPNum = 999;
     roomData.boxPrice = 1;
     roomData.playerList = {};
+    roomData.playerNum = 0;
     roomData.hideList = cData.hidelist;
     roomData.foodData = userManager.getUserFoodData(cData.SID, true);
     return roomData;
@@ -83,25 +89,40 @@ HallList.prototype.createRoom = function(cData) {
 
 HallList.prototype.getHallSoleID = function() {
     var MAX_NUM = 999999;
-    var id = _.random(1,MAX_NUM);
-    while (this.hasRoom(id)){
-        id = _.random(1,MAX_NUM);
+    var id = _.random(1, MAX_NUM);
+    while (this.hasRoom(id)) {
+        id = _.random(1, MAX_NUM);
     }
     return id;
 };
-HallList.prototype.getSyncRooms = function() {
+/**
+ * 获取用于同步客户端的房间列表
+ * @return {Array} 同步的房间列表
+ */
+HallList.prototype.getSyncRoomList = function() {
     console.log("getSyncRooms1");
     var returnList = [];
-    _.forIn(this.room_hash,function(item){
-        var roomData = _.pick(item,["RID","EndTime","MaxCost","State","GroupName"]);
-        roomData.playerNum = item.playerList.length | 1;
-        roomData.hasPSW = item.PSW.length > 0;
-        roomData.foodData = _.pick(item.foodData,["name","logo","address","phone"]);
-        returnList.push(roomData);
+    _.forIn(this.room_hash, function(roomItem) {
+        var synRoomItem = getSyncRoomItem(roomItem.RID);
+        returnList.push(synRoomItem);
     });
-    console.log("getSyncRooms2",returnList);
+    console.log("getSyncRooms2", returnList);
     return returnList;
 };
+/**
+ * get synchronized RoomItem
+ * @param  {roomData.RID} roomID [description]
+ * @return {[type]}        [description]
+ */
+HallList.prototype.getSyncRoomItem = function(roomID) {
+    var roomItem = getRoomByID(roomID);
+    var synRoomItem = _.pick(roomItem, ["RID", "EndTime", "MaxCost", "State", "GroupName"]);
+    synRoomItem.playerNum = roomItem.playerList.length;
+    synRoomItem.hasPSW = roomItem.PSW.length > 0;
+    synRoomItem.foodData = _.pick(roomItem.foodData, ["name", "logo", "address", "phone"]);
+    return synRoomItem;
+}
+
 /**
  * 删除房间
  *

@@ -1,4 +1,6 @@
-/*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+/**
+ * 大厅入口
+ */
 import React, {
     PropTypes,
     Component
@@ -12,9 +14,9 @@ import {
 from 'react-redux';
 
 import {
-    addModal
+    enterRoom
 }
-from '../actions/modal';
+from '../actions/hall';
 
 import {
     addAlert
@@ -45,10 +47,11 @@ class HallPage extends Component {
         this.enterHandler = this.enterHandler.bind(this);
     }
 
-    enterHandler(data) {
-        console.log("enter Handler Data HallPage -->", data);
+    enterHandler(roomID) {
+        console.log("enter room Handler  roomID -->", roomID);
         console.assert(OrderForFoodsModal != null, "error OrderForFoodsModal is Null");
-        this.props.addModal(OrderForFoodsModal);
+        //this.props.addModal(OrderForFoodsModal);
+        this.props.enterRoom(roomID);
     }
     render() {
         console.log("hall Render");
@@ -87,8 +90,7 @@ class HallPage extends Component {
 function mapStateToProps(state) {
     return {
         ret: 0,
-        addModal: addModal,
-        addAlert: addAlert,
+        enterRoom: enterRoom,
         done: state.hall.done,
         ing: state.hall.ing
     }
@@ -97,15 +99,13 @@ function mapStateToProps(state) {
 HallPage.propTypes = {
     ret: PropTypes.number.isRequired,
     done: PropTypes.array.isRequired,
-    addModal: PropTypes.func.isRequired,
-    addAlert: PropTypes.func.isRequired,
+    enterRoom: PropTypes.func.isRequired,
     ing: PropTypes.array.isRequired
 };
 
 export default connect(
     mapStateToProps, {
-        addAlert,
-        addModal
+        enterRoom
     }
 )(HallPage);
 
