@@ -6,9 +6,10 @@ import {
 }
 from 'common/Types';
 import Immutable from 'immutable';
+import expStore from '../../core/StoreWithExpiration';
 
 function hallUpdate(state, action) {
-    console.log("hallUpdate:",action);
+	console.log("hallUpdate:", action);
 	var done = action.data.data.filter(function(item) {
 		return item.State == "done"
 	});
@@ -17,32 +18,37 @@ function hallUpdate(state, action) {
 	});
 	return {
 		done: done,
-		ing: ing
+		ing: ing,
+		"lockfast": state.lockfast
 	};
 }
 
 function createRoomSuccess(state, action) {
-    console.log("success");
-    return {
-        done: [],
-        ing: []
-    };
+	console.log("success");
+	return {
+		done: [],
+		ing: [],
+		"lockfast": state.lockfast
+	};
 }
 /**
- * 接受action 后的 逻辑
- * @param state
- * @param action
- * @returns {{}}
+ * [defaultCall hall receive msg from server or client]
+ * @author Tile
+ * @date   2016-11-17T22:47:28+0800
+ * @param  {Object}                 state  [description]
+ * @param  {[type]}                 action [description]
+ * @return {[type]}                        [description]
  */
 var defaultCall = function(state = {
 	done: [],
-	ing: []
+	ing: [],
+	lockfast: expStore.get('lockfast') //{rID:psw,... ,expiredTime:xxx}
 }, action) {
 	switch (action.type) {
 		case MSG_TYPES.STC_S_HALL_ROOM_UPDATE:
 			return hallUpdate(state, action);
-        /*case MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS:
-            return createRoomSuccess(state, action);*/
+			/*case MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS:
+			    return createRoomSuccess(state, action);*/
 		default:
 			return state;
 	}

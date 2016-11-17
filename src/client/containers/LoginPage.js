@@ -1,6 +1,7 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, {
-    PropTypes, Component
+    PropTypes,
+    Component
 }
 from 'react';
 import {
@@ -12,10 +13,17 @@ import {
 }
 from 'react-redux';
 import {
-    ButtonInput, Tooltip, Col, Button, Row, Panel, Input, Label
+    ButtonInput,
+    Tooltip,
+    Col,
+    Button,
+    Row,
+    Panel,
+    Input,
+    Label
 }
 from 'react-bootstrap';
-import store from 'store';
+
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +40,8 @@ class LoginPage extends Component {
 
     render() {
         let {
-            session, ret
+            session,
+            ret
         } = this.props;
         return (
             <Panel>

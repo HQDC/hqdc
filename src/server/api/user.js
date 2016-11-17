@@ -19,7 +19,8 @@ import jwt from 'jsonwebtoken';
 import os from 'os';
 
 import {
-    hallManager,userManager
+    hallManager,
+    userManager
 }
 from './data';
 
@@ -34,13 +35,14 @@ function getClientIp(req) {
     retip = (retip.substring((retip.lastIndexOf(":") + 1), retip.length));
     return retip;
 }
-function getIPAdress(){
+
+function getIPAdress() {
     var interfaces = os.networkInterfaces();
-    for(var devName in interfaces){
+    for (var devName in interfaces) {
         var iface = interfaces[devName];
-        for(var i=0;i<iface.length;i++){
+        for (var i = 0; i < iface.length; i++) {
             var alias = iface[i];
-            if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
                 return alias.address;
             }
         }
@@ -65,7 +67,7 @@ function login(data, res) {
     if (data.name != null) {
         comname = decodeURI(data.name);
     }
-    console.log("login", comname,getIPAdress());
+    console.log("login", comname, getIPAdress());
 
     var today = new Date();
     var time = today.getTime() + 60 * 1000;
@@ -77,7 +79,7 @@ function login(data, res) {
             console.log("hello");
             var SID = userManager.sign(comname);
             console.log("hello2");
-            var userData = createUserData(res,SID);
+            var userData = createUserData(res, SID);
             userManager.addUser(userManager.createUser(SID, userData.name, userData.ip, ""));
             sendMSG(res, MSG_TYPES.STC_W_LOGIN, {
                 data: userData,
@@ -103,7 +105,8 @@ function login(data, res) {
         needStopNext: true
     };
 }
-function createUserData(res,SID){
+
+function createUserData(res, SID) {
     console.log("createUserData1");
     var ip = getClientIp(res._req);
     console.log("createUserData2");
@@ -113,7 +116,7 @@ function createUserData(res,SID){
         ip: ip,
         ret: 0,
         SID: SID,
-        server:getIPAdress()
+        server: getIPAdress()
     };
 }
 /**
@@ -122,7 +125,7 @@ function createUserData(res,SID){
 function testSession(data, res) {
     var SID = data.SID;
     console.log("testSession SID:", SID);
-    var userData = createUserData(res,SID);
+    var userData = createUserData(res, SID);
     console.log("userManager.addUser1", SID);
     userManager.addUser(userManager.createUser(SID, userData.name, userData.ip, ""));
 
@@ -167,7 +170,7 @@ function logout(data, res) {
 function socketConnectAuth(data, res) {
     var userSession = userManager.getUserByName(data.user);
     console.log("socketConnectAuth:", userSession, data.user);
-    sendMSGToALL( MSG_TYPES.STC_S_HALL_ROOM_UPDATE,hallManager.getSyncRooms());
+    sendMSGToALL(MSG_TYPES.STC_S_HALL_ROOM_UPDATE, hallManager.getSyncRoomList());
     return {
         needStopNext: true
     };

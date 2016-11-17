@@ -22,7 +22,7 @@ class RoomItem extends Component {
 	}
 	clickEnterRoom() {
 		event.preventDefault();
-		this.props.enterHandler(this.props.RID);
+		this.props.enterHandler(this.props.RID, this.props.hasPSW);
 	}
 	render() {
 		var showlock = "";

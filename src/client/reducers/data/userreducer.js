@@ -7,7 +7,7 @@ import {
 from 'common/Types';
 import Immutable from 'immutable';
 import Base from 'Base';
-import store from 'store';
+import expStore from '../../core/StoreWithExpiration';
 
 /**
  *
@@ -24,8 +24,8 @@ function testSessionRet(state, action) {
  */
 function userLoginRet(state, action) {
     //window.location.href = "/hall";
-    Base.socketClient.init(action.data.SID,action.data.server);
-    store.set('SID', action.data.SID);
+    Base.socketClient.init(action.data.SID, action.data.server);
+    expStore.set('SID', action.data.SID, 24 * 3600);
     return {
         userSession: state.userSession.merge(Immutable.fromJS(action.data), {
             "isLogin": true
@@ -36,7 +36,7 @@ function userLoginRet(state, action) {
 
 function foodListRet(state, action) {
     return {
-        userSession: state.userSession.set("foodData",action.data)
+        userSession: state.userSession.set("foodData", action.data)
     };
 }
 
@@ -72,7 +72,7 @@ var defaultCall = function(state = {
             isLogin: false,
             ip: "",
             name: "",
-            SID: (store.get('SID') ? store.get('SID') : ""),
+            SID: (expStore.get('SID') ? expStore.get('SID') : ""),
             foodData: {}
         })
     },
@@ -82,7 +82,6 @@ var defaultCall = function(state = {
             return userLoginRet(state, action);
         case MSG_TYPES.STC_W_FOODLIST:
             return foodListRet(state, action);
-
         default:
             return state;
     }

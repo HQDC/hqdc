@@ -1,4 +1,5 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
+
 import React, {
     PropTypes,
     Component
@@ -35,6 +36,7 @@ import ViewUpdateTypes from '../constants/UpdateViewTypes';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 class Header extends Component {
     // Listen for changes
+    // 
     componentDidMount() {
 
     };

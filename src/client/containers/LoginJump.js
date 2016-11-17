@@ -1,6 +1,7 @@
 /*! React Starter Kit | MIT License | http://www.reactstarterkit.com/ */
 import React, {
-    PropTypes, Component
+    PropTypes,
+    Component
 }
 from 'react';
 import {
@@ -14,7 +15,6 @@ from 'react-redux';
 import HallPage from './HallPage';
 import LoginPage from './LoginPage';
 
-import store from 'store';
 class LoginJump extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +37,8 @@ class LoginJump extends Component {
 
     render() {
         let {
-            SID, isLogin
+            SID,
+            isLogin
         } = this.props;
         if (isLogin == false) {
             this.testSessionHandler(SID);

@@ -22,6 +22,10 @@ import {
     addAlert
 }
 from '../actions/alert';
+import {
+    addModal
+}
+from '../actions/modal'
 
 import {
     ButtonInput,
@@ -47,11 +51,16 @@ class HallPage extends Component {
         this.enterHandler = this.enterHandler.bind(this);
     }
 
-    enterHandler(roomID) {
-        console.log("enter room Handler  roomID -->", roomID);
-        console.assert(OrderForFoodsModal != null, "error OrderForFoodsModal is Null");
+    enterHandler(roomID, hasPSW) {
+        console.log("enter room Handler  roomID -->", roomID, "hasPSW:", hasPSW);
         //this.props.addModal(OrderForFoodsModal);
-        this.props.enterRoom(roomID);
+        if (hasPSW) {
+            console.assert(OrderForFoodsModal != null, "error OrderForFoodsModal is Null");
+            this.props.addModal(roomID);
+        } else {
+            this.props.enterRoom(roomID);
+        }
+
     }
     render() {
         console.log("hall Render");
