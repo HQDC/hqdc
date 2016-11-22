@@ -84,7 +84,7 @@ function mapStateToProps(state) {
     return {
         getFoodList: getFoodList,
         setLoadingState: setLoadingState,
-        uid: state.user.userSession.get("SID"),
+        uid: state.user.get("SID"),
         isLoading: state.sys.get("sysStateInfo_isLoading")
     }
 }

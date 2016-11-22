@@ -40,7 +40,6 @@ class LoginPage extends Component {
 
     render() {
         let {
-            session,
             ret
         } = this.props;
         return (
@@ -59,8 +58,7 @@ class LoginPage extends Component {
 function mapStateToProps(state) {
     return {
         userLogin: userLogin,
-        session: state.user.userSession,
-        ret: state.user.userSession.get("ret")
+        ret: state.user.get("ret")
     }
 }
 

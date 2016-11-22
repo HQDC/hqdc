@@ -98,18 +98,16 @@ class HallPage extends Component {
 
 function mapStateToProps(state) {
     return {
-        ret: 0,
         enterRoom: enterRoom,
-        done: state.hall.done,
-        ing: state.hall.ing
+        done: state.hall.get("done"),
+        ing: state.hall.get("ing")
     }
 }
 
 HallPage.propTypes = {
-    ret: PropTypes.number.isRequired,
-    done: PropTypes.array.isRequired,
     enterRoom: PropTypes.func.isRequired,
-    ing: PropTypes.array.isRequired
+    done: ImmutablePropTypes.list.isRequired,
+    ing: ImmutablePropTypes.list.isRequired
 };
 
 export default connect(

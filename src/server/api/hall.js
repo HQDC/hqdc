@@ -28,6 +28,9 @@ function createRoom(cData, res) {
     sendMSG(res, MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS);
     sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.RID));
     console.log("show Complete");
+    return {
+        needStopNext: false
+    };
 }
 /**
  * foodlist
@@ -35,8 +38,12 @@ function createRoom(cData, res) {
 function enterRoom(roomData, res) {
     console.log("enterRoom ", roomData);
     hallManager.enterRoom(roomData.roomID, roomData.UID);
+    console.log("enterRoom ", roomData);
     sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
     console.log("enterRoom Complete");
+    return {
+        needStopNext: false
+    };
 }
 /**
  * foodlist
@@ -46,6 +53,9 @@ function synRooms(roomData, res) {
     hallManager.enterRoom(roomData.roomID, roomData.UID);
     sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMS, hallManager.getSyncRoomList());
     console.log("synRooms Complete");
+    return {
+        needStopNext: false
+    };
 }
 /**
  * foodlist
@@ -55,6 +65,9 @@ function quitRoom(roomData, res) {
     hallManager.quitRoom(roomData.roomID, roomData.UID);
     sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
     console.log("quitRoom Complete");
+    return {
+        needStopNext: false
+    };
 }
 /**
  * synRoomItem
@@ -63,6 +76,9 @@ function getSyncRoomItem(roomData, res) {
     console.log("getSyncRoomItem ", roomData);
     sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
     console.log("getSyncRoomItem Complete");
+    return {
+        needStopNext: false
+    };
 }
 /**
  *

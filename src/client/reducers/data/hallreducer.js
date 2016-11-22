@@ -8,7 +8,7 @@ from 'common/Types';
 import Immutable from 'immutable';
 import expStore from '../../core/StoreWithExpiration';
 
-function hallUpdate(state, action) {
+function hallUpdate(i_state, action) {
 	console.log("hallUpdate:", action);
 	var done = action.data.data.filter(function(item) {
 		return item.State == "done"
@@ -16,21 +16,18 @@ function hallUpdate(state, action) {
 	var ing = action.data.data.filter(function(item) {
 		return item.State = "ing"
 	});
-	return {
-		done: done,
-		ing: ing,
-		"lockfast": state.lockfast
-	};
+	return i_state
+		.set("done", Immutable.fromJS(done))
+		.set("ing", Immutable.fromJS(ing))
 }
 
-function createRoomSuccess(state, action) {
-	console.log("success");
-	return {
-		done: [],
-		ing: [],
-		"lockfast": state.lockfast
-	};
+function hallItemUpdate(i_state, action) {
+	var roomItem = action.data.data;
+	item.State == "ing"
+	return i_state;
 }
+
+
 /**
  * [defaultCall hall receive msg from server or client]
  * @author Tile
@@ -39,18 +36,19 @@ function createRoomSuccess(state, action) {
  * @param  {[type]}                 action [description]
  * @return {[type]}                        [description]
  */
-var defaultCall = function(state = {
+var defaultCall = function(i_state = Immutable.Map({
 	done: [],
 	ing: [],
 	lockfast: expStore.get('lockfast') //{rID:psw,... ,expiredTime:xxx}
-}, action) {
+}), action) {
+	console.log("test done:", i_state.get("done"));
 	switch (action.type) {
 		case MSG_TYPES.STC_S_HALL_ROOM_UPDATE:
-			return hallUpdate(state, action);
-			/*case MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS:
-			    return createRoomSuccess(state, action);*/
+			return hallUpdate(i_state, action);
+		case MSG_TYPES.STC_S_SYN_ROOMS:
+			return hallItemUpdate(i_state, action);
 		default:
-			return state;
+			return i_state;
 	}
 };
 export default defaultCall

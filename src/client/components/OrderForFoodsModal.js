@@ -204,9 +204,9 @@ function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
 		setLoadingState: setLoadingState,
-		uid: state.user.userSession.get("SID"),
-		foodData: state.user.userSession.get("foodData"),
-		foodlist: state.user.userSession.get("foodData").takeout_menu,
+		uid: state.user.get("SID"),
+		foodData: state.user.get("foodData"),
+		foodlist: state.user.get("foodData").takeout_menu,
 		isLoading: state.sys.get("sysStateInfo_isLoading")
 
 	}

@@ -178,7 +178,7 @@ class RoomModal extends Component {
 function mapStateToProps(state) {
 	return {
 		createRoom: createRoom,
-		uid: state.user.userSession.get("SID"),
+		uid: state.user.get("SID"),
 		foodlist: state.user.foodData.takeout_menu,
 		foodData: state.user.foodData
 	}

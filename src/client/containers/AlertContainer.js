@@ -1,11 +1,21 @@
 /**
  * Created by Tile on 2015/12/1.
  */
-import React, { PropTypes, Component } from 'react';
-import {Alert} from 'react-bootstrap';
-import {delAlert} from '../actions/alert';
-import { connect } from 'react-redux';
+import React, {
+    PropTypes,
+    Component
+} from 'react';
+import {
+    Alert
+} from 'react-bootstrap';
+import {
+    delAlert
+} from '../actions/alert';
+import {
+    connect
+} from 'react-redux';
 import Immutable from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 class AlertContainer extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +28,9 @@ class AlertContainer extends Component {
 
     render() {
         let alert_views = [];
-        let {alertList} = this.props;
+        let {
+            alertList
+        } = this.props;
         console.log("render alert", alertList.size);
         if (alertList) {
             console.log("in render");
@@ -49,7 +61,7 @@ function mapStateToProps(state) {
 }
 
 AlertContainer.propTypes = {
-    alertList: PropTypes.instanceOf(Immutable.List).isRequired,
+    alertList: ImmutablePropTypes.list.isRequired,
     delAlert: PropTypes.func.isRequired
 };
 

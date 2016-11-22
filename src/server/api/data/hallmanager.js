@@ -84,11 +84,12 @@ HallList.prototype.createRoom = function(cData) {
     roomData.playerNum = 0;
     roomData.hideList = cData.hidelist;
     roomData.foodData = userManager.getUserFoodData(cData.SID, true);
+    console.log("RID ->", roomData.RID);
     return roomData;
 };
 
 HallList.prototype.getHallSoleID = function() {
-    var MAX_NUM = 999999;
+    var MAX_NUM = 99999999;
     var id = _.random(1, MAX_NUM);
     while (this.hasRoom(id)) {
         id = _.random(1, MAX_NUM);
@@ -115,7 +116,9 @@ HallList.prototype.getSyncRoomList = function() {
  * @return {[type]}        [description]
  */
 HallList.prototype.getSyncRoomItem = function(roomID) {
-    var roomItem = getRoomByID(roomID);
+    console.log("getRoomByID 1");
+    var roomItem = this.getRoomByID(roomID);
+    console.log("getRoomByID 2");
     var synRoomItem = _.pick(roomItem, ["RID", "EndTime", "MaxCost", "State", "GroupName"]);
     synRoomItem.playerNum = roomItem.playerList.length;
     synRoomItem.hasPSW = roomItem.PSW.length > 0;

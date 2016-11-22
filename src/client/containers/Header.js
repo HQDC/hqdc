@@ -55,7 +55,6 @@ class Header extends Component {
             event.preventDefault();
             console.log("click create room", selectedKey);
             this.props.addModal(CreateRoomTestModal);
-            this.props.addAlert("info", "createRoom");
         }
         // Unbind change listener
     componentWillUnmount() {
@@ -103,10 +102,10 @@ class Header extends Component {
 function mapStateToProps(state) {
     console.log("mapStateToProps", state);
     return {
-        ret: 0,
-        isLogin: state.user.userSession.get('isLogin'),
-        name: state.user.userSession.get("name"),
-        ip: state.user.userSession.get("ip"),
+        ret: state.user.get('ret'),
+        isLogin: state.user.get('isLogin'),
+        name: state.user.get("name"),
+        ip: state.user.get("ip"),
         userLogout: userLogout,
         addModal: addModal,
         addAlert: addAlert

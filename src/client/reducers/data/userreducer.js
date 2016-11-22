@@ -14,7 +14,7 @@ import expStore from '../../core/StoreWithExpiration';
  * @param state
  * @param action
  */
-function testSessionRet(state, action) {
+function testSessionRet(i_state, action) {
 
 }
 /**
@@ -22,30 +22,29 @@ function testSessionRet(state, action) {
  * @param state
  * @param action
  */
-function userLoginRet(state, action) {
+function userLoginRet(i_state, action) {
     //window.location.href = "/hall";
     Base.socketClient.init(action.data.SID, action.data.server);
     expStore.set('SID', action.data.SID, 24 * 3600);
-    return {
-        userSession: state.userSession.merge(Immutable.fromJS(action.data), {
-            "isLogin": true
-        })
-    };
+    // return {
+    //     userSession: i_state.userSession.merge(Immutable.fromJS(action.data), {
+    //         "isLogin": true
+    //     })
+    // };
+    return i_state.set("isLogin", true).merge(Immutable.fromJS(action.data));
 }
 
-
-function foodListRet(state, action) {
-    return {
-        userSession: state.userSession.set("foodData", action.data)
-    };
+function foodListRet(i_state, action) {
+    //return i_state.set("foodData", Immutable.fromJS(action.data));
+    return i_state;
 }
 
 /**
  *
- * @param state
+ * @param i_state
  * @param action
  */
-function userLogOutRet(state, action) {
+function userLogOutRet(i_state, action) {
     //socketClient.disconnect();
 }
 
@@ -53,37 +52,35 @@ function userLogOutRet(state, action) {
 
 /**
  *
- * @param state
+ * @param i_state
  * @param action
  */
-function STCHallUpDateRet(state, action) {
+function STCHallUpDateRet(i_state, action) {
 
 }
 
 /**
  * 接受action 后的 逻辑
- * @param state
+ * @param i_state
  * @param action
  * @returns {{}}
  */
-var defaultCall = function(state = {
-        userSession: Immutable.Map({
-            ret: -1,
-            isLogin: false,
-            ip: "",
-            name: "",
-            SID: (expStore.get('SID') ? expStore.get('SID') : ""),
-            foodData: {}
-        })
-    },
+var defaultCall = function(i_state = Immutable.Map({
+        ret: -1,
+        isLogin: false,
+        ip: "",
+        name: "",
+        SID: (expStore.get('SID') ? expStore.get('SID') : ""),
+        foodData: {}
+    }),
     action) {
     switch (action.type) {
         case MSG_TYPES.STC_W_LOGIN:
-            return userLoginRet(state, action);
+            return userLoginRet(i_state, action);
         case MSG_TYPES.STC_W_FOODLIST:
-            return foodListRet(state, action);
+            return foodListRet(i_state, action);
         default:
-            return state;
+            return i_state;
     }
 };
 

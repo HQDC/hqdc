@@ -20,9 +20,14 @@ function sendMSG(actionType, sendData = {}) {
     if (isWeb(actionType)) {
         return (dispatch, getState) => {
             postFetchCall("api/msg", sendData, data => {
+                console.log("api/msg sendData ", sendData);
+                console.log("api/msg return ", data);
                 dispatch(data);
             }, (err) => {
+                console.log("e1");
+                console.log("error", "网络错误" + actionType + " " + err);
                 addAlert("error", "网络错误" + actionType + " " + err);
+                console.log("e2");
             });
         }
     } else if (isSocket(actionType)) {

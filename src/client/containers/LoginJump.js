@@ -53,8 +53,8 @@ class LoginJump extends Component {
 function mapStateToProps(state) {
     return {
         userTestSession: userTestSession,
-        SID: state.user.userSession.get("SID"),
-        isLogin: state.user.userSession.get("isLogin")
+        SID: state.user.get("SID"),
+        isLogin: state.user.get("isLogin")
     }
 }
 
