@@ -260,7 +260,7 @@ FDShowModal.propTypes = {
 	delModal: PropTypes.func.isRequired,
 	uid: PropTypes.string.isRequired,
 	setLoadingState: PropTypes.func.isRequired,
-	foodlist: PropTypes.array.isRequired,
+	foodlist: ImmutablePropTypes.list.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	DEFAULT_TIMES: PropTypes.array.isRequired,
 	DEFAULT_TIME: PropTypes.string.isRequired,

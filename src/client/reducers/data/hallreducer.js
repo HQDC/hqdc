@@ -36,7 +36,7 @@ function hallItemUpdate(i_state, action) {
  * @param  {[type]}                 action [description]
  * @return {[type]}                        [description]
  */
-var defaultCall = function(i_state = Immutable.Map({
+var defaultCall = function(i_state = Immutable.fromJS({
 	done: [],
 	ing: [],
 	lockfast: expStore.get('lockfast') //{rID:psw,... ,expiredTime:xxx}

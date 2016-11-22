@@ -65,7 +65,7 @@ function STCHallUpDateRet(i_state, action) {
  * @param action
  * @returns {{}}
  */
-var defaultCall = function(i_state = Immutable.Map({
+var defaultCall = function(i_state = Immutable.fromJS({
         ret: -1,
         isLogin: false,
         ip: "",
