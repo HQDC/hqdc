@@ -44,6 +44,8 @@ import {
 	delModal
 }
 from '../actions/modal';
+
+import ImmutablePropTypes from 'react-immutable-proptypes';
 class FDShowModal extends Component {
 	constructor() {
 		super();
@@ -204,9 +206,10 @@ function mapStateToProps(state) {
 		createRoom: createRoom,
 		setLoadingState: setLoadingState,
 		uid: state.user.get("SID"),
-		foodData: state.user.get("foodData"),
-		foodlist: state.user.get("foodData").takeout_menu,
+
+		foodlist: state.user.get("foodData").get("takeout_menu"),
 		isLoading: state.sys.get("sysStateInfo_isLoading"),
+		foodData: state.user.get("foodData"),
 		DEFAULT_TIMES: [
 			"15:50",
 			"16:00",
@@ -249,6 +252,7 @@ function mapStateToProps(state) {
  *          des:"描述",
  *          onsell:"0,1(是否在售,1:true,0:false)"
  *          leftnum:"" (剩余数量)
+ *          
  *      },
  *      {
  *
@@ -260,11 +264,41 @@ FDShowModal.propTypes = {
 	delModal: PropTypes.func.isRequired,
 	uid: PropTypes.string.isRequired,
 	setLoadingState: PropTypes.func.isRequired,
-	foodlist: ImmutablePropTypes.list.isRequired,
+	foodlist: ImmutablePropTypes.listOf(
+		ImmutablePropTypes.contains({
+			name: PropTypes.string.isRequired,
+
+			tid: PropTypes.string.isRequired,
+			price: PropTypes.number.isRequired,
+			dish_attr: ImmutablePropTypes.list,
+			image: PropTypes.string.isRequired,
+			des: PropTypes.string.isRequired,
+			onsell: PropTypes.number.isRequired,
+			leftnum: PropTypes.number.isRequired
+		})),
 	isLoading: PropTypes.bool.isRequired,
 	DEFAULT_TIMES: PropTypes.array.isRequired,
 	DEFAULT_TIME: PropTypes.string.isRequired,
-	foodData: PropTypes.shape({ // 是否符合指定格式的物件
+
+	foodData: ImmutablePropTypes.contains(
+		ImmutablePropTypes.contains({
+			name: PropTypes.string.isRequired,
+			logo: PropTypes.string.isRequired,
+			phone: PropTypes.string.isRequired,
+			category: PropTypes.string.isRequired,
+			address: PropTypes.string.isRequired,
+			worktime: PropTypes.object.isRequired,
+			state: PropTypes.number.isRequired,
+
+			invoice: PropTypes.number.isRequired,
+			coupon: PropTypes.number.isRequired,
+			id: PropTypes.string.isRequired
+		})
+	).isRequired
+
+
+
+	/*foodData: PropTypes.shape({ // 是否符合指定格式的物件
 		name: PropTypes.string.isRequired,
 		logo: PropTypes.string.isRequired,
 		phone: PropTypes.string.isRequired,
@@ -277,7 +311,7 @@ FDShowModal.propTypes = {
 		coupon: PropTypes.number.isRequired,
 		id: PropTypes.string.isRequired,
 		takeout_menu: PropTypes.array.isRequired
-	})
+	})*/
 };
 
 export default connect(

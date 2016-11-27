@@ -35,8 +35,8 @@ function userLoginRet(i_state, action) {
 }
 
 function foodListRet(i_state, action) {
-    //return i_state.set("foodData", Immutable.fromJS(action.data));
-    return i_state;
+    return i_state.set("foodData", Immutable.fromJS(action.data));
+    //return i_state;
 }
 
 /**
