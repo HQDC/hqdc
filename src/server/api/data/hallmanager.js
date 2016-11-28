@@ -103,8 +103,8 @@ HallList.prototype.getHallSoleID = function() {
 HallList.prototype.getSyncRoomList = function() {
     console.log("getSyncRooms1");
     var returnList = [];
-    _.forIn(this.room_hash, function(roomItem) {
-        var synRoomItem = getSyncRoomItem(roomItem.RID);
+    _.forIn(this.room_hash, (roomItem) => {
+        var synRoomItem = this.getSyncRoomItem(roomItem.RID);
         returnList.push(synRoomItem);
     });
     console.log("getSyncRooms2", returnList);

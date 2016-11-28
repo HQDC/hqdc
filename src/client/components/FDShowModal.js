@@ -59,10 +59,10 @@ class FDShowModal extends Component {
 
 	getHideList() {
 		var hidelist = [];
-		for (var i = 0; i < this.props.foodlist.length; i++) {
-			var itemData = this.props.foodlist[i];
-			if (itemData != null && itemData.onsell != 0) {
-				var refitem = this.refs["ref_show_" + itemData.tid];
+		for (var i = 0; i < this.props.foodlist.size; i++) {
+			var itemData = this.props.foodlist.get(i);
+			if (itemData != null && itemData.get("onsell") != 0) {
+				var refitem = this.refs["ref_show_" + itemData.get("tid")];
 				console.log("->", refitem);
 				if (refitem != null) {
 					if (refitem.getValue()) {
@@ -133,18 +133,18 @@ class FDShowModal extends Component {
 	 * @param data
 	 */
 	getItem(item) {
-		var left_state = item.leftnum > 0 ? "success" : "default";
+		var left_state = item.get("leftnum") > 0 ? "success" : "default";
 		return (
-			<Col key={item.tid} xs={4}>
+			<Col key={item.get("tid")} xs={4}>
                 <Media >
                     <Media.Left align="middle">
-                        <img key={"thumb_"+item.tid} width={100} height={100} src={item.image} alt="无图"/>
+                        <img key={"thumb_"+item.get("tid")} width={100} height={100} src={item.get("image")} alt="无图"/>
                     </Media.Left>
                     <Media.Body>
-                        <h4 align="center"><Label key={"lab_name_"+item.tid} bsStyle="info" align="center">{item.name}</Label></h4>
-                        <Label key={"lab_price_"+item.tid} bsStyle="warning">{item.price + "元"}</Label>
-                        <Label key={"lab_leftnum_"+item.tid} bsStyle={left_state}>{"剩余:" + (item.leftnum > 999 ? "N" : item.leftnum) }</Label>
-                        <Input onChange={(e)=> this.hideHandleChange(e,item.tid)} key={"inp_show_"+item.tid} type="checkbox" label="入选" defaultChecked={true}/>
+                        <h4 align="center"><Label key={"lab_name_"+item.get("tid")} bsStyle="info" align="center">{item.get("name")}</Label></h4>
+                        <Label key={"lab_price_"+item.get("tid")} bsStyle="warning">{item.get("price") + "元"}</Label>
+                        <Label key={"lab_leftnum_"+item.get("tid")} bsStyle={left_state}>{"剩余:" + (item.get("leftnum") > 999 ? "N" : item.get("leftnum")) }</Label>
+                        <Input onChange={(e)=> this.hideHandleChange(e,item.get("tid"))} key={"inp_show_"+item.get("tid")} type="checkbox" label="入选" defaultChecked={true}/>
                     </Media.Body>
                 </Media>
                 <p></p>
@@ -158,9 +158,9 @@ class FDShowModal extends Component {
 		var v_fdlist = [];
 		var rowNum = 3;
 		var rowList = [];
-		for (var i = 0; i < this.props.foodlist.length; i++) {
-			var itemData = this.props.foodlist[i];
-			if (itemData != null && itemData.onsell != 0 && itemData.saled_out == BD_TYPES.SELL_OUT_NO) {
+		for (var i = 0; i < this.props.foodlist.size; i++) {
+			var itemData = this.props.foodlist.get(i);
+			if (itemData != null && itemData.get("onsell") != 0 && itemData.get("saled_out") == BD_TYPES.SELL_OUT_NO) {
 				if (rowList.length == 0) {
 					v_fdlist.push(<Row>{rowList}</Row>);
 				}
@@ -178,7 +178,7 @@ class FDShowModal extends Component {
 		return (
 			<Modal show={true} backdrop={false} dialogClassName="custom-modal" bsSize="lg" onHide={()=>this.props.delModal()}>
 				<Modal.Header closeButton>
-					<Modal.Title id="contained-modal-title-lg">{fooddata.name}</Modal.Title>
+					<Modal.Title id="contained-modal-title-lg">{fooddata.get("name")}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
                     <Input type="text" label="GroupName" ref="GroupName" />
@@ -206,10 +206,9 @@ function mapStateToProps(state) {
 		createRoom: createRoom,
 		setLoadingState: setLoadingState,
 		uid: state.user.get("SID"),
-
+		foodData: state.user.get("foodData"),
 		foodlist: state.user.get("foodData").get("takeout_menu"),
 		isLoading: state.sys.get("sysStateInfo_isLoading"),
-		foodData: state.user.get("foodData"),
 		DEFAULT_TIMES: [
 			"15:50",
 			"16:00",
@@ -267,7 +266,6 @@ FDShowModal.propTypes = {
 	foodlist: ImmutablePropTypes.listOf(
 		ImmutablePropTypes.contains({
 			name: PropTypes.string.isRequired,
-
 			tid: PropTypes.string.isRequired,
 			price: PropTypes.number.isRequired,
 			dish_attr: ImmutablePropTypes.list,
@@ -279,22 +277,21 @@ FDShowModal.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
 	DEFAULT_TIMES: PropTypes.array.isRequired,
 	DEFAULT_TIME: PropTypes.string.isRequired,
-
-	foodData: ImmutablePropTypes.contains(
-		ImmutablePropTypes.contains({
-			name: PropTypes.string.isRequired,
-			logo: PropTypes.string.isRequired,
-			phone: PropTypes.string.isRequired,
-			category: PropTypes.string.isRequired,
-			address: PropTypes.string.isRequired,
-			worktime: PropTypes.object.isRequired,
-			state: PropTypes.number.isRequired,
-
-			invoice: PropTypes.number.isRequired,
-			coupon: PropTypes.number.isRequired,
-			id: PropTypes.string.isRequired
-		})
-	).isRequired
+	foodData: ImmutablePropTypes.map
+		/*foodData: ImmutablePropTypes.mapOf(
+			ImmutablePropTypes.mapContains({
+				name: PropTypes.string.isRequired,
+				logo: PropTypes.string.isRequired,
+				phone: PropTypes.string.isRequired,
+				category: PropTypes.string.isRequired,
+				address: PropTypes.string.isRequired,
+				worktime: PropTypes.object.isRequired,
+				state: PropTypes.number.isRequired,
+				invoice: PropTypes.number.isRequired,
+				coupon: PropTypes.number.isRequired,
+				id: PropTypes.string.isRequired
+			})
+		)*/
 
 
 

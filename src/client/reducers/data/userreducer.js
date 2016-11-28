@@ -15,7 +15,7 @@ import expStore from '../../core/StoreWithExpiration';
  * @param action
  */
 function testSessionRet(i_state, action) {
-
+    return i_state;
 }
 /**
  *
@@ -35,6 +35,8 @@ function userLoginRet(i_state, action) {
 }
 
 function foodListRet(i_state, action) {
+    console.log("foodData　->",
+        action.data);
     return i_state.set("foodData", Immutable.fromJS(action.data));
     //return i_state;
 }
@@ -46,6 +48,7 @@ function foodListRet(i_state, action) {
  */
 function userLogOutRet(i_state, action) {
     //socketClient.disconnect();
+    return i_state;
 }
 
 
@@ -56,7 +59,7 @@ function userLogOutRet(i_state, action) {
  * @param action
  */
 function STCHallUpDateRet(i_state, action) {
-
+    return i_state;
 }
 
 /**
