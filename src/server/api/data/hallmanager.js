@@ -9,6 +9,10 @@ from './index';
 
 import _ from 'lodash';
 import {
+    MSG_TYPES
+}
+from "../../../common/Types";
+import {
     mAssert
 } from '../../../common/utils/index';
 
@@ -73,11 +77,10 @@ HallList.prototype.createRoom = function(cData) {
     roomData.RID = this.getHallSoleID();
     roomData.masterID = cData.SID;
     roomData.PSW = cData.PSW;
-    roomData.EndTime = cData.EndTime;
-    roomData.MaxCost = cData.MaxCost;
-    roomData.GroupName = cData.GroupName;
-    roomData.State = "ing";
-    roomData.EndTime = cData.EndTime;
+    roomData.endTime = cData.EndTime;
+    roomData.maxCost = cData.MaxCost;
+    roomData.groupName = cData.GroupName;
+    roomData.state = "ing";
     roomData.maxPNum = 999;
     roomData.boxPrice = 1;
     roomData.playerList = {};
@@ -104,7 +107,7 @@ HallList.prototype.getSyncRoomList = function() {
     console.log("getSyncRooms1");
     var returnList = [];
     _.forIn(this.room_hash, (roomItem) => {
-        var synRoomItem = this.getSyncRoomItem(roomItem.RID);
+        var synRoomItem = this.getSyncRoomItem(MSG_TYPES.ROOM_UPDATE_TYPE_ADD, roomItem.RID);
         returnList.push(synRoomItem);
     });
     console.log("getSyncRooms2", returnList);
@@ -113,16 +116,29 @@ HallList.prototype.getSyncRoomList = function() {
 /**
  * get synchronized RoomItem
  * @param  {roomData.RID} roomID [description]
+ * @synType add update or delete
  * @return {[type]}        [description]
  */
-HallList.prototype.getSyncRoomItem = function(roomID) {
+HallList.prototype.getSyncRoomItem = function(synType, roomID) {
     console.log("getRoomByID 1");
     var roomItem = this.getRoomByID(roomID);
     console.log("getRoomByID 2");
-    var synRoomItem = _.pick(roomItem, ["RID", "EndTime", "MaxCost", "State", "GroupName"]);
-    synRoomItem.playerNum = roomItem.playerList.length;
-    synRoomItem.hasPSW = roomItem.PSW.length > 0;
-    synRoomItem.foodData = _.pick(roomItem.foodData, ["name", "logo", "address", "phone"]);
+    var synRoomItem;
+    if (synType == "add") {
+        synRoomItem = _.pick(roomItem, ["RID", "endTime", "maxCost", "state", "groupName"]);
+        synRoomItem.playerNum = roomItem.playerList.length;
+        synRoomItem.hasPSW = roomItem.PSW.length > 0;
+        synRoomItem.foodData = _.pick(roomItem.foodData, ["name", "logo", "address", "phone"]);
+    } else if (synType == "delete") {
+        synRoomItem = {};
+        synRoomItem.RID = roomID;
+    } else {
+        synRoomItem = _.pick(roomItem, ["RID", "endTime", "maxCost", "state", "groupName"]);
+        synRoomItem.playerNum = roomItem.playerList.length;
+        synRoomItem.hasPSW = roomItem.PSW.length > 0;
+        synRoomItem.foodData = _.pick(roomItem.foodData, ["name", "logo", "address", "phone"]);
+    }
+    synRoomItem.synType = synType;
     return synRoomItem;
 }
 

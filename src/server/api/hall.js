@@ -26,7 +26,7 @@ function createRoom(cData, res) {
     //console.log("roomData.hideList:", roomData);
     hallManager.addRoom(roomData);
     sendMSG(res, MSG_TYPES.STC_W_CREATE_ROOM_SUCCESS);
-    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.RID));
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(MSG_TYPES.ROOM_UPDATE_TYPE_ADD, roomData.RID));
     console.log("show Complete");
     return {
         needStopNext: false
@@ -39,7 +39,7 @@ function enterRoom(roomData, res) {
     console.log("enterRoom ", roomData);
     hallManager.enterRoom(roomData.roomID, roomData.UID);
     console.log("enterRoom ", roomData);
-    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(MSG_TYPES.ROOM_UPDATE_TYPE_UPDATE, roomData.roomID));
     console.log("enterRoom Complete");
     return {
         needStopNext: false
@@ -63,7 +63,7 @@ function synRooms(roomData, res) {
 function quitRoom(roomData, res) {
     console.log("quitRoom ", roomData);
     hallManager.quitRoom(roomData.roomID, roomData.UID);
-    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(MSG_TYPES.ROOM_UPDATE_TYPE_UPDATE, roomData.roomID));
     console.log("quitRoom Complete");
     return {
         needStopNext: false
@@ -74,7 +74,7 @@ function quitRoom(roomData, res) {
  */
 function getSyncRoomItem(roomData, res) {
     console.log("getSyncRoomItem ", roomData);
-    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(roomData.roomID));
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMITEM, hallManager.getSyncRoomItem(MSG_TYPES.ROOM_UPDATE_TYPE_UPDATE, roomData.roomID));
     console.log("getSyncRoomItem Complete");
     return {
         needStopNext: false

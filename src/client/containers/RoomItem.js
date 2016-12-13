@@ -22,24 +22,25 @@ class RoomItem extends Component {
 	}
 	clickEnterRoom() {
 		event.preventDefault();
-		this.props.enterHandler(this.props.RID, this.props.hasPSW);
+		this.props.enterHandler(this.props.itemDate.get("RID"), this.props.itemDate.get("hasPSW"));
 	}
 	render() {
 		var showlock = "";
-		if (this.props.hasPSW) {
+		console.log("this.props->", this.props.itemDate);
+		if (this.props.itemDate.get("hasPSW")) {
 			showlock = <Glyphicon glyph="lock"/>;
 		}
 		return (
 			<Col xs={4} md={4} onClick={this.clickEnterRoom}>
-				<OverlayTrigger id={this.props.RID} placement="top"
-								overlay={<Popover id={this.props.RID} title={this.props.GroupName}>{this.props.foodData.name}</Popover>}>
+				<OverlayTrigger id={this.props.itemDate.get("RID")} placement="top"
+								overlay={<Popover id={this.props.itemDate.get("RID")} title={this.props.itemDate.get("groupName")}>{this.props.itemDate.get("foodData").name}</Popover>}>
 					<Well>
 						<Row className="show-grid">
 							<Col xs={6} md={6}>
-								<div>{this.props.GroupName}</div>
+								<div>{this.props.itemDate.get("groupName")}</div>
 							</Col>
 							<Col xs={4} md={4}>
-								<div><font size="3" color="red">{this.props.EndTime}</font></div>
+								<div><font size="3" color="red">{this.props.itemDate.get("endTime")}</font></div>
 							</Col>
 							<Col xs={2} md={2}>
 								{showlock}
@@ -52,7 +53,7 @@ class RoomItem extends Component {
 						</ProgressBar>
 						<Row className="show-grid">
 							<Col xs={12} md={12}>
-								<center><Label>{this.props.RID}</Label></center>
+								<center><Label>{this.props.itemDate.get("RID")}</Label></center>
 							</Col>
 						</Row>
 					</Well>
@@ -61,20 +62,20 @@ class RoomItem extends Component {
 		);
 	}
 }
-RoomItem.propTypes = {
-	EndTime: PropTypes.string.isRequired,
-	RID: PropTypes.number.isRequired,
-	MaxCost: PropTypes.string.isRequired,
-	State: PropTypes.string.isRequired,
-	hasPSW: PropTypes.bool.isRequired,
-	enterHandler: PropTypes.func.isRequired,
-	GroupName: PropTypes.string.isRequired,
-	playerNum: PropTypes.number.isRequired,
-	foodData: PropTypes.shape({ // 是否符合指定格式的物件
-		name: PropTypes.string.isRequired,
-		logo: PropTypes.string.isRequired,
-		phone: PropTypes.string.isRequired,
-		address: PropTypes.string.isRequired
-	})
-};
+// RoomItem.propTypes = {
+// 	endTime: PropTypes.string.isRequired,
+// 	RID: PropTypes.number.isRequired,
+// 	MaxCost: PropTypes.string.isRequired,
+// 	state: PropTypes.string.isRequired,
+// 	hasPSW: PropTypes.bool.isRequired,
+// 	enterHandler: PropTypes.func.isRequired,
+// 	groupName: PropTypes.string.isRequired,
+// 	playerNum: PropTypes.number.isRequired,
+// 	foodData: PropTypes.shape({ // 是否符合指定格式的物件
+// 		name: PropTypes.string.isRequired,
+// 		logo: PropTypes.string.isRequired,
+// 		phone: PropTypes.string.isRequired,
+// 		address: PropTypes.string.isRequired
+// 	})
+// };
 export default RoomItem;

@@ -170,7 +170,7 @@ function logout(data, res) {
 function socketConnectAuth(data, res) {
     var userSession = userManager.getUserByName(data.user);
     console.log("socketConnectAuth:", userSession, data.user);
-    sendMSGToALL(MSG_TYPES.STC_S_HALL_ROOM_UPDATE, hallManager.getSyncRoomList());
+    sendMSGToALL(MSG_TYPES.STC_S_SYN_ROOMS, hallManager.getSyncRoomList());
     return {
         needStopNext: true
     };

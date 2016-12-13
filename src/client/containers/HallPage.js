@@ -65,19 +65,30 @@ class HallPage extends Component {
     render() {
         console.log("hall Render");
         var ingItems = [];
-        for (var i = 0; i < this.props.ing.length; i++) {
-            var ingItem = this.props.ing[i];
+        this.props.ing.forEach((item, number, iter) => {
             ingItems.push(
-                <RoomItem {...ingItem} enterHandler={this.enterHandler} key={"ing"+i}/>
+                <RoomItem itemDate={item} enterHandler={this.enterHandler} key={"done"+number}/>
             );
-        }
+        });
+        // for (var i = 0; i < this.props.ing.size(); i++) {
+        //     var ingItem = this.props.ing[i];
+        //     ingItems.push(
+        //         <RoomItem {...ingItem} enterHandler={this.enterHandler} key={"ing"+i}/>
+        //     );
+        // }
         var downItems = [];
-        for (var j = 0; j < this.props.done.length; j++) {
-            var downItem = this.props.done[j];
+        this.props.done.forEach((item, number, iter) => {
             downItems.push(
-                <RoomItem {...downItem} enterHandler={this.enterHandler} key={"done"+j}/>
+                <RoomItem itemDate={item} enterHandler={this.enterHandler} key={"done"+number}/>
             );
-        }
+        });
+
+        // for (var j = 0; j < this.props.done.size(); j++) {
+        //     var downItem = this.props.done.get(j);
+        //     downItems.push(
+        //         <RoomItem {...downItem} enterHandler={this.enterHandler} key={"done"+j}/>
+        //     );
+        // }
 
         return (
             <Row className="show-grid" key="hallPage-Row">

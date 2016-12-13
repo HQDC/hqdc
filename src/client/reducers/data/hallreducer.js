@@ -11,10 +11,10 @@ import expStore from '../../core/StoreWithExpiration';
 function hallUpdate(i_state, action) {
 	console.log("hallUpdate:", action);
 	var done = action.data.data.filter(function(item) {
-		return item.State == "done"
+		return item.state == "done"
 	});
 	var ing = action.data.data.filter(function(item) {
-		return item.State = "ing"
+		return item.state == "ing"
 	});
 	return i_state
 		.set("done", Immutable.fromJS(done))
@@ -22,9 +22,54 @@ function hallUpdate(i_state, action) {
 }
 
 function hallItemUpdate(i_state, action) {
-	var roomItem = action.data.data;
-	item.State == "ing"
-	return i_state;
+	var roomItem = Immutable.fromJS(action.data.data);
+	var newState = i_state;
+	console.log("hallItemUpdate ", action);
+	switch (roomItem.get("synType")) {
+		case MSG_TYPES.ROOM_UPDATE_TYPE_ADD:
+			{
+				console.log("hallItemUpdate 1", action);
+				newState = i_state.updateIn(roomItem.get("state")),
+				(itemList) => {
+					console.log("hallItemUpdate 1.5", newState);
+					return itemList.push(roomItem)
+				};
+				console.log("hallItemUpdate 2", newState);
+				break;
+			}
+		case MSG_TYPES.ROOM_UPDATE_TYPE_DELETE:
+			{
+				newState = i_state.updateIn(roomItem.get("state")),
+				(itemList) => {
+					var itemIndex;
+					itemList.forEach((value, numer, iter) => {
+						if (value.get("RID") == roomItem.get("RID")) {
+							itemIndex = numer;
+							return false;
+						};
+					});
+					return itemList.delete(itemIndex)
+				};
+				break;
+			}
+		case MSG_TYPES.ROOM_UPDATE_TYPE_UPDATE:
+			{
+				newState = i_state.updateIn(roomItem.get("state")),
+				(itemList) => {
+					itemList.forEach((value, numer, iter) => {
+						if (value.get("RID") == roomItem.get("RID")) {
+							itemIndex = numer;
+							return false;
+						};
+					});
+					return itemList.update(itemIndex, roomItem)
+				};
+				break;
+			}
+
+	}
+
+	return newState;
 }
 
 
@@ -43,10 +88,10 @@ var defaultCall = function(i_state = Immutable.fromJS({
 }), action) {
 	console.log("test done:", i_state.get("done"));
 	switch (action.type) {
-		case MSG_TYPES.STC_S_HALL_ROOM_UPDATE:
-			return hallUpdate(i_state, action);
-		case MSG_TYPES.STC_S_SYN_ROOMS:
+		case MSG_TYPES.STC_S_SYN_ROOMITEM:
 			return hallItemUpdate(i_state, action);
+		case MSG_TYPES.STC_S_SYN_ROOMS:
+			return hallUpdate(i_state, action);
 		default:
 			return i_state;
 	}
