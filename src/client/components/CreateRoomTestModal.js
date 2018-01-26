@@ -70,7 +70,7 @@ class CreateRoomTestModal extends Component {
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Input type="text" label="DCUrl" defaultValue="http://waimai.baidu.com/waimai/shop/1438078139" ref="DCUrl"/>
+                    <Input type="text" label="DCUrl" defaultValue="http://waimai.baidu.com/waimai/shop/1959836193" ref="DCUrl"/>
                 </Modal.Body>
                 <Modal.Footer>
                     <center><Button bsStyle={this.props.isLoading?"warning" :"info"} onClick={this.submitHandler}>{this.props.isLoading ? "Loading" : "Submit"}</Button></center>

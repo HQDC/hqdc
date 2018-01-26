@@ -2,11 +2,14 @@
  * Created by Tile on 2015/8/17.
  */
 var superagent = require('superagent');
+var assert = require('assert');
 var imageUrl = "http://webmap0.map.bdimg.com/maps/services/thumbnails?width=100&height=100&align=center,center&quality=100&src=";
 function BaiDuFormat(name) {
   this.name = name;
 }
-var starsearch = 'waimai:widget/menu/basicinfo/basicinfo.js\").init(';
+
+var starsearch = 'waimai:widget/menu/basicinfo/basicinfo\").init(';
+//var starsearch = 'waimai:widget/menu/basicinfo/basicinfo.js\").init(';
 var endsearch = ');';
 BaiDuFormat.prototype.exec = function (data, successfun, errorfun) {
   setTimeout(myfun, 1);
@@ -17,7 +20,11 @@ BaiDuFormat.prototype.exec = function (data, successfun, errorfun) {
       if (err != null) {
         return errorfun(err);
       }
+      
       var starindex = sres.text.indexOf(starsearch) + starsearch.length;
+      console.log("startIndex:",starindex,"starsearch.length:",starsearch.length);
+      
+      assert.notEqual(starindex,starsearch.length,"错误，没有搜索到数据的起始数据 "+starsearch);
       var endindex = sres.text.indexOf(endsearch, starindex);
       var jsondata = sres.text.substring(starindex, endindex);
       var datajson = JSON.parse(jsondata);
